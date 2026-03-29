@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada — Caudillo Bar"
+  description="La página que buscás no existe. Pasá por la carta o escribinos por WhatsApp."
+  floatingCTAText="Ver la Carta"
+  floatingCTAHref="/menu"
+>
+  <section class="section error-page">
+    <div class="container" style="text-align: center;">
+      <div class="error-page__icon">🍷</div>
+      <h1>Esa mesa no existe.</h1>
+      <p class="error-page__text">
+        Parece que la página que buscás se fue de la carta. Pero hay un montón de cosas que sí están — y valen la pena.
+      </p>
+
+      <div class="error-page__actions">
+        <a href="/" class="btn btn-primary">Volver al inicio</a>
+        <a href="/menu" class="btn btn-secondary">Ver la carta</a>
+        <a href="/contacto" class="btn btn-secondary">Contacto</a>
+      </div>
+
+      <div class="error-page__hint">
+        <p>¿Buscabas algo específico?</p>
+        <ul>
+          <li><a href="/menu#comida">Los sánguches del Caudillo</a></li>
+          <li><a href="/menu#tragos">Tragos de autor</a></li>
+          <li><a href="/eventos">Alquilar la terraza</a></li>
+          <li><a href="/delivery">Pedir por Rappi</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .error-page__icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-6);
+    animation: sway 3s ease-in-out infinite;
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  .error-page h1 {
+    font-size: var(--text-h1);
+    margin-bottom: var(--space-4);
+  }
+
+  .error-page__text {
+    font-size: var(--text-large);
+    color: var(--color-text-primary);
+    max-width: 500px;
+    margin: 0 auto var(--space-8);
+    line-height: 1.7;
+  }
+
+  .error-page__actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-12);
+  }
+
+  .error-page__hint {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-8);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .error-page__hint p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+    font-weight: 500;
+  }
+
+  .error-page__hint ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .error-page__hint a {
+    color: var(--color-text-primary);
+    font-size: var(--text-small);
+    transition: color var(--transition-fast);
+    display: inline-block;
+    padding: var(--space-1) 0;
+  }
+
+  .error-page__hint a:hover {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,385 @@
+/* ================================
+   COMIC / GRAPHIC NOVEL EFFECTS
+   Estética: BYN + Rojo Carmesí selectivo
+   Ref: Afiches cómic Caudillo (hatching, screentones, ink)
+   ================================ */
+
+/* ── GRAIN / PAPER TEXTURE ── */
+/* SVG noise overlay that simulates aged paper / wheatpaste poster */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+
+/* ── COMIC PANEL BORDERS ── */
+/* Sections feel like panels from a graphic novel */
+
+.comic-panel {
+  position: relative;
+  border: 3px solid var(--color-text-primary);
+  border-radius: 2px;
+  margin: var(--space-2) var(--section-padding-x);
+  padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+/* Irregular ink shadow — like a hand-printed panel */
+.comic-panel::before {
+  content: '';
+  position: absolute;
+  inset: 4px -4px -4px 4px;
+  border: 2px solid rgba(242, 230, 208, 0.15);
+  border-radius: 2px;
+  z-index: -1;
+}
+
+/* Panel with torn/rough top edge */
+.comic-panel--torn {
+  border-top: none;
+  padding-top: calc(var(--section-padding-y) + 20px);
+}
+.comic-panel--torn::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -3px;
+  right: -3px;
+  height: 20px;
+  background: var(--color-bg);
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 0 60 15 Q90 5 120 18 Q150 2 180 12 Q210 0 240 16 Q270 3 300 14 Q330 1 360 17 Q390 4 420 13 Q450 0 480 15 Q510 5 540 18 Q570 2 600 12 Q630 0 660 16 Q690 3 720 14 Q750 1 780 17 Q810 4 840 13 Q870 0 900 15 Q930 5 960 18 Q990 2 1020 12 Q1050 0 1080 16 Q1110 3 1140 14 Q1170 1 1200 17 V20 Z' fill='white'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q30 0 60 15 Q90 5 120 18 Q150 2 180 12 Q210 0 240 16 Q270 3 300 14 Q330 1 360 17 Q390 4 420 13 Q450 0 480 15 Q510 5 540 18 Q570 2 600 12 Q630 0 660 16 Q690 3 720 14 Q750 1 780 17 Q810 4 840 13 Q870 0 900 15 Q930 5 960 18 Q990 2 1020 12 Q1050 0 1080 16 Q1110 3 1140 14 Q1170 1 1200 17 V20 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+}
+
+
+/* ── INK SPLATTER DIVIDER ── */
+/* Replaces boring <hr> between sections */
+
+.ink-divider {
+  position: relative;
+  height: 40px;
+  margin: 0 auto;
+  max-width: var(--max-width);
+  overflow: visible;
+}
+
+.ink-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 3px;
+  background: var(--color-accent);
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 Q10 0 20 3 Q30 6 40 3 Q50 0 60 3 Q70 6 80 3 Q90 0 100 3 Q110 6 120 3 Q130 0 140 3 Q150 6 160 3 Q170 0 180 3 Q190 6 200 3' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 3 Q10 0 20 3 Q30 6 40 3 Q50 0 60 3 Q70 6 80 3 Q90 0 100 3 Q110 6 120 3 Q130 0 140 3 Q150 6 160 3 Q170 0 180 3 Q190 6 200 3' stroke='white' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+}
+
+
+/* ── HALFTONE / SCREENTONE EFFECT ── */
+/* Simulates the manga/vintage comic dot pattern */
+
+.halftone {
+  position: relative;
+}
+
+.halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: radial-gradient(circle, rgba(242, 230, 208, 0.08) 1px, transparent 1px);
+  background-size: 4px 4px;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Denser halftone for darker areas */
+.halftone--dense::after {
+  background-image: radial-gradient(circle, rgba(242, 230, 208, 0.12) 1.2px, transparent 1.2px);
+  background-size: 3px 3px;
+}
+
+
+/* ── CROSS-HATCHING OVERLAY ── */
+/* For backgrounds that need that engraved/etched look */
+
+.crosshatch {
+  position: relative;
+}
+
+.crosshatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 1;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      var(--color-text-primary) 0px,
+      var(--color-text-primary) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      var(--color-text-primary) 0px,
+      var(--color-text-primary) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+}
+
+
+/* ── INK BLEED HOVER EFFECT ── */
+/* Buttons/cards that "bleed ink" on hover */
+
+.ink-hover {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ink-hover::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--color-accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+  z-index: -1;
+}
+
+.ink-hover:hover::before {
+  width: 300%;
+  height: 300%;
+}
+
+.ink-hover:hover {
+  color: var(--color-text-on-accent);
+  border-color: var(--color-accent);
+}
+
+
+/* ── STENCIL TEXT ── */
+/* Military/protest poster stencil style for impactful text */
+
+.text-stencil {
+  font-family: var(--font-stencil);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-heading);
+}
+
+.text-stencil--red {
+  color: var(--color-accent);
+}
+
+.text-stencil--large {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 0.95;
+}
+
+
+/* ── SELECTIVE COLOR ── */
+/* Everything BYN except red elements — like the comic illustrations */
+
+.selective-color {
+  filter: grayscale(100%);
+  transition: filter var(--transition-normal);
+}
+
+.selective-color:hover {
+  filter: grayscale(0%);
+}
+
+/* Element that stays red in a grayscale context */
+.stays-red {
+  filter: none;
+  color: var(--color-accent);
+}
+
+
+/* ── MARQUEE / TICKER ── */
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: var(--space-4) 0;
+  border-top: 2px solid var(--color-text-primary);
+  border-bottom: 2px solid var(--color-text-primary);
+  position: relative;
+}
+
+.marquee__track {
+  display: inline-flex;
+  animation: marquee-scroll 25s linear infinite;
+  gap: var(--space-8);
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-stencil);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+.marquee__item .dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Pause on hover */
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+/* Reverse direction variant */
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+}
+
+
+/* ── COMIC SCROLL REVEAL ── */
+/* Panels that "peel off the wall" like wheatpaste posters */
+
+.reveal-comic {
+  opacity: 0;
+  transform: translateY(30px) rotate(-0.5deg);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reveal-comic.reveal--visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* Slide from left — like turning comic pages */
+.reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-slide-left.reveal--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-slide-right.reveal--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* ── ASSET PLACEHOLDER BOXES ── */
+/* Visual boxes where Fede will drop illustrations/videos */
+
+.asset-placeholder {
+  position: relative;
+  border: 2px dashed var(--color-accent);
+  border-radius: var(--radius-md);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(200, 53, 42, 0.03) 10px,
+      rgba(200, 53, 42, 0.03) 20px
+    );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-6);
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.asset-placeholder__label {
+  font-family: var(--font-stencil);
+  font-size: var(--text-h3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.asset-placeholder__specs {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.asset-placeholder__type {
+  display: inline-block;
+  margin-top: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+
+  .reveal-comic,
+  .reveal-slide-left,
+  .reveal-slide-right {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ink-hover::before {
+    transition: none;
+  }
+}

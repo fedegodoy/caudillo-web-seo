@@ -56,44 +56,46 @@ const navLinks = [
       <span class="header__hamburger-line"></span>
     </button>
   </nav>
+</header>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <div class="mobile-menu__content">
-      <ul class="mobile-menu__links" role="list">
-        {navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class:list={['mobile-menu__link', { 'mobile-menu__link--active': currentPath === link.href }]}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+<!-- Mobile Menu — FUERA del header para evitar stacking context de backdrop-filter -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu__content">
+    <ul class="mobile-menu__links" role="list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['mobile-menu__link', { 'mobile-menu__link--active': currentPath === link.href }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
 
-      <a href="/contacto" class="btn btn-primary btn-full mobile-menu__cta">
-        Reservar Mesa
-      </a>
+    <a href="/contacto" class="btn btn-primary btn-full mobile-menu__cta">
+      Reservar Mesa
+    </a>
 
-      <div class="mobile-menu__info">
-        <p>📍 Crámer 3180, Saavedra</p>
-        <p>🕐 Mar-Dom 19:00-23:30</p>
-      </div>
+    <div class="mobile-menu__info">
+      <p>📍 Crámer 3198, Saavedra</p>
+      <p>🕐 Mar-Dom 19:00-23:30</p>
     </div>
   </div>
-</header>
+</div>
 
 <style>
   .header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
-    background: var(--glass-bg);
+    background: rgba(26, 26, 26, 0.95);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: var(--glass-border);
+    border-bottom: 2px solid var(--color-text-primary);
   }
 
   .header__nav {
@@ -110,7 +112,7 @@ const navLinks = [
   }
 
   .header__logo {
-    z-index: 101;
+    z-index: 200;
   }
 
   .header__logo-text {
@@ -175,7 +177,7 @@ const navLinks = [
     width: 44px;
     height: 44px;
     padding: 10px;
-    z-index: 101;
+    z-index: 200;
     cursor: pointer;
   }
 
@@ -205,33 +207,36 @@ const navLinks = [
     transform: rotate(-45deg) translate(5px, -5px);
   }
 
-  /* Mobile Menu */
-  .mobile-menu {
+  /* Mobile Menu — :global because element is outside <header> scope */
+  :global(.mobile-menu) {
     position: fixed;
-    inset: 0;
-    z-index: 99;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150;
     background: var(--color-bg);
     transform: translateX(100%);
     transition: transform var(--transition-slow);
     overflow-y: auto;
   }
 
-  .mobile-menu.is-open {
+  :global(.mobile-menu.is-open) {
     transform: translateX(0);
   }
 
-  .mobile-menu__content {
+  :global(.mobile-menu__content) {
     padding: calc(56px + var(--space-8)) var(--section-padding-x) var(--space-16);
     min-height: 100%;
     display: flex;
     flex-direction: column;
   }
 
-  .mobile-menu__links {
+  :global(.mobile-menu__links) {
     flex: 1;
   }
 
-  .mobile-menu__link {
+  :global(.mobile-menu__link) {
     display: block;
     padding: var(--space-4) 0;
     font-family: var(--font-body);
@@ -242,16 +247,16 @@ const navLinks = [
     transition: color var(--transition-fast);
   }
 
-  .mobile-menu__link:hover,
-  .mobile-menu__link--active {
+  :global(.mobile-menu__link:hover),
+  :global(.mobile-menu__link--active) {
     color: var(--color-accent);
   }
 
-  .mobile-menu__cta {
+  :global(.mobile-menu__cta) {
     margin-top: var(--space-8);
   }
 
-  .mobile-menu__info {
+  :global(.mobile-menu__info) {
     margin-top: var(--space-6);
     color: var(--color-text-secondary);
     font-size: var(--text-small);

@@ -1,0 +1,22 @@
+---
+interface Props {
+  items: string[];
+  reverse?: boolean;
+}
+
+const { items, reverse = false } = Astro.props;
+
+// Duplicate items for seamless loop
+const doubledItems = [...items, ...items];
+---
+
+<div class:list={['marquee', { 'marquee--reverse': reverse }]}>
+  <div class="marquee__track">
+    {doubledItems.map((item) => (
+      <span class="marquee__item">
+        <span class="dot"></span>
+        {item}
+      </span>
+    ))}
+  </div>
+</div>

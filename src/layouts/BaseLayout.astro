@@ -7,6 +7,7 @@ import FloatingCTA from '../components/FloatingCTA.astro';
 
 import '../styles/global.css';
 import '../styles/components.css';
+import '../styles/comic.css';
 
 interface Props {
   title: string;
@@ -41,6 +42,16 @@ const currentPath = new URL(Astro.request.url).pathname;
       ogImage={ogImage}
       schema={schema}
     />
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "source": "list",
+            "urls": ["/menu", "/restaurante", "/eventos", "/contacto"]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">
@@ -48,6 +59,7 @@ const currentPath = new URL(Astro.request.url).pathname;
     </a>
 
     <Header currentPath={currentPath} />
+    <div class="header-spacer"></div>
 
     <main id="main-content">
       <slot />
@@ -59,7 +71,7 @@ const currentPath = new URL(Astro.request.url).pathname;
 
     <!-- Scroll Reveal Observer -->
     <script>
-      const revealElements = document.querySelectorAll('.reveal');
+      const revealElements = document.querySelectorAll('.reveal, .reveal-comic, .reveal-slide-left, .reveal-slide-right');
       if (revealElements.length > 0) {
         const observer = new IntersectionObserver(
           (entries) => {

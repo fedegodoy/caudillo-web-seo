@@ -1,5 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import menuData from '../data/menu.json';
+
+const comida = menuData.menus.find(m => m.id === 'comida')!;
+const mediodia = menuData.menus.find(m => m.id === 'mediodia')!;
+const vinos = menuData.menus.find(m => m.id === 'vinos')!;
+const tragos = menuData.menus.find(m => m.id === 'tragos')!;
 
 const schema = {
   "@context": "https://schema.org",
@@ -10,19 +16,19 @@ const schema = {
     "@type": "Restaurant",
     "@id": "https://caudillobar.com.ar/#organization"
   },
-  "hasMenuSection": [
-    {
-      "@type": "MenuSection",
-      "name": "Sanguches del Caudillo",
-      "description": "Incluyen papas fritas",
-      "hasMenuItem": [
-        { "@type": "MenuItem", "name": "Dorrego", "description": "Milanesa de bife con verduras", "offers": { "@type": "Offer", "price": "14900", "priceCurrency": "ARS" } },
-        { "@type": "MenuItem", "name": "Azurduy", "description": "Bondiola desmechada con verduras", "offers": { "@type": "Offer", "price": "16900", "priceCurrency": "ARS" } },
-        { "@type": "MenuItem", "name": "Artigas", "description": "Hongos grillados con coleslaw (Vegetariano)", "offers": { "@type": "Offer", "price": "14500", "priceCurrency": "ARS" }, "suitableForDiet": "https://schema.org/VegetarianDiet" },
-        { "@type": "MenuItem", "name": "Restaurador", "description": "Pechuga en cocción lenta, cebolla crispy y salsa tártara", "offers": { "@type": "Offer", "price": "13500", "priceCurrency": "ARS" } }
-      ]
-    }
-  ]
+  "hasMenuSection": comida.sections.map(section => ({
+    "@type": "MenuSection",
+    "name": section.name,
+    "description": section.description || "",
+    "hasMenuItem": section.items.map(item => ({
+      "@type": "MenuItem",
+      "name": item.name,
+      "description": item.description,
+      "offers": { "@type": "Offer", "price": String(item.price), "priceCurrency": "ARS" },
+      ...('suitableForDiet' in item && item.suitableForDiet ? { "suitableForDiet": `https://schema.org/${item.suitableForDiet}` } : {}),
+      ...('slug' in item && item.slug ? { "url": `https://caudillobar.com.ar/menu/${item.slug}` } : {})
+    }))
+  }))
 };
 ---
 
@@ -50,219 +56,51 @@ const schema = {
   <!-- TAB: COMIDA -->
   <section class="section" id="comida" data-tab-content="comida">
     <div class="container">
-      <h2>Sanguches del Caudillo</h2>
-      <p class="text-secondary" style="margin-bottom: var(--space-6);">Incluyen papas fritas.</p>
-
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Dorrego</div>
-          <div class="menu-item__desc">Milanesa de bife con verduras</div>
+      {comida.sections.map((section, sIdx) => (
+        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
+          <h2>{section.name}</h2>
+          {section.description && (
+            <p class="text-secondary" style="margin-bottom: var(--space-6);">{section.description}</p>
+          )}
+          {section.items.map(item => (
+            <div class={`menu-item ${sIdx < 2 ? 'reveal reveal-stagger' : ''}`}>
+              <div class="menu-item__info">
+                {'slug' in item && item.slug ? (
+                  <a href={`/menu/${item.slug}`} class="menu-item__name menu-item__name--link">{item.name}</a>
+                ) : (
+                  <div class="menu-item__name">{item.name}</div>
+                )}
+                {item.description && <div class="menu-item__desc">{item.description}</div>}
+                {'suitableForDiet' in item && item.suitableForDiet && <div class="menu-item__badge">Vegetariano</div>}
+              </div>
+              <div class="menu-item__price">{item.price}</div>
+            </div>
+          ))}
         </div>
-        <div class="menu-item__price">14900</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Azurduy</div>
-          <div class="menu-item__desc">Bondiola desmechada con verduras</div>
-        </div>
-        <div class="menu-item__price">16900</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Artigas</div>
-          <div class="menu-item__desc">Hongos grillados con coleslaw</div>
-          <div class="menu-item__badge">Vegetariano</div>
-        </div>
-        <div class="menu-item__price">14500</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Restaurador</div>
-          <div class="menu-item__desc">Pechuga en cocción lenta, cebolla crispy y salsa tártara</div>
-        </div>
-        <div class="menu-item__price">13500</div>
-      </div>
-
-      <h2 style="margin-top: var(--space-12);">Platos de la Casa</h2>
-
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Pastel de Papas con Osobuco</div>
-          <div class="menu-item__desc">Braseado al vino tinto, mozzarella y parmesano</div>
-        </div>
-        <div class="menu-item__price">18000</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Canelones de Pollo</div>
-          <div class="menu-item__desc">Relleno con vegetales</div>
-        </div>
-        <div class="menu-item__price">19000</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Milanesa de Bife de Chorizo</div>
-          <div class="menu-item__desc">Con papas al rescoldo y alioli criollo</div>
-        </div>
-        <div class="menu-item__price">21000</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Ñoquis de Sémola Gratinados</div>
-          <div class="menu-item__desc">Con salsa bolognesa</div>
-        </div>
-        <div class="menu-item__price">18500</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Bife de Chorizo a la Plancha</div>
-          <div class="menu-item__desc">Con papas rústicas</div>
-        </div>
-        <div class="menu-item__price">26900</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Osobuco Braseado</div>
-          <div class="menu-item__desc">Con puré de papas</div>
-        </div>
-        <div class="menu-item__price">22000</div>
-      </div>
-      <div class="menu-item reveal reveal-stagger">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Risotto de Arroz Carnaroli</div>
-          <div class="menu-item__desc">Con ragú de portobellos, parmesano y verdeo</div>
-        </div>
-        <div class="menu-item__price">20000</div>
-      </div>
-
-      <h2 style="margin-top: var(--space-12);">Para Compartir</h2>
-
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Empanada de Carne Cortada a Cuchillo</div>
-          <div class="menu-item__desc">Salsa llajwa</div>
-        </div>
-        <div class="menu-item__price">4400</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Provoleta Grillada</div>
-          <div class="menu-item__desc">Chutney de tomate y garrapiñada picante</div>
-        </div>
-        <div class="menu-item__price">16000</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Cremoso de Cabutia</div>
-        </div>
-        <div class="menu-item__price">11000</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Mollejas a la Parrilla</div>
-          <div class="menu-item__desc">Cremoso de papa ahumado, chimichurri</div>
-        </div>
-        <div class="menu-item__price">27990</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Papa Rota a las Tres Cocciones</div>
-        </div>
-        <div class="menu-item__price">7500</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Papas Fritas</div>
-        </div>
-        <div class="menu-item__price">4000</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Ensalada Mixta</div>
-        </div>
-        <div class="menu-item__price">4500</div>
-      </div>
-
-      <h2 style="margin-top: var(--space-12);">Postres</h2>
-
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Flan Mixto</div>
-          <div class="menu-item__desc">Con dulce de leche y crema</div>
-        </div>
-        <div class="menu-item__price">6500</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Budín de Pan</div>
-        </div>
-        <div class="menu-item__price">5800</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Queso y Dulce</div>
-        </div>
-        <div class="menu-item__price">6000</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Panqueque</div>
-          <div class="menu-item__desc">Con dulce de leche y trocitos de nuez</div>
-        </div>
-        <div class="menu-item__price">7500</div>
-      </div>
+      ))}
     </div>
   </section>
 
   <!-- TAB: MEDIODÍA (hidden by default) -->
   <section class="section" id="mediodia" data-tab-content="mediodia" style="display: none;">
     <div class="container">
-      <h2>Menú Ejecutivo</h2>
-      <p class="text-secondary" style="margin-bottom: var(--space-2);">🕐 Lunes a Viernes 12:00-15:30</p>
-      <p class="text-secondary" style="margin-bottom: var(--space-6);">Precio único: 17900 — Incluye principal + gaseosa o agua</p>
-
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Sándwich de Bondiola</div>
-          <div class="menu-item__desc">Lechuga, tomate y huevo. Guarnición: papas naturales</div>
+      {mediodia.sections.map((section, sIdx) => (
+        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
+          <h2>{section.name}</h2>
+          {section.description && (
+            <p class="text-secondary" style="margin-bottom: var(--space-6);">{section.description}</p>
+          )}
+          {section.items.map(item => (
+            <div class="menu-item">
+              <div class="menu-item__info">
+                <div class="menu-item__name">{item.name}</div>
+                {item.description && <div class="menu-item__desc">{item.description}</div>}
+              </div>
+              <div class="menu-item__price">{item.price}</div>
+            </div>
+          ))}
         </div>
-        <div class="menu-item__price">17900</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Bondiola al Plato</div>
-          <div class="menu-item__desc">Grillada, con papas fritas y ensalada coleslaw</div>
-        </div>
-        <div class="menu-item__price">17900</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Ensalada de Pollo</div>
-          <div class="menu-item__desc">Pollo asado, lechuga, tomate cherry, cebolla morada, zanahoria y vinagreta de limón</div>
-        </div>
-        <div class="menu-item__price">17900</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Milanesa al Plato</div>
-          <div class="menu-item__desc">De bola de lomo, con cremoso de papa y mayonesa de huevo frito</div>
-        </div>
-        <div class="menu-item__price">17900</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Sándwich de Milanesa</div>
-          <div class="menu-item__desc">De bola de lomo, lechuga, tomate, huevo y salsa tártara. Guarnición: papas fritas</div>
-        </div>
-        <div class="menu-item__price">17900</div>
-      </div>
-      <div class="menu-item">
-        <div class="menu-item__info">
-          <div class="menu-item__name">Combo Empanadas</div>
-          <div class="menu-item__desc">Tres empanadas de carne cortada a cuchillo</div>
-        </div>
-        <div class="menu-item__price">14900</div>
-      </div>
+      ))}
     </div>
   </section>
 
@@ -271,7 +109,26 @@ const schema = {
     <div class="container">
       <h2>Vinos de Bodegas Boutique en Caudillo Bar, Saavedra</h2>
       <p class="text-secondary" style="margin-bottom: var(--space-6);">Selección de bodegas argentinas. Opciones por copa desde 4500.</p>
-      <p class="text-secondary">Próximamente — carta de vinos completa.</p>
+      {vinos.sections.map((section, sIdx) => (
+        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
+          <h3>{section.name}</h3>
+          {section.description && (
+            <p class="text-secondary" style="margin-bottom: var(--space-4);">{section.description}</p>
+          )}
+          {section.items.map(item => (
+            <div class="menu-item">
+              <div class="menu-item__info">
+                <div class="menu-item__name">{item.name}</div>
+                {'region' in item && <div class="menu-item__desc">{item.region}</div>}
+              </div>
+              <div class="menu-item__price-wines">
+                {'precio_copa' in item && item.precio_copa && <span class="wine-copa">Copa {item.precio_copa}</span>}
+                {'precio_botella' in item && item.precio_botella && <span class="wine-botella">Botella {item.precio_botella}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   </section>
 
@@ -280,7 +137,27 @@ const schema = {
     <div class="container">
       <h2>Tragos de Autor y Clásicos de Barra</h2>
       <p class="text-secondary" style="margin-bottom: var(--space-6);">Del Ferroviario al Negroni, pasando por el Pico y Pala.</p>
-      <p class="text-secondary">Próximamente — carta de tragos completa.</p>
+      {tragos.sections.map((section, sIdx) => (
+        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
+          <h3>{section.name}</h3>
+          {section.description && (
+            <p class="text-secondary" style="margin-bottom: var(--space-4);">{section.description}</p>
+          )}
+          {section.items.map(item => (
+            <div class="menu-item">
+              <div class="menu-item__info">
+                {'slug' in item && item.slug ? (
+                  <a href={`/menu/${item.slug}`} class="menu-item__name menu-item__name--link">{item.name}</a>
+                ) : (
+                  <div class="menu-item__name">{item.name}</div>
+                )}
+                {item.description && <div class="menu-item__desc">{item.description}</div>}
+              </div>
+              <div class="menu-item__price">{item.price}</div>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   </section>
 
@@ -295,6 +172,37 @@ const schema = {
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .menu-item__name--link {
+    color: var(--color-text-heading);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    display: inline-block;
+  }
+
+  .menu-item__name--link:hover {
+    color: var(--color-accent);
+  }
+
+  .menu-item__price-wines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+    font-size: var(--text-small);
+    white-space: nowrap;
+  }
+
+  .wine-copa {
+    color: var(--color-text-secondary);
+  }
+
+  .wine-botella {
+    color: var(--color-text-heading);
+    font-weight: 600;
+  }
+</style>
 
 <script>
   // Tab switching logic

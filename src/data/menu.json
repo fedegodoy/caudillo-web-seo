@@ -1,0 +1,565 @@
+{
+  "restaurant": "Caudillo Bar",
+  "location": "Crámer 3198, Saavedra, CABA",
+  "tagline": "Cocina criolla de barrio. Bar en la terraza. Un espacio argentino.",
+  "hours": {
+    "lunch": "Lunes a Viernes 12:00–15:30 (Menú Ejecutivo)",
+    "dinner": "Martes a Domingo 19:00–23:30"
+  },
+  "menus": [
+    {
+      "id": "comida",
+      "name": "La Carta",
+      "description": "Cocina criolla de barrio. Disponible al mediodía y a la noche.",
+      "sections": [
+        {
+          "name": "Sanguches del Caudillo",
+          "description": "Acompañamiento incluido: papas fritas.",
+          "items": [
+            {
+              "name": "Azurduy",
+              "slug": "azurduy",
+              "description": "Bondiola desmechada con verduras.",
+              "longDescription": "Bondiola de cerdo desmechada en cocción lenta durante 8 horas, con cebolla caramelizada, rúcula fresca y ají molido. Servido en pan de campo tostado con papas fritas caseras. Un sándwich que lleva el nombre de Juana Azurduy — y hace honor.",
+              "price": 16900,
+              "menuType": "comida",
+              "section": "Sanguches del Caudillo",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Sándwich Azurduy de bondiola desmechada en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Dorrego",
+              "slug": "dorrego",
+              "description": "Milanesa de bife con verduras.",
+              "longDescription": "Milanesa de bife de lomo, rebozada a mano y dorada en punto justo. Con lechuga, tomate y un toque de mayonesa de la casa. Servido con papas fritas caseras. El clásico que no falla.",
+              "price": 14900,
+              "menuType": "comida",
+              "section": "Sanguches del Caudillo",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Sándwich Dorrego de milanesa de bife en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Artigas",
+              "slug": "artigas",
+              "description": "Hongos grillados con coleslaw. (Vegetariano)",
+              "longDescription": "Hongos portobello y shiitake grillados a la plancha, con ensalada coleslaw cremosa y brotes frescos. Para los que eligen verde sin resignar sabor. Servido con papas fritas caseras.",
+              "price": 14500,
+              "menuType": "comida",
+              "section": "Sanguches del Caudillo",
+              "suitableForDiet": "VegetarianDiet",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Sándwich vegetariano Artigas de hongos grillados en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Restaurador",
+              "slug": "restaurador",
+              "description": "Pechuga en cocción lenta, cebolla crispy y salsa tártara.",
+              "longDescription": "Pechuga de pollo en cocción lenta, desmechada y jugosa. Con cebolla crispy crocante y salsa tártara casera. Un sándwich que le hace justicia al pollo. Servido con papas fritas caseras.",
+              "price": 13500,
+              "menuType": "comida",
+              "section": "Sanguches del Caudillo",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Sándwich Restaurador de pechuga en cocción lenta en Caudillo Bar, Saavedra"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Platos de la Casa",
+          "description": "Para chuparse los dedos.",
+          "items": [
+            {
+              "name": "Pastel de Papas con Osobuco",
+              "slug": "pastel-de-papas",
+              "description": "Braseado al vino tinto, mozzarella y parmesano.",
+              "longDescription": "Osobuco braseado durante horas en vino tinto Malbec, desmechado y cubierto con puré de papas gratinado con mozzarella y parmesano. Cocina criolla de verdad, hecha con tiempo y respeto por los ingredientes.",
+              "price": 18000,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Pastel de papas con osobuco braseado en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Canelones de Pollo",
+              "slug": "canelones-de-pollo",
+              "description": "Relleno con vegetales.",
+              "longDescription": "Canelones de masa casera rellenos de pollo desmenuzado y vegetales salteados, gratinados con salsa bechamel y queso parmesano. Un plato que te lleva a la mesa del domingo.",
+              "price": 19000,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Canelones de pollo gratinados en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Milanesa de Bife de Chorizo",
+              "slug": "milanesa-de-bife",
+              "description": "Con papas al rescoldo y alioli criollo.",
+              "longDescription": "Milanesa gruesa de bife de chorizo, empanada a mano y frita en punto dorado. Acompañada de papas al rescoldo con piel crocante y un alioli criollo con chimichurri. Un plato que pesa en la mesa y en la memoria.",
+              "price": 21000,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Milanesa de bife de chorizo con papas al rescoldo en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Ñoquis de Sémola Gratinados",
+              "slug": "noquis-de-semola",
+              "description": "Con salsa bolognesa.",
+              "longDescription": "Ñoquis de sémola hechos en el momento, gratinados al horno con salsa bolognesa casera y queso parmesano fundido. La línea entre la barra y la nonna.",
+              "price": 18500,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Ñoquis de sémola gratinados con bolognesa en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Bife de Chorizo a la Plancha",
+              "slug": "bife-de-chorizo",
+              "description": "Con papas rústicas.",
+              "longDescription": "Corte de bife de chorizo de 350g, sellado a la plancha en punto justo. Acompañado de papas rústicas doradas con romero y sal marina. Para los que vienen a comer en serio.",
+              "price": 26900,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Bife de chorizo a la plancha con papas rústicas en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Osobuco Braseado",
+              "slug": "osobuco-braseado",
+              "description": "Con puré de papas.",
+              "longDescription": "Osobuco de ternera braseado lentamente en fondo oscuro con verduras del huerto, hasta que la carne se desarma sola. Servido sobre puré de papas cremoso. Cocina con alma.",
+              "price": 22000,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Osobuco braseado con puré de papas en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Risotto de Arroz Carnaroli",
+              "slug": "risotto-carnaroli",
+              "description": "Con ragú de portobellos, parmesano y verdeo.",
+              "longDescription": "Arroz Carnaroli importado, cocido al dente en caldo casero, con ragú de portobellos salteados, parmesano rallado al momento y verdeo fresco. Cremoso sin crema, como tiene que ser.",
+              "price": 20000,
+              "menuType": "comida",
+              "section": "Platos de la Casa",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Risotto de arroz Carnaroli con portobellos en Caudillo Bar, Saavedra"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Para Compartir",
+          "items": [
+            {
+              "name": "Empanada de Carne Cortada a Cuchillo",
+              "description": "Salsa llajwa.",
+              "price": 4400,
+              "menuType": "comida",
+              "section": "Para Compartir"
+            },
+            {
+              "name": "Provoleta Grillada",
+              "slug": "provoleta-grillada",
+              "description": "Chutney de tomate y garrapiñada picante.",
+              "longDescription": "Provoleta de 200g fundida a la parrilla hasta formar costra dorada, con chutney de tomate casero y garrapiñada picante por encima. La entrada que termina pidiendo toda la mesa.",
+              "price": 16000,
+              "menuType": "comida",
+              "section": "Para Compartir",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Provoleta grillada con chutney de tomate en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Cremoso de Cabutia",
+              "description": "",
+              "price": 11000,
+              "menuType": "comida",
+              "section": "Para Compartir"
+            },
+            {
+              "name": "Mollejas a la Parrilla",
+              "slug": "mollejas-a-la-parrilla",
+              "description": "Cremoso de papa ahumado, chimichurri.",
+              "longDescription": "Mollejas de ternera doradas a la parrilla con exterior crujiente e interior cremoso. Sobre base de cremoso de papa ahumado con chimichurri fresco. Un plato de parrilla de verdad en pleno Saavedra.",
+              "price": 27990,
+              "menuType": "comida",
+              "section": "Para Compartir",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Mollejas a la parrilla con cremoso de papa en Caudillo Bar, Saavedra"
+              }
+            },
+            {
+              "name": "Papa Rota a las Tres Cocciones",
+              "description": "",
+              "price": 7500,
+              "menuType": "comida",
+              "section": "Para Compartir"
+            },
+            {
+              "name": "Papas Fritas",
+              "description": "",
+              "price": 4000,
+              "menuType": "comida",
+              "section": "Para Compartir"
+            },
+            {
+              "name": "Ensalada Mixta",
+              "description": "",
+              "price": 4500,
+              "menuType": "comida",
+              "section": "Para Compartir"
+            }
+          ]
+        },
+        {
+          "name": "Postres",
+          "items": [
+            {
+              "name": "Flan Mixto",
+              "description": "Con dulce de leche y crema.",
+              "price": 6500,
+              "menuType": "comida",
+              "section": "Postres"
+            },
+            {
+              "name": "Budín de Pan",
+              "description": "",
+              "price": 5800,
+              "menuType": "comida",
+              "section": "Postres"
+            },
+            {
+              "name": "Queso y Dulce",
+              "description": "",
+              "price": 6000,
+              "menuType": "comida",
+              "section": "Postres"
+            },
+            {
+              "name": "Panqueque Tibio",
+              "description": "Con dulce de leche y crocante de nuez.",
+              "price": 7500,
+              "menuType": "comida",
+              "section": "Postres"
+            }
+          ]
+        },
+        {
+          "name": "Bebidas sin Alcohol",
+          "items": [
+            {
+              "name": "Agua",
+              "description": "",
+              "price": 3000,
+              "menuType": "comida",
+              "section": "Bebidas sin Alcohol"
+            },
+            {
+              "name": "Gaseosa",
+              "description": "",
+              "price": 4500,
+              "menuType": "comida",
+              "section": "Bebidas sin Alcohol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mediodia",
+      "name": "Menú de Mediodía",
+      "description": "Menú ejecutivo exclusivo. Lunes a Viernes 12:00–15:30. Todas las opciones incluyen una gaseosa o un agua.",
+      "sections": [
+        {
+          "name": "Opciones Principales",
+          "description": "Precio único 17900. Incluye principal + gaseosa o agua.",
+          "price": 17900,
+          "items": [
+            {
+              "name": "Sándwich de Bondiola",
+              "description": "Lechuga, tomate y huevo. Guarnición: papas naturales.",
+              "price": 17900,
+              "menuType": "mediodia",
+              "section": "Opciones Principales"
+            },
+            {
+              "name": "Bondiola al Plato",
+              "description": "Grillada, acompañada de papas fritas y ensalada coleslaw.",
+              "price": 17900,
+              "menuType": "mediodia",
+              "section": "Opciones Principales"
+            },
+            {
+              "name": "Ensalada de Pollo",
+              "description": "Pollo asado, lechuga, tomate cherry, cebolla morada, zanahoria y vinagreta de limón.",
+              "price": 17900,
+              "menuType": "mediodia",
+              "section": "Opciones Principales"
+            },
+            {
+              "name": "Milanesa al Plato",
+              "description": "De bola de lomo, acompañada de cremoso de papa y mayonesa de huevo frito.",
+              "price": 17900,
+              "menuType": "mediodia",
+              "section": "Opciones Principales"
+            },
+            {
+              "name": "Sándwich de Milanesa",
+              "description": "De bola de lomo, lechuga, tomate, huevo y salsa tártara. Guarnición: papas fritas.",
+              "price": 17900,
+              "menuType": "mediodia",
+              "section": "Opciones Principales"
+            }
+          ]
+        },
+        {
+          "name": "Combo Alternativo",
+          "items": [
+            {
+              "name": "Combo Empanadas",
+              "description": "Tres empanadas de carne cortada a cuchillo.",
+              "price": 14900,
+              "menuType": "mediodia",
+              "section": "Combo Alternativo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tragos",
+      "name": "Carta de Tragos",
+      "description": "Barra clásica porteña. Tragos de la casa y clásicos de siempre.",
+      "sections": [
+        {
+          "name": "Cervezas",
+          "items": [
+            {
+              "name": "Andes",
+              "description": "Lata — Rubia o Roja",
+              "price": 5000,
+              "menuType": "tragos",
+              "section": "Cervezas"
+            },
+            {
+              "name": "Andes IPA",
+              "description": "Lata",
+              "price": 5500,
+              "menuType": "tragos",
+              "section": "Cervezas"
+            },
+            {
+              "name": "Corona",
+              "description": "Porrón",
+              "price": 6000,
+              "menuType": "tragos",
+              "section": "Cervezas"
+            }
+          ]
+        },
+        {
+          "name": "Tragos Clásicos y Aperitivos",
+          "items": [
+            {
+              "name": "Fernet Branca",
+              "description": "Vaso",
+              "price": 8500,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Fernet Branca (Litro)",
+              "description": "Litro",
+              "price": 12000,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Vermut Rosso",
+              "description": "",
+              "price": 7000,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Cynar",
+              "description": "",
+              "price": 8500,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Gin Tonic",
+              "description": "",
+              "price": 8500,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Campari",
+              "description": "",
+              "price": 7000,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            },
+            {
+              "name": "Destornillador",
+              "description": "Vodka + jugo de naranja",
+              "price": 7500,
+              "menuType": "tragos",
+              "section": "Tragos Clásicos y Aperitivos"
+            }
+          ]
+        },
+        {
+          "name": "Tragos de Autor / Preparados",
+          "description": "Los de la casa.",
+          "items": [
+            {
+              "name": "Ferroviario",
+              "slug": "ferroviario",
+              "description": "Fernet Branca + Carpano Rosso.",
+              "longDescription": "Creación propia de la casa: Fernet Branca cortado con Carpano Rosso sobre hielo, con un twist de naranja. Amargo, herbal y porteño. El trago que te hace sentir que ya estás donde tenés que estar.",
+              "price": 7500,
+              "menuType": "tragos",
+              "section": "Tragos de Autor",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Trago Ferroviario de Caudillo Bar — Fernet Branca y Carpano Rosso en Saavedra"
+              }
+            },
+            {
+              "name": "Pico y Pala",
+              "slug": "pico-y-pala",
+              "description": "Amargo Obrero + jugo de pomelo + menta + soda.",
+              "longDescription": "Amargo Obrero con jugo de pomelo natural, hojas de menta fresca y un golpe de soda. Refrescante, cítrico y con actitud. El trago de la casa que mejor le hace al patio.",
+              "price": 6000,
+              "menuType": "tragos",
+              "section": "Tragos de Autor",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Trago Pico y Pala de Caudillo Bar — Amargo Obrero y pomelo en Saavedra"
+              }
+            },
+            {
+              "name": "Negroni",
+              "slug": "negroni",
+              "description": "Gin + Campari + Carpano Rosso.",
+              "longDescription": "El clásico de los clásicos: gin, Campari y Carpano Rosso en partes iguales, revuelto con hielo y coronado con un twist de naranja. Amargo, equilibrado, atemporal.",
+              "price": 8500,
+              "menuType": "tragos",
+              "section": "Tragos de Autor",
+              "image": {
+                "placeholder": true,
+                "width": 800,
+                "height": 600,
+                "alt": "Negroni clásico en Caudillo Bar, Saavedra"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vinos",
+      "name": "Carta de Vinos",
+      "description": "Selección de bodegas boutique argentinas. Copa y botella.",
+      "sections": [
+        {
+          "name": "Tintos",
+          "items": [
+            { "name": "Atamisque — Serbal Malbec", "region": "Mendoza", "precio_copa": 6000, "precio_botella": 16000 },
+            { "name": "Catena Zapata — Nicasia Malbec", "region": "Mendoza", "precio_copa": null, "precio_botella": 17000 },
+            { "name": "Atamisque — Catalpa Cabernet Franc", "region": "Mendoza", "precio_copa": null, "precio_botella": 27000 },
+            { "name": "Tapiz — Alta Cabernet Franc", "region": "Mendoza", "precio_copa": null, "precio_botella": 21000 },
+            { "name": "Wapisa — Pinot Noir", "region": "Río Negro", "precio_copa": null, "precio_botella": 28000 },
+            { "name": "Petrini — Casa Petrini Tannat", "region": "Mendoza", "precio_copa": null, "precio_botella": 29000 },
+            { "name": "Pyros — Barrel Syrah", "region": "San Juan", "precio_copa": null, "precio_botella": 15000 },
+            { "name": "El Porvenir — Laborum Cabernet Sauvignon", "region": "Salta", "precio_copa": null, "precio_botella": 35000 },
+            { "name": "Durigutti — Tinto del Pueblo Blend", "region": "Mendoza", "precio_copa": null, "precio_botella": 34000 },
+            { "name": "Durigutti — Carmela Malbec", "region": "Mendoza", "precio_copa": null, "precio_botella": 25000 }
+          ]
+        },
+        {
+          "name": "Blancos",
+          "items": [
+            { "name": "Atamisque — Serbal Viognier", "region": "Mendoza", "precio_copa": 6000, "precio_botella": 16000 },
+            { "name": "El Porvenir — Amauta Torrontés", "region": "Salta", "precio_copa": null, "precio_botella": 18000 },
+            { "name": "Wapisa — Sauvignon Blanc", "region": "Río Negro", "precio_copa": null, "precio_botella": 28000 },
+            { "name": "Atamisque — Catalpa Chardonnay", "region": "Mendoza", "precio_copa": null, "precio_botella": 28000 },
+            { "name": "Catena Zapata — Nicasia Blanc de Blancs", "region": "Mendoza", "precio_copa": null, "precio_botella": 17000 },
+            { "name": "Durigutti — Pie de Monte Inmigrantes", "region": "Mendoza", "precio_copa": 8500, "precio_botella": 24000 }
+          ]
+        },
+        {
+          "name": "Rosados",
+          "items": [
+            { "name": "Atamisque — Serbal Rosado", "region": "Mendoza", "precio_copa": 5000, "precio_botella": 15000 },
+            { "name": "Losance — Rosado Pinot", "region": "Mendoza", "precio_copa": null, "precio_botella": 21000 },
+            { "name": "Humberto Canale — Blush", "region": "Río Negro", "precio_copa": null, "precio_botella": 15000 }
+          ]
+        },
+        {
+          "name": "De la Casa",
+          "description": "La entrada al vino.",
+          "items": [
+            { "name": "Tierra del Fuego — Malbec o Cabernet Sauvignon", "region": "Mendoza", "precio_copa": 4500, "precio_botella": 11000 }
+          ]
+        }
+      ]
+    }
+  ]
+}

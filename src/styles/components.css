@@ -398,10 +398,16 @@
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: 100svh;
+  min-height: calc(100svh - 56px);
   display: flex;
   align-items: flex-end;
   padding: var(--space-20) 0 var(--space-16);
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    min-height: calc(100svh - 64px);
+  }
 }
 
 .hero__bg {

@@ -52,6 +52,12 @@ El archivo **`/CAUDILLO BAR/Base_Datos_Menu_Caudillo.md`** es la única fuente c
 ### DOCUMENTACIÓN AL FINALIZAR CADA SESIÓN
 Actualizar `RESUMEN_EJECUTIVO_PROGRESO.md` al terminar cualquier sesión significativa. Documentar decisiones tomadas y cambios realizados para que el próximo agente (sea Claude o Gemini) tenga contexto completo.
 
+### PENDIENTES OPERATIVOS → PENDIENTES_MATEO.md
+Cada vez que se identifique un pendiente operativo (fotos, datos del negocio, confirmaciones de Mateo, accesos a cuentas, etc.), **agregarlo al archivo `PENDIENTES_MATEO.md`** en la raíz del proyecto. Este archivo centraliza todo lo que Fede necesita resolver con Mateo. No dejar pendientes sueltos en conversaciones o documentos individuales — todo va a ese archivo.
+
+### DISEÑO PERSONALIZADO VS ESTRUCTURA SEO
+De cara a futuras refactorizaciones estéticas: la web utiliza **Vanilla CSS modular**. Se puede rediseñar visualmente (colores, fuentes, efectos, layouts) con total libertad, pero **NO se deben alterar las IDs (`id="..."`), los encabezados (`<h1>`, `<h2>`) ni los Schemas JSON-LD** sin una revisión estratégica. Estos elementos son los "anclajes" que garantizan el posicionamiento en Google e IA.
+
 ---
 
 ## 1. QUIÉN SOY (El Freelancer)

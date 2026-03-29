@@ -1,0 +1,109 @@
+# Fase 4.2 — Performance, Páginas Individuales de Menú y Limpieza Operativa
+
+Completar las tareas de Fase 4.2 del plan maestro: ruta dinámica `/menu/[slug]`, optimizaciones Core Web Vitals, Speculation Rules API, página 404 personalizada, y actualización de datos operativos (Instagram, Rappi).
+
+## User Review Required
+
+> [!IMPORTANT]
+> **WhatsApp sigue vacío** — encontré 8 links a `https://wa.me/` sin número en el codebase. Lo dejo documentado en [PENDIENTES_MATEO.md](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/PENDIENTES_MATEO.md) pero no lo puedo resolver hasta que Mateo pase el número.
+
+> [!NOTE]
+> **Instagram feed en la Home** — lo agendo como tarea futura (Fase 4.3+) porque requiere evaluar impacto en performance (la API de Instagram Embed inyecta JS pesado). Por ahora actualizo el link del footer.
+
+---
+
+## Proposed Changes
+
+### Data Layer — Menú centralizado en JSON
+
+#### [NEW] [menu.json](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/data/menu.json)
+- Copiar estructura de [FASE2_menu_estructurado.json](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/DOCS_ESTRATEGIA/FASE2_menu_estructurado.json) al proyecto
+- Agregar campo `slug` a cada ítem del menú principal (comida + tragos de autor): `azurduy`, `dorrego`, `artigas`, `restaurador`, `pastel-de-papas`, `canelones-de-pollo`, `milanesa-de-bife`, `noquis-de-semola`, `bife-de-chorizo`, `osobuco-braseado`, `risotto-carnaroli`, `provoleta-grillada`, `mollejas-a-la-parrilla`, `ferroviario`, `pico-y-pala`, `negroni`
+- Agregar campo `menuType` para identificar la sección padre
+- Agregar campo `longDescription` con copy SEO/GEO (ingredientes detallados, técnica de cocción, procedencia)
+
+---
+
+### Ruta dinámica — Páginas individuales por plato
+
+#### [NEW] [slug].astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/menu/[slug].astro)
+- `getStaticPaths()` genera una página estática por cada ítem con `slug`
+- Contenido: nombre del plato, descripción extendida, precio, sección del menú, placeholder de imagen con dimensiones sugeridas
+- Schema JSON-LD `MenuItem` individual por página
+- Meta title: `{Nombre} — Caudillo Bar, Saavedra`
+- H1 ultra-específico para SEO: `{Nombre} en Caudillo Bar, Saavedra`
+- CTA: "Ver la carta completa" + "Reservar mesa por WhatsApp"
+- Breadcrumb visual: Inicio > La Carta > {Nombre}
+- Link de vuelta a `/menu` con anchor a la sección correspondiente
+
+#### [MODIFY] [menu.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/menu.astro)
+- Refactorizar para importar datos de `src/data/menu.json` en vez de tenerlos hardcodeados
+- Agregar links de cada ítem del menú a su página individual `/menu/{slug}`
+- Mantener los 4 tabs y deep-links funcionales
+
+---
+
+### Core Web Vitals
+
+#### [MODIFY] [BaseLayout.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/layouts/BaseLayout.astro)
+- Agregar `<script type="speculationrules">` para pre-renderizar `/menu`, `/restaurante`, `/eventos`, `/contacto`
+
+#### [MODIFY] [SEOHead.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/components/SEOHead.astro)
+- Verificar `font-display: swap` en el link de Google Fonts (ya está en la URL como `display=swap` ✅)
+- Agregar preconnect a Rappi si hay iframes/embeds
+
+#### [MODIFY] [index.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/index.astro)
+- Agregar `fetchpriority="high"` placeholder comment para cuando se agregue la imagen hero (actualmente es un `div` con background-color)
+
+---
+
+### Página 404
+
+#### [NEW] [404.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/404.astro)
+- Diseño con el tono del bar: cálido, porteño
+- Links a: Home, La Carta, Contacto
+- Copy: "Parece que esta mesa no existe. Pero hay un montón que sí."
+
+---
+
+### Datos operativos
+
+#### [MODIFY] [Footer.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/components/Footer.astro)
+- Instagram: actualizar href a `https://www.instagram.com/caudillobar/`
+- Rappi: actualizar href de `#` a `https://www.rappi.com.ar/restaurantes/259123-caudillo-bar`
+
+#### [MODIFY] [delivery.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/delivery.astro)
+- Actualizar link de Rappi a URL real
+- Eliminar mención de PedidosYa (descartado)
+
+#### [MODIFY] [index.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/pages/index.astro)
+- Actualizar Rappi URL en Schema `OrderAction`
+
+---
+
+## Verification Plan
+
+### Build automático
+```bash
+npm run build
+```
+- Debe completar sin errores
+- Debe listar las ~25+ páginas estáticas (9 originales + ~16 de `/menu/[slug]`)
+
+### Dev server — rutas dinámicas
+1. Correr `npm run dev`
+2. Navegar a `http://localhost:4321/menu/azurduy` — debe mostrar la página del sándwich Azurduy con nombre, descripción, precio y Schema
+3. Navegar a `http://localhost:4321/menu/ferroviario` — debe mostrar la página del trago
+4. Navegar a `http://localhost:4321/menu` — cada ítem del menú debe tener un link a su página individual
+5. Desde una página `/menu/[slug]`, el botón "Ver la carta completa" debe llevar a `/menu`
+
+### Dev server — 404
+6. Navegar a `http://localhost:4321/pagina-que-no-existe` — debe mostrar la 404 personalizada
+
+### Dev server — datos operativos
+7. En el footer: el link de Instagram debe apuntar a `https://www.instagram.com/caudillobar/`
+8. En el footer: el link de Rappi debe apuntar a la URL real del restaurante en Rappi
+9. En `/delivery`: verificar que el link de Rappi es correcto y PedidosYa no aparece activo
+
+### Inspection de código
+10. Verificar que [BaseLayout.astro](file:///Users/fedegodoy/Documents/APPS/caudillo-web-seo/src/layouts/BaseLayout.astro) contiene el `<script type="speculationrules">` con las 4 URLs
