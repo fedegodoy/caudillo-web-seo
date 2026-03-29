@@ -1,0 +1,79 @@
+---
+import SEOHead from '../components/SEOHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BottomTabBar from '../components/BottomTabBar.astro';
+import FloatingCTA from '../components/FloatingCTA.astro';
+
+import '../styles/global.css';
+import '../styles/components.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  schema?: object;
+  floatingCTAText?: string;
+  floatingCTAHref?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  schema,
+  floatingCTAText = 'Ver la Carta',
+  floatingCTAHref = '/menu',
+} = Astro.props;
+
+const currentPath = new URL(Astro.request.url).pathname;
+---
+
+<!DOCTYPE html>
+<html lang="es-AR">
+  <head>
+    <SEOHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      schema={schema}
+    />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">
+      Saltar al contenido principal
+    </a>
+
+    <Header currentPath={currentPath} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+    <BottomTabBar currentPath={currentPath} />
+    <FloatingCTA text={floatingCTAText} href={floatingCTAHref} />
+
+    <!-- Scroll Reveal Observer -->
+    <script>
+      const revealElements = document.querySelectorAll('.reveal');
+      if (revealElements.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('reveal--visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+        revealElements.forEach((el) => observer.observe(el));
+      }
+    </script>
+  </body>
+</html>

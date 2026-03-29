@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  schema?: object;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.href,
+  ogImage = '/images/og-caudillo-bar.jpg',
+  schema,
+} = Astro.props;
+
+const siteName = 'Caudillo Bar';
+const siteUrl = 'https://caudillobar.com.ar';
+---
+
+<!-- Primary Meta Tags -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`${siteUrl}${ogImage}`} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="es_AR" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+<!-- Geo / Location -->
+<meta name="geo.region" content="AR-C" />
+<meta name="geo.placename" content="Saavedra, Buenos Aires" />
+
+<!-- Google Fonts: Playfair Display + Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- JSON-LD Schema -->
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}
+
+<!-- llms.txt discovery -->
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />

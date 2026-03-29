@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  "name": "Carta de Caudillo Bar",
+  "url": "https://caudillobar.com.ar/menu",
+  "mainEntity": {
+    "@type": "Restaurant",
+    "@id": "https://caudillobar.com.ar/#organization"
+  },
+  "hasMenuSection": [
+    {
+      "@type": "MenuSection",
+      "name": "Sanguches del Caudillo",
+      "description": "Incluyen papas fritas",
+      "hasMenuItem": [
+        { "@type": "MenuItem", "name": "Dorrego", "description": "Milanesa de bife con verduras", "offers": { "@type": "Offer", "price": "14900", "priceCurrency": "ARS" } },
+        { "@type": "MenuItem", "name": "Azurduy", "description": "Bondiola desmechada con verduras", "offers": { "@type": "Offer", "price": "16900", "priceCurrency": "ARS" } },
+        { "@type": "MenuItem", "name": "Artigas", "description": "Hongos grillados con coleslaw (Vegetariano)", "offers": { "@type": "Offer", "price": "14500", "priceCurrency": "ARS" }, "suitableForDiet": "https://schema.org/VegetarianDiet" },
+        { "@type": "MenuItem", "name": "Restaurador", "description": "Pechuga en cocción lenta, cebolla crispy y salsa tártara", "offers": { "@type": "Offer", "price": "13500", "priceCurrency": "ARS" } }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="La Carta del Caudillo | Sándwiches y Cocina de la Casa"
+  description="Los sándwiches legendarios (Azurduy, Dorrego) y los platos criollos (Pastel de papas, Osobuco). Vermut y vinos seleccionados."
+  schema={schema}
+  floatingCTAText="Reservar Mesa"
+  floatingCTAHref="/contacto"
+>
+  <section class="section">
+    <div class="container">
+      <h1>Lo que servimos en la barra.</h1>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist" aria-label="Secciones del menú">
+    <button class="tab tab--active" role="tab" aria-selected="true" data-tab="comida">Comida</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="mediodia">Mediodía</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="vinos">Vinos</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="tragos">Tragos</button>
+  </div>
+
+  <!-- TAB: COMIDA -->
+  <section class="section" id="comida" data-tab-content="comida">
+    <div class="container">
+      <h2>Sanguches del Caudillo</h2>
+      <p class="text-secondary" style="margin-bottom: var(--space-6);">Incluyen papas fritas.</p>
+
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Dorrego</div>
+          <div class="menu-item__desc">Milanesa de bife con verduras</div>
+        </div>
+        <div class="menu-item__price">14900</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Azurduy</div>
+          <div class="menu-item__desc">Bondiola desmechada con verduras</div>
+        </div>
+        <div class="menu-item__price">16900</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Artigas</div>
+          <div class="menu-item__desc">Hongos grillados con coleslaw</div>
+          <div class="menu-item__badge">Vegetariano</div>
+        </div>
+        <div class="menu-item__price">14500</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Restaurador</div>
+          <div class="menu-item__desc">Pechuga en cocción lenta, cebolla crispy y salsa tártara</div>
+        </div>
+        <div class="menu-item__price">13500</div>
+      </div>
+
+      <h2 style="margin-top: var(--space-12);">Platos de la Casa</h2>
+
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Pastel de Papas con Osobuco</div>
+          <div class="menu-item__desc">Braseado al vino tinto, mozzarella y parmesano</div>
+        </div>
+        <div class="menu-item__price">18000</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Canelones de Pollo</div>
+          <div class="menu-item__desc">Relleno con vegetales</div>
+        </div>
+        <div class="menu-item__price">19000</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Milanesa de Bife de Chorizo</div>
+          <div class="menu-item__desc">Con papas al rescoldo y alioli criollo</div>
+        </div>
+        <div class="menu-item__price">21000</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Ñoquis de Sémola Gratinados</div>
+          <div class="menu-item__desc">Con salsa bolognesa</div>
+        </div>
+        <div class="menu-item__price">18500</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Bife de Chorizo a la Plancha</div>
+          <div class="menu-item__desc">Con papas rústicas</div>
+        </div>
+        <div class="menu-item__price">26900</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Osobuco Braseado</div>
+          <div class="menu-item__desc">Con puré de papas</div>
+        </div>
+        <div class="menu-item__price">22000</div>
+      </div>
+      <div class="menu-item reveal reveal-stagger">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Risotto de Arroz Carnaroli</div>
+          <div class="menu-item__desc">Con ragú de portobellos, parmesano y verdeo</div>
+        </div>
+        <div class="menu-item__price">20000</div>
+      </div>
+
+      <h2 style="margin-top: var(--space-12);">Para Compartir</h2>
+
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Empanada de Carne Cortada a Cuchillo</div>
+          <div class="menu-item__desc">Salsa llajwa</div>
+        </div>
+        <div class="menu-item__price">4400</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Provoleta Grillada</div>
+          <div class="menu-item__desc">Chutney de tomate y garrapiñada picante</div>
+        </div>
+        <div class="menu-item__price">16000</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Cremoso de Cabutia</div>
+        </div>
+        <div class="menu-item__price">11000</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Mollejas a la Parrilla</div>
+          <div class="menu-item__desc">Cremoso de papa ahumado, chimichurri</div>
+        </div>
+        <div class="menu-item__price">27990</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Papa Rota a las Tres Cocciones</div>
+        </div>
+        <div class="menu-item__price">7500</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Papas Fritas</div>
+        </div>
+        <div class="menu-item__price">4000</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Ensalada Mixta</div>
+        </div>
+        <div class="menu-item__price">4500</div>
+      </div>
+
+      <h2 style="margin-top: var(--space-12);">Postres</h2>
+
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Flan Mixto</div>
+          <div class="menu-item__desc">Con dulce de leche y crema</div>
+        </div>
+        <div class="menu-item__price">6500</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Budín de Pan</div>
+        </div>
+        <div class="menu-item__price">5800</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Queso y Dulce</div>
+        </div>
+        <div class="menu-item__price">6000</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Panqueque</div>
+          <div class="menu-item__desc">Con dulce de leche y trocitos de nuez</div>
+        </div>
+        <div class="menu-item__price">7500</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB: MEDIODÍA (hidden by default) -->
+  <section class="section" id="mediodia" data-tab-content="mediodia" style="display: none;">
+    <div class="container">
+      <h2>Menú Ejecutivo</h2>
+      <p class="text-secondary" style="margin-bottom: var(--space-2);">🕐 Lunes a Viernes 12:00-15:30</p>
+      <p class="text-secondary" style="margin-bottom: var(--space-6);">Precio único: 17900 — Incluye principal + gaseosa o agua</p>
+
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Sándwich de Bondiola</div>
+          <div class="menu-item__desc">Lechuga, tomate y huevo. Guarnición: papas naturales</div>
+        </div>
+        <div class="menu-item__price">17900</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Bondiola al Plato</div>
+          <div class="menu-item__desc">Grillada, con papas fritas y ensalada coleslaw</div>
+        </div>
+        <div class="menu-item__price">17900</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Ensalada de Pollo</div>
+          <div class="menu-item__desc">Pollo asado, lechuga, tomate cherry, cebolla morada, zanahoria y vinagreta de limón</div>
+        </div>
+        <div class="menu-item__price">17900</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Milanesa al Plato</div>
+          <div class="menu-item__desc">De bola de lomo, con cremoso de papa y mayonesa de huevo frito</div>
+        </div>
+        <div class="menu-item__price">17900</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Sándwich de Milanesa</div>
+          <div class="menu-item__desc">De bola de lomo, lechuga, tomate, huevo y salsa tártara. Guarnición: papas fritas</div>
+        </div>
+        <div class="menu-item__price">17900</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item__info">
+          <div class="menu-item__name">Combo Empanadas</div>
+          <div class="menu-item__desc">Tres empanadas de carne cortada a cuchillo</div>
+        </div>
+        <div class="menu-item__price">14900</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB: VINOS (hidden by default) -->
+  <section class="section" id="vinos" data-tab-content="vinos" style="display: none;">
+    <div class="container">
+      <h2>Vinos de Bodegas Boutique en Caudillo Bar, Saavedra</h2>
+      <p class="text-secondary" style="margin-bottom: var(--space-6);">Selección de bodegas argentinas. Opciones por copa desde 4500.</p>
+      <p class="text-secondary">Próximamente — carta de vinos completa.</p>
+    </div>
+  </section>
+
+  <!-- TAB: TRAGOS (hidden by default) -->
+  <section class="section" id="tragos" data-tab-content="tragos" style="display: none;">
+    <div class="container">
+      <h2>Tragos de Autor y Clásicos de Barra</h2>
+      <p class="text-secondary" style="margin-bottom: var(--space-6);">Del Ferroviario al Negroni, pasando por el Pico y Pala.</p>
+      <p class="text-secondary">Próximamente — carta de tragos completa.</p>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="section" id="menu-cta">
+    <div class="container" style="text-align: center;">
+      <h2>¿Todo listo?</h2>
+      <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+        <a href="https://wa.me/" class="btn btn-primary" target="_blank" rel="noopener">Reservar Mesa por WhatsApp</a>
+        <a href="/delivery" class="btn btn-secondary">Pedir por Rappi</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Tab switching logic
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const contents = document.querySelectorAll('[data-tab-content]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = (tab as HTMLElement).dataset.tab;
+
+      // Update tabs
+      tabs.forEach(t => {
+        t.classList.remove('tab--active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('tab--active');
+      tab.setAttribute('aria-selected', 'true');
+
+      // Update content
+      contents.forEach(content => {
+        const el = content as HTMLElement;
+        if (el.dataset.tabContent === target) {
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Handle deep links (#comida, #mediodia, #vinos, #tragos)
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.querySelector(`[data-tab="${hash}"]`)) {
+    const targetTab = document.querySelector(`[data-tab="${hash}"]`) as HTMLElement;
+    targetTab?.click();
+  }
+</script>

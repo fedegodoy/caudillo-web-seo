@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "EventVenue",
+  "name": "Terraza Caudillo Bar",
+  "url": "https://caudillobar.com.ar/eventos",
+  "description": "Terraza privada al aire libre para eventos, cumpleaños y reuniones corporativas en Saavedra, Buenos Aires.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Crámer 3180",
+    "addressLocality": "Saavedra",
+    "addressRegion": "CABA",
+    "addressCountry": "AR"
+  },
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Terraza al aire libre", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Catering propio", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Espacio privado", "value": true }
+  ]
+};
+---
+
+<BaseLayout
+  title="Eventos y Cumpleaños en Saavedra | Terraza Caudillo"
+  description="Festejá tu cumpleaños o evento corporativo en la mejor terraza de Saavedra. Espacio privado, catering criollo y el mejor ambiente de CABA Norte."
+  schema={schema}
+  floatingCTAText="Consultar Evento"
+  floatingCTAHref="#formulario"
+>
+  <section class="section" style="padding-top: var(--space-20);">
+    <div class="container">
+      <h1>Juntá a la banda en Caudillo.</h1>
+      <h2 style="margin-top: var(--space-4); color: var(--color-text-secondary);">Tu evento en la terraza de Saavedra.</h2>
+      <p style="margin-top: var(--space-4); max-width: 700px;">
+        ¿Cumpleaños de 30, 40, 50? ¿Cierre de año de la oficina? Acá la terraza es tuya. Espacio real al aire libre, sin el protocolo frío de un salón.
+      </p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section reveal" id="features">
+    <div class="container">
+      <div class="grid-highlights">
+        <div class="card reveal reveal-stagger">
+          <h3 class="card__title">🏠 El Spot</h3>
+          <p class="card__text">Terraza privada al aire libre, techada por si el clima se pone raro.</p>
+        </div>
+        <div class="card reveal reveal-stagger">
+          <h3 class="card__title">🍽️ La Comida</h3>
+          <p class="card__text">Tablas de campo, sanguches Caudillo y barra de clásicos. Lo que vos elijas.</p>
+        </div>
+        <div class="card reveal reveal-stagger">
+          <h3 class="card__title">✨ Personalizado</h3>
+          <p class="card__text">Nos decís cuántos son y nosotros armamos el resto. Sin fórmulas rígidas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASOS DE USO -->
+  <section class="section reveal">
+    <div class="container" style="text-align: center;">
+      <p class="text-secondary">
+        Cumpleaños · After-office · Cierre de año · Reuniones de empresa · Festejos
+      </p>
+    </div>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section class="section reveal" id="formulario">
+    <div class="container" style="max-width: 500px;">
+      <h2>Reservá tu fecha</h2>
+      <form style="margin-top: var(--space-6);" action="#" method="POST">
+        <div class="form-field">
+          <label class="form-label" for="ev-nombre">Nombre</label>
+          <input class="form-input" type="text" id="ev-nombre" name="nombre" required placeholder="Tu nombre" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="ev-fecha">Fecha del evento</label>
+          <input class="form-input" type="date" id="ev-fecha" name="fecha" required />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="ev-personas">Cantidad de personas</label>
+          <input class="form-input" type="number" id="ev-personas" name="personas" required min="1" placeholder="Ej: 25" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="ev-telefono">Teléfono</label>
+          <input class="form-input" type="tel" id="ev-telefono" name="telefono" required placeholder="11 xxxx xxxx" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top: var(--space-4);">
+          Consultar Evento
+        </button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

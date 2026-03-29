@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Restaurante en Saavedra | Almuerzos y Cenas | Caudillo Bar"
+  description="Cocina criolla al mediodía y a la noche en Crámer 3180. Menú ejecutivo de lunes a viernes. Reservas por WhatsApp."
+  floatingCTAText="Reservar Mesa"
+  floatingCTAHref="/contacto"
+>
+  <!-- HERO -->
+  <section class="section" style="padding-top: var(--space-20);">
+    <div class="container">
+      <h1>Restaurante en Saavedra — cocina criolla al mediodía y a la noche.</h1>
+    </div>
+  </section>
+
+  <!-- MEDIODÍA -->
+  <section class="section reveal" id="mediodia">
+    <div class="container">
+      <h2>El descanso que te ganaste está en Crámer 3180.</h2>
+      <p style="margin-top: var(--space-4); max-width: 700px;">
+        En Caudillo el mediodía también es una cita. Menú ejecutivo casero que te llena bien y te manda de vuelta al trabajo con la pila cargada.
+      </p>
+
+      <div class="card" style="margin-top: var(--space-8); max-width: 500px;">
+        <h3 class="card__title">Menú Ejecutivo</h3>
+        <p class="text-secondary">🕐 Lunes a Viernes 12:00-15:30</p>
+        <p style="margin-top: var(--space-2); font-family: var(--font-display); font-size: var(--text-h3); color: var(--color-text-heading);">
+          Precio único: 17900
+        </p>
+        <p class="text-secondary text-small" style="margin-top: var(--space-1);">Incluye principal + gaseosa o agua</p>
+        <ul style="margin-top: var(--space-4); line-height: 2;">
+          <li>• Sándwich de Bondiola</li>
+          <li>• Bondiola al Plato</li>
+          <li>• Ensalada de Pollo</li>
+          <li>• Milanesa al Plato</li>
+          <li>• Sándwich de Milanesa</li>
+          <li>• Combo Empanadas — 14900</li>
+        </ul>
+      </div>
+
+      <p class="text-secondary text-small" style="margin-top: var(--space-4);">
+        Si estás en Coghlan o Núñez, te queda a la vuelta.
+      </p>
+    </div>
+  </section>
+
+  <!-- NOCHE -->
+  <section class="section reveal" id="noche">
+    <div class="container">
+      <h2>A la noche, otro mundo.</h2>
+      <p style="margin-top: var(--space-4); max-width: 700px;">
+        Cuando cae el sol, la cocina sigue y la barra se anima. Sándwiches, platos de la casa y vinos de bodegas boutique para acompañar.
+      </p>
+      <p class="text-secondary" style="margin-top: var(--space-4);">🕐 Martes a Domingo 19:00-23:30</p>
+      <a href="/menu" class="btn btn-primary" style="margin-top: var(--space-6);">Ver la Carta Completa</a>
+    </div>
+  </section>
+
+  <!-- CTA RESERVA -->
+  <section class="section reveal" id="reserva">
+    <div class="container" style="text-align: center;">
+      <p style="font-size: var(--text-h3); color: var(--color-text-heading);">
+        Para grupos de +4 personas, avisá por WhatsApp.
+      </p>
+      <a href="https://wa.me/" class="btn btn-primary" style="margin-top: var(--space-6);" target="_blank" rel="noopener">
+        Reservar por WhatsApp
+      </a>
+    </div>
+  </section>
+</BaseLayout>

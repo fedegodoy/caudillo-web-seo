@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Delivery Saavedra | Pedí Caudillo por Rappi"
+  description="Los sándwiches y platos de Caudillo Bar a domicilio. Delivery en Saavedra, Núñez y Coghlan por Rappi. Crámer 3180."
+  floatingCTAText="Pedir por Rappi"
+  floatingCTAHref="https://www.rappi.com.ar/"
+>
+  <section class="section" style="padding-top: var(--space-20);">
+    <div class="container">
+      <h1>Pedí Caudillo donde estés.</h1>
+      <h2 style="margin-top: var(--space-4); color: var(--color-text-secondary);">Delivery en Saavedra, Núñez y Coghlan.</h2>
+      <p style="margin-top: var(--space-4); max-width: 700px;">
+        Cuando no podés venir, los sándwiches pueden ir. Pedí por Rappi y te llega en minutos.
+      </p>
+    </div>
+  </section>
+
+  <!-- CÓMO PEDIR -->
+  <section class="section reveal">
+    <div class="container">
+      <h3>Cómo pedirlo</h3>
+      <ol style="margin-top: var(--space-4); line-height: 2.2; counter-reset: steps;">
+        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
+          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">①</span>
+          Buscá <strong>Caudillo Bar</strong> en la app de Rappi.
+        </li>
+        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
+          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">②</span>
+          Elegí tu sándwich o plato de la casa.
+        </li>
+        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
+          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">③</span>
+          Lo preparamos y sale para tu dirección.
+        </li>
+      </ol>
+
+      <a href="https://www.rappi.com.ar/" class="btn btn-primary" style="margin-top: var(--space-8);" target="_blank" rel="noopener">
+        🟠 Pedir por Rappi
+      </a>
+    </div>
+  </section>
+
+  <!-- QUÉ PEDIR -->
+  <section class="section reveal">
+    <div class="container">
+      <h3>¿Qué pedimos que pruebes?</h3>
+      <p style="margin-top: var(--space-4); max-width: 700px;">
+        El <strong>Azurduy</strong> (bondiola desmechada) y el <strong>Dorrego</strong> (milanesa de bife de chorizo) son los más pedidos. Si es tu primera vez, uno de esos dos.
+      </p>
+      <div class="grid-services" style="margin-top: var(--space-6);">
+        <div class="card">
+          <h3 class="card__title">Azurduy</h3>
+          <p class="card__text">Bondiola desmechada con verduras</p>
+          <p style="font-family: var(--font-display); font-size: var(--text-price); color: var(--color-text-heading); margin-top: var(--space-2);">16900</p>
+        </div>
+        <div class="card">
+          <h3 class="card__title">Dorrego</h3>
+          <p class="card__text">Milanesa de bife con verduras</p>
+          <p style="font-family: var(--font-display); font-size: var(--text-price); color: var(--color-text-heading); margin-top: var(--space-2);">14900</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONA DE COBERTURA -->
+  <section class="section reveal">
+    <div class="container" style="text-align: center;">
+      <h3>Zona de cobertura</h3>
+      <p style="margin-top: var(--space-4); color: var(--color-text-secondary);">
+        Saavedra · Núñez · Coghlan
+      </p>
+      <p class="text-small text-secondary" style="margin-top: var(--space-2);">
+        Si tu dirección está cerca de Crámer 3180, estamos al alcance.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

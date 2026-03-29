@@ -1,0 +1,75 @@
+---
+interface Props {
+  text?: string;
+  href?: string;
+}
+
+const { text = 'Ver la Carta', href = '/menu' } = Astro.props;
+---
+
+<div class="floating-cta" id="floating-cta" aria-hidden="true">
+  <a href={href} class="btn btn-primary floating-cta__btn">
+    🍷 {text}
+  </a>
+</div>
+
+<style>
+  .floating-cta {
+    display: none;
+    position: fixed;
+    bottom: calc(56px + env(safe-area-inset-bottom) + var(--space-4));
+    left: var(--section-padding-x);
+    right: var(--section-padding-x);
+    z-index: 80;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .floating-cta.is-visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    .floating-cta {
+      display: none !important;
+    }
+  }
+
+  .floating-cta__btn {
+    width: 100%;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-elevated);
+    font-size: var(--text-body);
+    padding: var(--space-4) var(--space-6);
+  }
+</style>
+
+<script>
+  const floatingCTA = document.getElementById('floating-cta');
+
+  if (floatingCTA) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            floatingCTA.classList.add('is-visible');
+            floatingCTA.setAttribute('aria-hidden', 'false');
+          } else {
+            floatingCTA.classList.remove('is-visible');
+            floatingCTA.setAttribute('aria-hidden', 'true');
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    // Observe the hero section — CTA appears when hero leaves viewport
+    const hero = document.querySelector('.hero, main > section:first-child, main > *:first-child');
+    if (hero) {
+      observer.observe(hero);
+    }
+  }
+</script>

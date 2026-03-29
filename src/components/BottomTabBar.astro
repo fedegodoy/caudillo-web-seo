@@ -1,0 +1,82 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const tabs = [
+  { href: '/', icon: '🏠', label: 'Inicio' },
+  { href: '/menu', icon: '📋', label: 'Carta' },
+  { href: 'https://wa.me/', icon: '💬', label: 'Reservar', external: true },
+  { href: '/eventos', icon: '🎉', label: 'Eventos' },
+  { href: '/delivery', icon: '🛵', label: 'Delivery' },
+];
+---
+
+<nav class="bottom-tab-bar" aria-label="Navegación rápida">
+  {tabs.map((tab) => (
+    <a
+      href={tab.href}
+      class:list={['bottom-tab-bar__item', { 'bottom-tab-bar__item--active': currentPath === tab.href }]}
+      target={tab.external ? '_blank' : undefined}
+      rel={tab.external ? 'noopener' : undefined}
+      aria-label={tab.label}
+    >
+      <span class="bottom-tab-bar__icon">{tab.icon}</span>
+      <span class="bottom-tab-bar__label">{tab.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .bottom-tab-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-top: var(--glass-border);
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(56px + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 768px) {
+    .bottom-tab-bar {
+      display: none;
+    }
+  }
+
+  .bottom-tab-bar__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 48px;
+    min-width: 48px;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+    text-decoration: none;
+  }
+
+  .bottom-tab-bar__item--active {
+    color: var(--color-accent);
+  }
+
+  .bottom-tab-bar__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .bottom-tab-bar__label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+  }
+</style>

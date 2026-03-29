@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Galería | Fotos de Caudillo Bar Saavedra"
+  description="El ambiente del Caudillo: terraza, platos, tragos y eventos en Saavedra. Fotos del bar más auténtico de CABA Norte."
+>
+  <section class="section" style="padding-top: var(--space-20);">
+    <div class="container">
+      <h1>El ambiente del Caudillo.</h1>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-8);">
+        <button class="tab tab--active" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Todos</button>
+        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Interior</button>
+        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Terraza</button>
+        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Platos</button>
+        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Tragos</button>
+        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Eventos</button>
+      </div>
+
+      <!-- Placeholder grid — espera fotos reales de Mateo -->
+      <div class="grid-gallery">
+        <div class="card" style="padding: var(--space-12); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
+          <p class="text-secondary">📷</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
+        </div>
+        <div class="card" style="padding: var(--space-16); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
+          <p class="text-secondary">📷</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
+        </div>
+        <div class="card" style="padding: var(--space-10); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
+          <p class="text-secondary">📷</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
+        </div>
+        <div class="card" style="padding: var(--space-12); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
+          <p class="text-secondary">📷</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
+        </div>
+      </div>
+
+      <p class="text-secondary text-small" style="margin-top: var(--space-8); text-align: center;">
+        Esta galería se actualiza con fotos reales del bar, la terraza, los platos y los eventos.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,162 @@
+---
+const currentYear = new Date().getFullYear();
+
+const navLinks = [
+  { href: '/', label: 'Inicio' },
+  { href: '/menu', label: 'La Carta' },
+  { href: '/restaurante', label: 'Restaurante' },
+  { href: '/eventos', label: 'Eventos' },
+  { href: '/delivery', label: 'Delivery' },
+  { href: '/el-bar', label: 'El Bar' },
+  { href: '/galeria', label: 'Galería' },
+  { href: '/contacto', label: 'Contacto' },
+  { href: '/blog', label: 'Blog' },
+];
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container grid-footer">
+    <!-- NAP Canónico -->
+    <div class="footer__section">
+      <h3 class="footer__title">Caudillo Bar</h3>
+      <address class="footer__address">
+        <p>Crámer 3180, Saavedra</p>
+        <p>CABA, Argentina</p>
+      </address>
+    </div>
+
+    <!-- Navegación -->
+    <div class="footer__section">
+      <h3 class="footer__title">Navegación</h3>
+      <nav aria-label="Navegación del pie de página">
+        <ul class="footer__nav" role="list">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="footer__link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Horarios -->
+    <div class="footer__section">
+      <h3 class="footer__title">Horarios</h3>
+      <div class="footer__schedule">
+        <p class="footer__schedule-label">Mediodía</p>
+        <p>Lun-Vie 12:00-15:30</p>
+        <p class="footer__schedule-label">Noche</p>
+        <p>Mar-Dom 19:00-23:30</p>
+      </div>
+    </div>
+
+    <!-- Contacto -->
+    <div class="footer__section">
+      <h3 class="footer__title">Contacto</h3>
+      <ul class="footer__contact" role="list">
+        <li>
+          <a href="https://wa.me/" class="footer__link" target="_blank" rel="noopener">
+            💬 WhatsApp
+          </a>
+        </li>
+        <li>
+          <a href="https://instagram.com/caudillobar" class="footer__link" target="_blank" rel="noopener">
+            📷 @caudillobar
+          </a>
+        </li>
+        <li>
+          <a href="https://maps.google.com/?q=Cramer+3180+Saavedra+Buenos+Aires" class="footer__link" target="_blank" rel="noopener">
+            📍 Ver en Google Maps
+          </a>
+        </li>
+      </ul>
+
+      <div class="footer__delivery">
+        <p class="footer__schedule-label">Delivery</p>
+        <a href="#" class="footer__link" target="_blank" rel="noopener">🟠 Rappi</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer__bottom">
+    <div class="container">
+      <p>&copy; {currentYear} Caudillo Bar. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-brand-blue);
+    padding: var(--section-padding-y) 0 0;
+    color: var(--color-text-primary);
+  }
+
+  .footer__title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__address {
+    font-style: normal;
+    color: var(--color-text-primary);
+    line-height: 1.8;
+    font-size: var(--text-small);
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer__link {
+    font-size: var(--text-small);
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+    display: inline-block;
+  }
+
+  .footer__link:hover {
+    color: var(--color-text-heading);
+  }
+
+  .footer__schedule {
+    font-size: var(--text-small);
+    line-height: 1.8;
+  }
+
+  .footer__schedule-label {
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin-top: var(--space-2);
+  }
+
+  .footer__schedule-label:first-child {
+    margin-top: 0;
+  }
+
+  .footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer__delivery {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+  }
+
+  .footer__bottom {
+    margin-top: var(--section-padding-y);
+    padding: var(--space-4) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+</style>
