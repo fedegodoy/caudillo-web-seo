@@ -1,0 +1,16 @@
+# Carpetas de referencia y assets fuente — no van al deploy
+CAUDILLO BAR/
+IMAGENES-REFE-COMIC/
+IMAGENES REDES/
+CAPTURAS/
+DOCS_ESTRATEGIA/
+
+# Docs y archivos grandes
+*.docx
+*.pdf
+*.mp4
+*.mov
+
+# Dev
+node_modules/
+.astro/
