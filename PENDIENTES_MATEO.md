@@ -8,12 +8,17 @@
 
 ### WhatsApp del bar
 - **Estado:** Vacío en toda la web (8 links apuntan a `https://wa.me/` sin número)
-- **Acción:** Mateo lo pasa mañana (30 de Marzo 2026) — habilitaron un número para el bar
+- **Acción:** Mateo lo pasa el 30 de Marzo 2026 — habilitaron un número para el bar
 - **Impacto:** Sin esto no funcionan los botones de reserva, el Schema `ReserveAction`, ni el CTA flotante
+- **Cuando llegue:** buscar `https://wa.me/` en todo el proyecto y reemplazar con `https://wa.me/549XXXXXXXXXX` (ej: `5491112345678`)
 
 ---
 
 ## 🟠 Importantes
+
+### Google Business Profile (acceso)
+- **Estado:** Mateo gestiona el 30/03 — va a intentar agregar a Fede como admin. Si no puede, pasa su mail
+- **Impacto:** Sin esto no se puede arrancar Fase 5 (GBP + Local SEO)
 
 ### Fotos del local
 - **Estado:** Fede las tiene pero necesita descargarlas y renombrarlas
@@ -24,51 +29,45 @@
   - Conservar coordenadas GPS (geotagging EXIF) de Saavedra
   - Alt text con fórmula: "mejor [plato] en Saavedra, Buenos Aires"
 - **Fotos necesarias:**
-  - [ ] Interior del local
-  - [ ] Terraza / patio (la joya del bar)
+  - [ ] Interior del local (mencionar el mural de Cándido López — dato de reseñas)
+  - [ ] Terraza / patio (mencionada en reseñas como "la joya del barrio")
   - [ ] Barra
-  - [ ] Platos destacados (plano detalle): Azurduy, Dorrego, Pastel de Papas, Bife de Chorizo, Osobuco, Mollejas
+  - [ ] Platos: Azurduy, Dorrego, Pastel de Papas con osobuco, Bife de Chorizo, Mollejas, empanadas
   - [ ] Tragos: Ferroviario, Pico y Pala, Negroni
   - [ ] Vinos (botellas destacadas)
   - [ ] Ambiente nocturno / música en vivo
-  - [ ] Equipo / Mateo
-- **Nota:** Mientras tanto podemos usar bloques placeholder con el tamaño en píxeles sugerido para ir armando el layout y ver cómo conviene preparar las fotos
-
-### Instagram — sección en la Home
-- **Handle confirmado:** [@caudillobar](https://www.instagram.com/caudillobar/)
-- **Acción futuro (Fase 4.3+):** agregar una sección en la home que muestre las últimas publicaciones e incentive a seguir la cuenta
-- **Requiere:** evaluar cómo hacer el embed (API de Instagram o embed nativo) sin afectar performance
+  - [ ] Metegol (mencionado en reseñas — dato de personalidad)
+  - [ ] Equipo / Irene y el resto del staff
 
 ---
 
 ## 🟡 Media prioridad
 
 ### PedidosYa
-- **Estado:** DESCARTADO por ahora
-- **Solo Rappi:** https://www.rappi.com.ar/restaurantes/259123-caudillo-bar
-- **Acción:** Actualizar el link de Rappi en toda la web (actualmente apunta a `https://www.rappi.com.ar/` genérico o `#`)
-- **Si en el futuro se activa PedidosYa:** agregarlo a la página de delivery y al Schema `OrderAction`
+- **Estado:** DESCARTADO por ahora — solo Rappi
+- **Link Rappi activo:** https://www.rappi.com.ar/restaurantes/259123-caudillo-bar
 
 ### Descripción de items sin descripción
-- **Cremoso de Cabutia:** ¿Qué lleva exactamente? (en el JSON tiene descripción vacía)
-- **Papa Rota a las Tres Cocciones:** ¿Cuáles son las tres cocciones? (en el JSON tiene descripción vacía)
+- **Cremoso de Cabutia:** ¿Qué lleva exactamente?
+- **Papa Rota a las Tres Cocciones:** ¿Cuáles son las tres cocciones?
+
+### Instagram — sección en la Home
+- **Handle confirmado:** [@caudillobar](https://www.instagram.com/caudillobar/)
+- **Para más adelante (Fase 4.4):** sección con últimas publicaciones — evaluar API vs embed nativo
 
 ---
 
-## 🟢 Para más adelante (Fases 5–7)
+## 🟢 Datos ya disponibles (NO requieren a Mateo)
 
-### Google Business Profile (Fase 5)
-- [ ] Reclamar o crear el perfil con cuenta oficial del negocio
-- [ ] Mateo va a intentar poner a Fede como admin del GBP. Si no puede, pasa su mail (30 de Marzo 2026)
-- [ ] Completar TODOS los atributos: patio, pet-friendly, música en vivo, delivery, Wi-Fi, etc.
+### Reseñas reales de Google ✅
+- **Archivo:** `CAUDILLO BAR/Reseñas de Caudillo.md`
+- **Calificación real:** 4.7 / 5 (165 opiniones) — reemplazar el 4.8 placeholder de la web
+- **Link directo para dejar reseña:** disponible en ese archivo
+- **Acción pendiente:** actualizar el Schema `aggregateRating` y la sección de reseñas de la Home con datos reales y citas reales de clientes
 
-### Google Reviews (Fase 5)
-- [ ] Calificación real para el Schema `aggregateRating` (actualmente el widget dice 4.8 pero es placeholder)
-- [ ] Estrategia de Review Velocity: QR en recibos + seguimiento por WhatsApp
-
-### Tour Virtual 360º (Fase 5)
-- [ ] Para GBP — aumenta el tiempo de permanencia en el perfil
+### Dirección confirmada
+- **Av. Crámer 3198** — ya corregida en todos los archivos fuente el 29/03/2026
 
 ---
 
-*Última actualización: 29 de Marzo 2026 — Fase 4.2*
+*Última actualización: 29 de Marzo 2026 — Fase 4.3*

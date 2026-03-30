@@ -72,6 +72,13 @@ const schema = {
   "hasMenu": {
     "@type": "Menu",
     "url": "https://caudillobar.com.ar/menu"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.7",
+    "reviewCount": "165",
+    "bestRating": "5",
+    "worstRating": "1"
   }
 };
 
@@ -99,8 +106,8 @@ const marqueeItems = [
        HERO SECTION
        ============================================ -->
   <section class="hero halftone" id="hero">
-    <div class="hero__bg" style="background-color: var(--color-bg);">
-      <!-- ASSET BOX: Hero principal -->
+    <div class="hero__bg" style="background-image: url('/grilla.png'); background-size: cover; background-position: center;">
+      <!-- TEMP: grilla numerada para planificar layout del video loop -->
     </div>
     <div class="hero__overlay"></div>
     <div class="hero__content">
@@ -112,14 +119,6 @@ const marqueeItems = [
       <div class="hero__actions">
         <a href="/menu" class="btn btn-primary ink-hover">Ver la Carta</a>
         <a href="/eventos" class="btn btn-secondary">Reservar Terraza</a>
-      </div>
-    </div>
-    <!-- Asset placeholder for hero illustration -->
-    <div class="hero__asset-note">
-      <div class="asset-placeholder" style="position: absolute; bottom: 20px; right: 20px; width: 280px; min-height: 120px; opacity: 0.7;">
-        <span class="asset-placeholder__label">Hero BG</span>
-        <span class="asset-placeholder__specs">2560x1440px &middot; 16:9<br/>Ilustracion: El Caudillo en la puerta del bar (esquina en picado, como afiche 3) o video loop de vinetas animadas</span>
-        <span class="asset-placeholder__type">ilustracion / video</span>
       </div>
     </div>
   </section>
@@ -244,32 +243,138 @@ const marqueeItems = [
   <Marquee items={['Delivery por Rappi', 'Eventos privados', 'Terraza al aire libre', 'Indie & Rock', 'Vinos de autor', 'Almuerzo ejecutivo']} reverse={true} />
 
   <!-- ============================================
-       RESENAS GOOGLE
+       RESEÑAS GOOGLE — Carousel real 9 reseñas
        ============================================ -->
   <section class="section comic-panel crosshatch reveal-comic" id="resenas">
-    <div class="container reviews">
+    <div class="container">
+
+      <!-- Header con rating real -->
       <div class="reviews__header">
         <div class="reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div class="reviews__rating">4.8 / 5</div>
-        <p class="reviews__count">Basado en resenas de Google</p>
+        <div class="reviews__rating">4.7 <span style="font-size: 1rem; color: var(--color-text-secondary);">/ 5</span></div>
+        <p class="reviews__count">165 opiniones en Google</p>
       </div>
-      <div class="reviews__grid">
-        <div class="review-card halftone">
-          <p class="review-card__text">"Increible lugar, la bondiola es de otro planeta y la terraza una joya del barrio."</p>
-          <p class="review-card__author">&mdash; Juan P.</p>
-          <p class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+
+      <!-- Carousel wrapper -->
+      <div class="reviews-carousel" id="reviews-carousel" aria-label="Reseñas de clientes">
+        <div class="reviews-carousel__track" id="reviews-track">
+
+          <!-- Slide 1 — reseñas 1-3 -->
+          <div class="reviews-carousel__slide">
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Emilia A. Vélez Serman</strong>
+                  <span class="review-card__badge">Local Guide · 14 opiniones</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Desde que llegamos, el personal fue súper cálido y atento. La comida, riquísima y con precios más que razonables. Pedimos provoleta, pastel de papa de osobuco y cerramos con budín de pan con dulce de leche. Todo espectacular. Además, podés pedir un mazo de cartas para jugar mientras esperás y hasta jugar al metegol gratis. Relación precio-calidad excelente. Recomendadísimo, 10/10."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Ramiro Nicolas Gallo</strong>
+                  <span class="review-card__badge">4 opiniones</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"El servicio de Caudillo es increíble, la comida riquísima y en especial la atención de Irene no pudo ser mejor. Teníamos dudas sobre qué comer y ella supo recomendarnos las mejores opciones. Sin dudas volveremos."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Valeria Pauletti</strong>
+                  <span class="review-card__badge">Local Guide · 25 opiniones</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Excelente lugar, podés encontrar de todo: historia, compromiso, amistad, quizás hasta te enamores. Tiene una terraza amplia y bien decorada. Muy buen sonido. Las empanadas de carne son muy ricas y los tragos también. Las chicas que atienden son muy atentas y simpáticas. Es un lugar donde vas y te sentís bienvenida."</p>
+            </div>
+          </div>
+
+          <!-- Slide 2 — reseñas 4-6 -->
+          <div class="reviews-carousel__slide">
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Tomás Battaglino</strong>
+                  <span class="review-card__badge">12 opiniones · 10 fotos</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"El mejor lugar de la zona. Los sanguches son una locura de ricos, el precio excelente, gran carta y una decoración increíble. La terraza con el mural de Cándido López es mágica. Y la onda de los chicos que atienden, la mejor."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Estefanía Enzenhofer</strong>
+                  <span class="review-card__badge">Local Guide · 50 opiniones</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Divino el ambiente, la comida, los vinos, los eventos, todo tope de gama."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Lucas Oliveira</strong>
+                  <span class="review-card__badge">Local Guide · 54 opiniones · 59 fotos</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Quiero volverme habitué. Comida: 5/5 | Servicio: 5/5 | Ambiente: 5/5."</p>
+            </div>
+          </div>
+
+          <!-- Slide 3 — reseñas 7-9 -->
+          <div class="reviews-carousel__slide">
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Joaquin González</strong>
+                  <span class="review-card__badge">Local Guide · 32 opiniones · 9 fotos</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Buen barcito, bien ubicado y con tragos originales, para probar algo distinto. Me gustó el Ferroviario."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Male Goldin</strong>
+                  <span class="review-card__badge">11 opiniones · 4 fotos</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Ideal para festejar cumpleaños. La comida muy rica."</p>
+            </div>
+            <div class="review-card halftone">
+              <div class="review-card__meta">
+                <div class="review-card__author-info">
+                  <strong class="review-card__name">Ignacio Marco Amar</strong>
+                  <span class="review-card__badge">Local Guide · 49 opiniones</span>
+                </div>
+                <div class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+              <p class="review-card__text">"Excelente todo. Que dure para siempre."</p>
+            </div>
+          </div>
+
+        </div><!-- /.reviews-carousel__track -->
+
+        <!-- Controles -->
+        <div class="reviews-carousel__controls">
+          <button class="reviews-carousel__btn" id="reviews-prev" aria-label="Reseñas anteriores">&#8592;</button>
+          <div class="reviews-carousel__dots" id="reviews-dots">
+            <span class="reviews-carousel__dot reviews-carousel__dot--active" data-slide="0"></span>
+            <span class="reviews-carousel__dot" data-slide="1"></span>
+            <span class="reviews-carousel__dot" data-slide="2"></span>
+          </div>
+          <button class="reviews-carousel__btn" id="reviews-next" aria-label="Siguientes reseñas">&#8594;</button>
         </div>
-        <div class="review-card halftone">
-          <p class="review-card__text">"El mejor vermut de la zona. Ambiente relajado y comida honesta. Vuelvo siempre."</p>
-          <p class="review-card__author">&mdash; Maria G.</p>
-          <p class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-        </div>
-        <div class="review-card halftone">
-          <p class="review-card__text">"El patio es genial, vinimos con el perro y nos trataron barbaro. Sandwiches enormes."</p>
-          <p class="review-card__author">&mdash; Carlos R.</p>
-          <p class="review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-        </div>
-      </div>
+      </div><!-- /.reviews-carousel -->
+
     </div>
   </section>
 
@@ -476,4 +581,140 @@ const marqueeItems = [
     color: var(--color-text-secondary);
     letter-spacing: 0.05em;
   }
+
+  /* ── REVIEWS CAROUSEL ── */
+  .reviews__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .reviews-carousel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reviews-carousel__track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+
+  .reviews-carousel__slide {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    min-width: 100%;
+    padding: 0 0 var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .reviews-carousel__slide {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  /* Cards con info completa */
+  .review-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .review-card__author-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .review-card__name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-body);
+    color: var(--color-text-heading);
+  }
+
+  .review-card__badge {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
+  /* Controles del carousel */
+  .reviews-carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .reviews-carousel__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 2px solid var(--color-text-primary);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    flex-shrink: 0;
+  }
+
+  .reviews-carousel__btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .reviews-carousel__dots {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .reviews-carousel__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+
+  .reviews-carousel__dot--active {
+    background: var(--color-accent);
+    width: 24px;
+    border-radius: 4px;
+  }
 </style>
+
+<script>
+  // Reviews carousel
+  const track = document.getElementById('reviews-track');
+  const dots = document.querySelectorAll('.reviews-carousel__dot');
+  let current = 0;
+  const total = 3;
+
+  function goTo(index: number) {
+    // Loop infinito
+    current = ((index % total) + total) % total;
+    if (track) {
+      (track as HTMLElement).style.transform = `translateX(-${current * 100}%)`;
+    }
+    dots.forEach((d, i) => {
+      d.classList.toggle('reviews-carousel__dot--active', i === current);
+    });
+  }
+
+  document.getElementById('reviews-prev')?.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('reviews-next')?.addEventListener('click', () => goTo(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+</script>
