@@ -1,63 +1,213 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const PHONE_RAW = '5491136651186';
+const PHONE_E164 = '+5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "Sobre Caudillo Bar — Bodegón en Saavedra",
+  "url": "https://caudillobar.com.ar/el-bar",
+  "mainEntity": {
+    "@type": ["Bar", "Restaurant"],
+    "name": "Caudillo Bar",
+    "telephone": PHONE_E164,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Crámer 3198",
+      "addressLocality": "Saavedra",
+      "addressRegion": "CABA",
+      "postalCode": "C1429",
+      "addressCountry": "AR"
+    }
+  }
+};
 ---
 
 <BaseLayout
   title="El Bar | Historia de Caudillo | Saavedra, Buenos Aires"
-  description="La historia de Caudillo, el bodegón moderno de Saavedra. Cocina criolla, vinos de autor y una terraza para el barrio. Crámer 3198, CABA."
+  description="La historia de Caudillo Bar, el bodegón moderno de Saavedra. Cocina criolla, vinos boutique y terraza pet-friendly en Crámer 3198, CABA."
+  schema={schema}
+  floatingCTAText="Reservar Mesa"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
-  <section class="section" style="padding-top: var(--space-20);">
+  <!-- HERO -->
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container elbar-hero">
+      <p class="text-stencil text-stencil--red elbar-hero__kicker">El Bar</p>
+      <h1 class="elbar-hero__title">Bodegón moderno<br/>en Saavedra.</h1>
+      <p class="elbar-hero__sub">Crámer 3198 · A 5 minutos de Núñez y Coghlan.</p>
+    </div>
+  </section>
+
+  <!-- IMAGEN FACHADA INTERIOR -->
+  <section class="section section--tight reveal-comic">
     <div class="container">
-      <h1>Caudillo Bar — Crámer 3198, Saavedra.</h1>
+      <img
+        src="/images/galeria/evento-tertulia-caudillo-bar-saavedra.avif"
+        alt="Interior de Caudillo Bar — Saavedra"
+        class="elbar-hero-media"
+        loading="eager"
+      />
     </div>
   </section>
 
-  <section class="section reveal">
-    <div class="container" style="max-width: 700px;">
-      <h2>De dónde venimos.</h2>
-      <p style="margin-top: var(--space-4);">
-        Caudillo nació a fines de 2024 con una idea sencilla: hacer un bar de barrio como los de antes, pero con una cocina que valga la pena y una carta de vinos que no te defraude. Sin pretensiones de restaurant gourmet, sin el ruido de los bares masivos. Un lugar donde sentarse bien, comer rico y tomar algo que tenga nombre.
-      </p>
-      <p style="margin-top: var(--space-4);">
-        El nombre lo dice todo. El Caudillo no pide permiso, pero sabe recibir. Es la figura que convida, que preside la mesa sin discurso. Con esa energía abrimos las puertas en Saavedra.
-      </p>
+  <!-- HISTORIA — De dónde venimos con VIDEO -->
+  <section class="section reveal-comic">
+    <div class="container elbar-grid">
+      <div class="elbar-grid__text">
+        <h2 class="text-stencil">De dónde<br/>venimos.</h2>
+        <p style="margin-top: var(--space-4);">
+          Caudillo abrió en diciembre de 2025 con una idea sencilla: hacer un bar de barrio como los de antes, pero con una cocina que valga la pena y una carta de vinos que no te defraude. Sin pretensiones de restaurant gourmet, sin el ruido de los bares masivos.
+        </p>
+        <p style="margin-top: var(--space-3);">
+          El nombre lo dice todo. El Caudillo no pide permiso, pero sabe recibir. Es la figura que convida, que preside la mesa sin discurso. Con esa energía abrimos las puertas en Saavedra.
+        </p>
+      </div>
+      <div class="elbar-grid__media">
+        <video
+          class="elbar-video"
+          src="/videos/reel-caudillo-comic-caudillo-bar-saavedra.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="Reel de Caudillo Bar"
+        ></video>
+      </div>
     </div>
   </section>
 
-  <section class="section reveal">
-    <div class="container" style="max-width: 700px;">
-      <h2>Por qué Saavedra.</h2>
-      <p style="margin-top: var(--space-4);">
-        El barrio tiene algo que no se explica fácil. Está cerca de todo pero se siente tranquilo. Tiene casas con jardín, árboles en la vereda y vecinos que conocen sus bares. Era el lugar justo para esto.
-      </p>
-      <p style="margin-top: var(--space-4);">
-        Estamos a cinco minutos de Núñez y a diez de Belgrano, pero Crámer 3198 tiene su propio mundo. Cuando cruzás la puerta, estás en Saavedra.
-      </p>
+  <!-- POR QUÉ SAAVEDRA con VIDEO -->
+  <section class="section reveal-comic">
+    <div class="container elbar-grid elbar-grid--reverse">
+      <div class="elbar-grid__text">
+        <h2 class="text-stencil">Por qué<br/>Saavedra.</h2>
+        <p style="margin-top: var(--space-4);">
+          El barrio tiene algo que no se explica fácil. Está cerca de todo pero se siente tranquilo. Tiene casas con jardín, árboles en la vereda y vecinos que conocen sus bares. Era el lugar justo para esto.
+        </p>
+        <p style="margin-top: var(--space-3);">
+          Estamos a 5 minutos de Núñez y a 10 de Belgrano, pero Crámer 3198 tiene su propio mundo. Cuando cruzás la puerta, estás en Saavedra.
+        </p>
+      </div>
+      <div class="elbar-grid__media">
+        <video
+          class="elbar-video"
+          src="/videos/reel-llegamos-caudillo-bar-saavedra.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="Reel de llegada a Caudillo Bar"
+        ></video>
+      </div>
     </div>
   </section>
 
-  <section class="section reveal">
-    <div class="container" style="max-width: 700px;">
-      <h2>Lo que hacemos y lo que no hacemos.</h2>
-      <p style="margin-top: var(--space-4);">
-        Cocinamos criollo: sándwiches con cortes reales, platos que se hacen con tiempo. Tenemos una barra con los clásicos de siempre (vermut, fernet, Negroni) y dos tragos de la casa que se ganaron su lugar. Y tenemos una carta de vinos de bodegas boutique que, para ser sinceros, supera lo que esperarías en un bar de barrio.
-      </p>
-      <p style="margin-top: var(--space-4);">
-        Lo que no hacemos: menú de imagen, carta PDF que no se lee en el teléfono, ni ingredientes que no sabemos pronunciar. Sencillo y bien hecho.
-      </p>
-    </div>
-  </section>
-
-  <section class="section reveal">
-    <div class="container" style="max-width: 700px;">
-      <h2>La terraza.</h2>
-      <p style="margin-top: var(--space-4);">
-        Al aire libre, techada, pet-friendly. En verano es el lugar; en invierno, con el calefactor, también. Juntás a la banda, reservás el espacio entero si querés, y te olvidás del salón con manteles blancos.
-      </p>
-      <div style="margin-top: var(--space-8); display: flex; gap: var(--space-3); flex-wrap: wrap;">
-        <a href="/menu" class="btn btn-primary">Ver la Carta</a>
-        <a href="/contacto" class="btn btn-secondary">Reservar</a>
+  <!-- TERRAZA con foto real -->
+  <section class="section reveal-comic">
+    <div class="container elbar-grid">
+      <div class="elbar-grid__text">
+        <h2 class="text-stencil">La terraza.</h2>
+        <p style="margin-top: var(--space-4);">
+          Al aire libre, techada, pet-friendly. En verano es el lugar; en invierno, con el calefactor, también. Juntás a la banda, reservás el espacio entero si querés, y te olvidás del salón con manteles blancos.
+        </p>
+        <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+          <a href="/menu" class="btn btn-primary ink-hover">Ver la Carta</a>
+          <a href={WHATSAPP_RESERVA} target="_blank" rel="noopener" class="btn btn-secondary">Reservar por WhatsApp</a>
+        </div>
+      </div>
+      <div class="elbar-grid__media">
+        <img
+          src="/images/galeria/terraza-pet-friendly-caudillo-bar-saavedra.avif"
+          alt="Terraza pet-friendly de Caudillo Bar, Saavedra"
+          class="elbar-terraza-img"
+          loading="lazy"
+        />
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .elbar-hero {
+    text-align: center;
+  }
+
+  .elbar-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .elbar-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 7.5vw, 4.5rem);
+    line-height: 0.95;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .elbar-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  .elbar-hero-media {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+  }
+
+  .elbar-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .elbar-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-10);
+    }
+    .elbar-grid--reverse .elbar-grid__text { order: 2; }
+    .elbar-grid--reverse .elbar-grid__media { order: 1; }
+  }
+
+  .elbar-video {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+  }
+
+  @media (min-width: 768px) {
+    .elbar-video {
+      aspect-ratio: 9 / 16;
+      max-height: 500px;
+      width: auto;
+      margin: 0 auto;
+    }
+  }
+
+  .elbar-terraza-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+  }
+</style>

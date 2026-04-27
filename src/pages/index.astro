@@ -2,6 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Marquee from '../components/Marquee.astro';
 
+// ── DATOS DE NEGOCIO (single source of truth) ──
+const PHONE_RAW = '5491136651186';                      // formato wa.me
+const PHONE_DISPLAY = '+54 9 11 3665-1186';
+const PHONE_E164 = '+5491136651186';                    // formato schema.org
+const WHATSAPP_BASE = `https://wa.me/${PHONE_RAW}`;
+const WHATSAPP_RESERVA = `${WHATSAPP_BASE}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+const WHATSAPP_TERRAZA = `${WHATSAPP_BASE}?text=Hola!%20Quiero%20reservar%20la%20terraza%20de%20Caudillo%20Bar`;
+const REVIEWS_LINK = 'https://www.google.com/search?q=caudillo+bar+saavedra#lrd=0x95bcb70064a4b019:0x4258d795fdd55b8c,3,,,,';
+
 const schema = {
   "@context": "https://schema.org",
   "@type": ["Bar", "Restaurant"],
@@ -9,7 +18,7 @@ const schema = {
   "name": "Caudillo Bar",
   "alternateName": "El Bodegón de Saavedra",
   "url": "https://caudillobar.com.ar",
-  "telephone": "",
+  "telephone": PHONE_E164,
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Crámer 3198",
@@ -47,17 +56,18 @@ const schema = {
     { "@type": "LocationFeatureSpecification", "name": "Pet-friendly", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Música en vivo", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Salón para eventos", "value": true }
+    { "@type": "LocationFeatureSpecification", "name": "Salón para eventos", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Delivery", "value": true }
   ],
   "potentialAction": [
     {
       "@type": "ReserveAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://wa.me/",
+        "urlTemplate": WHATSAPP_RESERVA,
         "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
       },
-      "result": { "@type": "Reservation", "name": "Reserva de mesa" }
+      "result": { "@type": "Reservation", "name": "Reserva de mesa por WhatsApp" }
     },
     {
       "@type": "OrderAction",
@@ -68,6 +78,19 @@ const schema = {
       },
       "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"
     }
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": PHONE_E164,
+      "contactType": "reservations",
+      "availableLanguage": ["es"],
+      "areaServed": "AR"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/caudillobar/",
+    "https://www.google.com/maps/place/Caudillo+Bar/@-34.5552855,-58.472322,17z"
   ],
   "hasMenu": {
     "@type": "Menu",
@@ -95,30 +118,50 @@ const marqueeItems = [
   'Bife de chorizo',
   'Saavedra, CABA',
 ];
+
+// 4 íconos de carta — rutas a /menu#anchor
+const cartaIcons = [
+  { href: '/menu#comida',   label: 'Nuestra carta',   sub: 'Cocina criolla',  icon: '/images/iconos/icono-nuestros-platos.png' },
+  { href: '/menu#mediodia', label: 'Menú mediodía',   sub: 'Lun a Vie · 12 a 15:30', icon: '/images/iconos/icono-mediodia.png' },
+  { href: '/menu#tragos',   label: 'Nuestros tragos', sub: 'Vermut & coctelería', icon: '/images/iconos/icono-negroni.png' },
+  { href: '/menu#vinos',    label: 'Carta de vinos',  sub: 'Boutique argentina', icon: '/images/iconos/icono-vino.png' },
+];
+
+// Galería pre-footer — fotos reales
+const galleryPreFooter = [
+  { src: '/images/galeria/terraza-pet-friendly-caudillo-bar-saavedra.avif',  alt: 'Terraza pet-friendly de Caudillo Bar, Saavedra' },
+  { src: '/images/galeria/gente-terraza-caudillo-bar-saavedra.avif',          alt: 'Gente en la terraza de Caudillo Bar' },
+  { src: '/images/galeria/ambiente-salon-caudillo-bar-saavedra.avif',         alt: 'Ambiente del salón de Caudillo Bar' },
+  { src: '/images/galeria/evento-tertulia-caudillo-bar-saavedra.avif',        alt: 'Evento tertulia en Caudillo Bar' },
+  { src: '/images/galeria/gente-vereda-caudillo-bar-saavedra.avif',           alt: 'Gente en la vereda de Caudillo Bar' },
+  { src: '/images/galeria/fachada-caudillo-bar-saavedra.avif',                alt: 'Fachada de Caudillo Bar en Saavedra' },
+];
 ---
 
 <BaseLayout
-  title="Caudillo | El Bodegón Moderno de Saavedra (CABA Norte)"
-  description="Comida criolla de la casa, terraza real y vermut en Crámer 3198. Entre Saavedra, Núñez y Coghlan. Sin vueltas, como se come en el barrio."
+  title="Caudillo Bar | Bodegón Moderno en Saavedra (Crámer 3198)"
+  description="Un espacio argentino. Nuevo bodegón en Saavedra: cocina criolla y bar en la terraza. Reservas por WhatsApp. Crámer 3198, CABA."
   schema={schema}
 >
   <!-- ============================================
-       HERO SECTION
+       HERO SECTION — Un espacio argentino
        ============================================ -->
   <section class="hero halftone" id="hero">
-    <div class="hero__bg" style="background-image: url('/grilla.png'); background-size: cover; background-position: center;">
-      <!-- TEMP: grilla numerada para planificar layout del video loop -->
+    <div class="hero__bg">
+      <img src="/images/hero/comiendo-milanesa-plato-caudillo-bar-saavedra.avif" alt="Plato de milanesa en Caudillo Bar, Saavedra" class="hero__bg-img" />
     </div>
     <div class="hero__overlay"></div>
     <div class="hero__content">
-      <p class="hero__kicker text-stencil text-stencil--red">Crámer 3198 — Saavedra</p>
-      <h1 class="hero__title">El Bodegón<br />de Saavedra.</h1>
+      <p class="hero__kicker text-stencil text-stencil--red">Crámer 3198 · Saavedra · CABA</p>
+      <h1 class="hero__title">Un espacio<br />argentino.</h1>
       <p class="hero__subtitle">
-        Cocina criolla de barrio. Bar en la terraza.<br />Un espacio argentino.
+        Nuevo bodegón en Saavedra.<br />Cocina criolla y bar en la terraza.
       </p>
       <div class="hero__actions">
         <a href="/menu" class="btn btn-primary ink-hover">Ver la Carta</a>
-        <a href="/eventos" class="btn btn-secondary">Reservar Terraza</a>
+        <a href={WHATSAPP_TERRAZA} target="_blank" rel="noopener" class="btn btn-secondary">
+          Reservar Terraza
+        </a>
       </div>
     </div>
   </section>
@@ -129,70 +172,62 @@ const marqueeItems = [
   <Marquee items={marqueeItems} />
 
   <!-- ============================================
-       INTRO — Comic Panel
+       4 ÍCONOS DE CARTA — accesos rápidos
        ============================================ -->
-  <section class="section comic-panel reveal-comic" id="intro">
-    <div class="container intro-layout">
-      <div class="intro-layout__text">
-        <h2 class="text-stencil text-stencil--large">Comida<br/>honesta.</h2>
-        <p style="margin-top: var(--space-4); max-width: 600px;">
-          En Caudillo no inventamos la polvora, cuidamos el fuego. Somos el secreto a voces de Saavedra, a cinco minutos de Nunez y Coghlan. Aca venis a hidratarte con un buen vino y a comer platos que tienen algo que decir. Sin apuro, sin pretensiones. Como en casa de alguien que cocina bien.
-        </p>
-      </div>
-      <div class="intro-layout__asset">
-        <div class="asset-placeholder" style="aspect-ratio: 3/4; width: 100%;">
-          <span class="asset-placeholder__label">El Caudillo</span>
-          <span class="asset-placeholder__specs">800x1067px &middot; 3:4<br/>Ilustracion: El Caudillo de frente, sosteniendo un vaso de vino, mirada al espectador. Estilo afiche 1 (plano medio)</span>
-          <span class="asset-placeholder__type">ilustracion</span>
-        </div>
+  <section class="section section--tight" id="carta-shortcuts">
+    <div class="container">
+      <div class="carta-icons">
+        {cartaIcons.map((item, i) => (
+          <a href={item.href} class="carta-icon-card reveal-comic" style={`transition-delay: ${i * 80}ms;`}>
+            <div class="carta-icon-card__icon-wrap">
+              <img src={item.icon} alt={item.label} class="carta-icon-card__img" loading="lazy" />
+            </div>
+            <h3 class="carta-icon-card__label text-stencil">{item.label}</h3>
+            <span class="carta-icon-card__sub">{item.sub}</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
   <!-- ============================================
-       DESTACADOS — 3 cards estilo vineta
+       3 CAJAS — Delivery / Eventos / Terraza bar
        ============================================ -->
   <section class="section" id="destacados">
     <div class="container">
       <div class="grid-highlights">
-        <!-- Card 1: Terraza -->
-        <div class="card-comic reveal-comic" style="transition-delay: 0ms;">
-          <div class="card-comic__image-slot asset-placeholder" style="aspect-ratio: 4/3;">
-            <span class="asset-placeholder__label">Terraza</span>
-            <span class="asset-placeholder__specs">800x600 &middot; 4:3<br/>Ilustracion: La terraza del bar con gente, plantas, el perro. Vista desde arriba tipo afiche 3. BYN + manteles rojos</span>
-            <span class="asset-placeholder__type">ilustracion</span>
+        <!-- 1: Delivery -->
+        <a href="/delivery" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 0ms;">
+          <div class="card-comic__image-slot" style="aspect-ratio: 4/3;">
+            <img src="/images/hero/delivery-a-domicilio-caudillo-bar-saavedra.avif" alt="Delivery de Caudillo Bar a domicilio" loading="lazy" />
           </div>
           <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Nuestra Terraza</h3>
-            <p class="card-comic__text">El mejor spot al aire libre del barrio. Pet-friendly y abierta para juntar a la banda.</p>
+            <h3 class="card-comic__title text-stencil">Delivery</h3>
+            <p class="card-comic__text">Pedí por Rappi y te llega en minutos. Saavedra, Núñez y Coghlan.</p>
           </div>
-        </div>
+        </a>
 
-        <!-- Card 2: Los Caudillos -->
-        <div class="card-comic reveal-comic" style="transition-delay: 100ms;">
-          <div class="card-comic__image-slot asset-placeholder" style="aspect-ratio: 4/3;">
-            <span class="asset-placeholder__label">Los Caudillos</span>
-            <span class="asset-placeholder__specs">800x600 &middot; 4:3<br/>Ilustracion: Plato con sandwich desde arriba, estilo food comic. Entintado pesado, vapor saliendo. BYN</span>
-            <span class="asset-placeholder__type">ilustracion</span>
+        <!-- 2: Eventos -->
+        <a href="/eventos" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 100ms;">
+          <div class="card-comic__image-slot" style="aspect-ratio: 4/3;">
+            <img src="/images/hero/evento-privado-caudillo-bar-saavedra.avif" alt="Evento privado en la terraza de Caudillo Bar" loading="lazy" />
           </div>
           <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Los Caudillos</h3>
-            <p class="card-comic__text">Sandwiches con bife de chorizo, bondiola desmechada y milanesa real. El tipo de comida que no te deja con hambre.</p>
+            <h3 class="card-comic__title text-stencil">Eventos</h3>
+            <p class="card-comic__text">Cumpleaños, despedidas, cenas privadas. La terraza es tuya.</p>
           </div>
-        </div>
+        </a>
 
-        <!-- Card 3: Vermut -->
-        <div class="card-comic reveal-comic" style="transition-delay: 200ms;">
-          <div class="card-comic__image-slot asset-placeholder" style="aspect-ratio: 4/3;">
-            <span class="asset-placeholder__label">Vermut</span>
-            <span class="asset-placeholder__specs">800x600 &middot; 4:3<br/>Ilustracion: Barra con botellas, mano sirviendo un Negroni. Cross-hatching en las sombras. Liquido rojo selectivo</span>
-            <span class="asset-placeholder__type">ilustracion</span>
+        <!-- 3: Terraza bar -->
+        <a href="/el-bar" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 200ms;">
+          <div class="card-comic__image-slot" style="aspect-ratio: 4/3;">
+            <img src="/images/hero/terraza-pet-friendly-caudillo-bar-saavedra.avif" alt="Terraza pet-friendly de Caudillo Bar, Saavedra" loading="lazy" />
           </div>
           <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Cultura del Vermut</h3>
-            <p class="card-comic__text">Ferroviario, Pico y Pala y los clasicos de siempre. Buena compania incluida.</p>
+            <h3 class="card-comic__title text-stencil">Terraza bar</h3>
+            <p class="card-comic__text">El mejor spot al aire libre del barrio. Pet-friendly y con vermut de la casa.</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -203,63 +238,27 @@ const marqueeItems = [
   <div class="ink-divider"></div>
 
   <!-- ============================================
-       VINETA NARRATIVA — La historia en 3 frames
-       ============================================ -->
-  <section class="section" id="historia-visual">
-    <div class="container">
-      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-8);">Una noche en Caudillo</h2>
-      <div class="vineta-strip">
-        <div class="vineta-strip__frame reveal-slide-left" style="transition-delay: 0ms;">
-          <div class="asset-placeholder" style="aspect-ratio: 3/4;">
-            <span class="asset-placeholder__label">Vineta 1</span>
-            <span class="asset-placeholder__specs">600x800 &middot; 3:4<br/>Ilustracion: El Caudillo caminando por la vereda de Saavedra, noche, faroles. BYN + vincha roja. Angulo contrapicado</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <p class="vineta-strip__caption">Llega al barrio.</p>
-        </div>
-        <div class="vineta-strip__frame reveal-slide-left" style="transition-delay: 150ms;">
-          <div class="asset-placeholder" style="aspect-ratio: 3/4;">
-            <span class="asset-placeholder__label">Vineta 2</span>
-            <span class="asset-placeholder__specs">600x800 &middot; 3:4<br/>Ilustracion: Interior del bar, el Caudillo en la barra pidiendo. Piso damero, botellas atras. Chiaroscuro fuerte</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <p class="vineta-strip__caption">Se sienta en la barra.</p>
-        </div>
-        <div class="vineta-strip__frame reveal-slide-left" style="transition-delay: 300ms;">
-          <div class="asset-placeholder" style="aspect-ratio: 3/4;">
-            <span class="asset-placeholder__label">Vineta 3</span>
-            <span class="asset-placeholder__specs">600x800 &middot; 3:4<br/>Ilustracion: Mesa con amigos brindando, platos servidos, guitarras al fondo. Como la imagen de la pena pero mas intimo</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <p class="vineta-strip__caption">Comparte la mesa.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================
        MARQUEE TICKER #2 (reverse)
        ============================================ -->
   <Marquee items={['Delivery por Rappi', 'Eventos privados', 'Terraza al aire libre', 'Indie & Rock', 'Vinos de autor', 'Almuerzo ejecutivo']} reverse={true} />
 
   <!-- ============================================
-       RESEÑAS GOOGLE — Carousel real 9 reseñas
+       RESEÑAS GOOGLE + CTA "Dejá tu reseña"
        ============================================ -->
-  <section class="section comic-panel crosshatch reveal-comic" id="resenas">
+  <section class="section reveal-comic" id="resenas">
     <div class="container">
+      <div class="reviews-box">
 
-      <!-- Header con rating real -->
       <div class="reviews__header">
         <div class="reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <div class="reviews__rating">4.7 <span style="font-size: 1rem; color: var(--color-text-secondary);">/ 5</span></div>
         <p class="reviews__count">165 opiniones en Google</p>
       </div>
 
-      <!-- Carousel wrapper -->
       <div class="reviews-carousel" id="reviews-carousel" aria-label="Reseñas de clientes">
         <div class="reviews-carousel__track" id="reviews-track">
 
-          <!-- Slide 1 — reseñas 1-3 -->
+          <!-- Slide 1 — desktop muestra 3, mobile 1 (cada review-card es un slide en mobile) -->
           <div class="reviews-carousel__slide">
             <div class="review-card halftone">
               <div class="review-card__meta">
@@ -293,7 +292,6 @@ const marqueeItems = [
             </div>
           </div>
 
-          <!-- Slide 2 — reseñas 4-6 -->
           <div class="reviews-carousel__slide">
             <div class="review-card halftone">
               <div class="review-card__meta">
@@ -327,7 +325,6 @@ const marqueeItems = [
             </div>
           </div>
 
-          <!-- Slide 3 — reseñas 7-9 -->
           <div class="reviews-carousel__slide">
             <div class="review-card halftone">
               <div class="review-card__meta">
@@ -363,7 +360,6 @@ const marqueeItems = [
 
         </div><!-- /.reviews-carousel__track -->
 
-        <!-- Controles -->
         <div class="reviews-carousel__controls">
           <button class="reviews-carousel__btn" id="reviews-prev" aria-label="Reseñas anteriores">&#8592;</button>
           <div class="reviews-carousel__dots" id="reviews-dots">
@@ -373,73 +369,51 @@ const marqueeItems = [
           </div>
           <button class="reviews-carousel__btn" id="reviews-next" aria-label="Siguientes reseñas">&#8594;</button>
         </div>
-      </div><!-- /.reviews-carousel -->
+      </div>
 
+      <!-- CTA Dejá tu reseña -->
+      <div class="reviews__cta">
+        <a href={REVIEWS_LINK} target="_blank" rel="noopener" class="btn btn-primary ink-hover">
+          Dejá tu reseña en Google
+        </a>
+        <p class="reviews__cta-note">Tu opinión nos ayuda a seguir mejorando.</p>
+      </div>
+
+      </div>{/* /reviews-box */}
     </div>
   </section>
 
   <!-- ============================================
-       CTAs SERVICIOS — Cards con ink hover
+       GALERÍA PRE-FOOTER — clic abre /galeria
        ============================================ -->
-  <section class="section" id="servicios">
+  <section class="section section--tight" id="galeria-preview">
     <div class="container">
-      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-8);">Que hacemos</h2>
-      <div class="grid-services">
-        <a href="/eventos" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 0ms;">
-          <div class="card-comic__icon-slot asset-placeholder" style="aspect-ratio: 16/9; min-height: 140px;">
-            <span class="asset-placeholder__label">Eventos</span>
-            <span class="asset-placeholder__specs">800x450 &middot; 16:9<br/>Ilustracion: La terraza decorada para un cumple/evento. Guirnaldas, gente brindando, noche. BYN + luces calidas</span>
-            <span class="asset-placeholder__type">ilustracion</span>
+      <div class="gallery-preview__header">
+        <h2 class="text-stencil">Una mirada al lugar</h2>
+        <a href="/galeria" class="gallery-preview__link">Ver galería completa →</a>
+      </div>
+
+      <div class="gallery-preview-grid">
+        {galleryPreFooter.map((item, i) => (
+          <div class={`gallery-preview-grid__cell gallery-preview-grid__cell--${i + 1}`}>
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" class="gallery-preview-grid__img" />
+            <a href="/galeria" class="gallery-preview-grid__overlay" aria-label="Ver galería completa">
+              <span class="gallery-preview-grid__hint">Ver galería</span>
+            </a>
           </div>
-          <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Eventos</h3>
-            <p class="card-comic__text">Tu fiesta en la terraza de Saavedra.</p>
-          </div>
-        </a>
-        <a href="/delivery" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 100ms;">
-          <div class="card-comic__icon-slot asset-placeholder" style="aspect-ratio: 16/9; min-height: 140px;">
-            <span class="asset-placeholder__label">Delivery</span>
-            <span class="asset-placeholder__specs">800x450 &middot; 16:9<br/>Ilustracion: El Caudillo en moto/bici con bolsa de comida por calles de Saavedra. Estilo poster propaganda vintage</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Delivery</h3>
-            <p class="card-comic__text">Pedi por Rappi y te llega en minutos.</p>
-          </div>
-        </a>
-        <a href="/el-bar" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 200ms;">
-          <div class="card-comic__icon-slot asset-placeholder" style="aspect-ratio: 16/9; min-height: 140px;">
-            <span class="asset-placeholder__label">Musica</span>
-            <span class="asset-placeholder__specs">800x450 &middot; 16:9<br/>Ilustracion: Banda tocando en el bar, guitarras, publico de espaldas con vasos. Como la pena pero vista frontal al escenario</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">Musica en vivo</h3>
-            <p class="card-comic__text">Indie, rock y buena onda. Los fines de semana.</p>
-          </div>
-        </a>
-        <a href="/el-bar" class="card-comic card-comic--link ink-hover reveal-comic" style="transition-delay: 300ms;">
-          <div class="card-comic__icon-slot asset-placeholder" style="aspect-ratio: 16/9; min-height: 140px;">
-            <span class="asset-placeholder__label">El Bar</span>
-            <span class="asset-placeholder__specs">800x450 &middot; 16:9<br/>Ilustracion: Fachada completa del bar de noche con cartel iluminado. Angulo recto, estilo grabado arquitectonico</span>
-            <span class="asset-placeholder__type">ilustracion</span>
-          </div>
-          <div class="card-comic__body">
-            <h3 class="card-comic__title text-stencil">El Bar</h3>
-            <p class="card-comic__text">Nuestra historia y por que estamos en Saavedra.</p>
-          </div>
-        </a>
+        ))}
       </div>
     </div>
   </section>
 
   <!-- ============================================
-       MAPA + CONTACTO
+       MAPA + CONTACTO + WHATSAPP
        ============================================ -->
   <section class="section reveal-comic" id="ubicacion">
     <div class="container" style="text-align: center;">
       <h2 class="text-stencil">Crámer 3198, Saavedra</h2>
-      <div style="margin-top: var(--space-6); border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/9; background: var(--color-bg-card); border: 2px solid var(--color-text-primary);">
+      <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">A 5 minutos de Núñez y Coghlan · CABA Norte</p>
+      <div style="margin-top: var(--space-6); border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/5; background: var(--color-bg-card); border: 2px solid var(--color-text-primary);">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3287.2!2d-58.472322!3d-34.5552855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb70064a4b019%3A0x4258d795fdd55b8c!2sCaudillo%20Bar!5e0!3m2!1ses!2sar!4v1"
           width="100%"
@@ -455,8 +429,8 @@ const marqueeItems = [
         <a href="https://www.google.com/maps/place/Caudillo+Bar/@-34.5552855,-58.472322,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcb70064a4b019:0x4258d795fdd55b8c" class="btn btn-secondary" target="_blank" rel="noopener">
           Cómo llegar
         </a>
-        <a href="https://wa.me/" class="btn btn-primary ink-hover" target="_blank" rel="noopener">
-          WhatsApp
+        <a href={WHATSAPP_RESERVA} class="btn btn-primary ink-hover" target="_blank" rel="noopener">
+          Reservar por WhatsApp
         </a>
       </div>
     </div>
@@ -464,6 +438,21 @@ const marqueeItems = [
 </BaseLayout>
 
 <style>
+  /* ── HERO BG IMAGEN REAL ── */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
   /* ── HERO OVERRIDES ── */
   .hero__kicker {
     font-size: clamp(0.875rem, 2vw, 1.125rem);
@@ -471,22 +460,25 @@ const marqueeItems = [
   }
 
   .hero__title {
-    font-family: var(--font-stencil);
+    font-family: var(--font-display);
     font-size: clamp(3rem, 10vw, 7rem);
     line-height: 0.9;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
     color: var(--color-text-heading);
   }
 
-  .hero__asset-note {
-    display: none;
+  /* ── SECTION TIGHT (menos padding vertical) ── */
+  .section--tight {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
   }
 
-  @media (min-width: 768px) {
-    .hero__asset-note {
-      display: block;
-    }
+  /* ── SECTION ICONOS — padding extra ── */
+  #carta-shortcuts {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
 
   /* ── INTRO LAYOUT ── */
@@ -504,6 +496,65 @@ const marqueeItems = [
     }
   }
 
+  /* ── 4 ÍCONOS DE CARTA ── */
+  .carta-icons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .carta-icons {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  .carta-icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6) var(--space-3);
+    background: transparent;
+    border: none;
+    transition: transform var(--transition-normal);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .carta-icon-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .carta-icon-card__icon-wrap {
+    width: 108px;
+    height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .carta-icon-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 0;
+    mix-blend-mode: screen;
+  }
+
+  .carta-icon-card__label {
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+    margin-bottom: var(--space-1);
+  }
+
+  .carta-icon-card__sub {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+  }
+
   /* ── CARD COMIC ── */
   .card-comic {
     background: var(--color-bg-card);
@@ -513,21 +564,30 @@ const marqueeItems = [
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   }
 
-  .card-comic:hover {
-    transform: translateY(-4px) rotate(-0.3deg);
-    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.3);
-  }
-
   .card-comic--link {
     display: block;
     text-decoration: none;
     cursor: pointer;
+    color: inherit;
   }
 
   .card-comic__image-slot {
     border-bottom: 2px solid var(--color-text-primary);
     border-radius: 0;
     min-height: 180px;
+    overflow: hidden;
+  }
+
+  .card-comic__image-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow);
+  }
+
+  .card-comic--link:hover .card-comic__image-slot img {
+    transform: scale(1.04);
   }
 
   .card-comic__icon-slot {
@@ -550,39 +610,24 @@ const marqueeItems = [
     line-height: var(--lh-body);
   }
 
-  /* ── VINETA STRIP ── */
-  .vineta-strip {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+  /* ── REVIEWS CAROUSEL ── */
+  #resenas {
+    margin-top: var(--space-10);
   }
 
-  @media (min-width: 768px) {
-    .vineta-strip {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
+  .reviews-box {
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+    padding: var(--space-10) var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .reviews-box {
+      padding: var(--space-6) var(--space-4);
     }
   }
 
-  .vineta-strip__frame {
-    text-align: center;
-  }
-
-  .vineta-strip__frame .asset-placeholder {
-    border: 3px solid var(--color-text-primary);
-    border-radius: 2px;
-    margin-bottom: var(--space-3);
-  }
-
-  .vineta-strip__caption {
-    font-family: var(--font-stencil);
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.05em;
-  }
-
-  /* ── REVIEWS CAROUSEL ── */
   .reviews__header {
     text-align: center;
     margin-bottom: var(--space-8);
@@ -595,7 +640,6 @@ const marqueeItems = [
 
   .reviews-carousel__track {
     display: flex;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
   }
 
@@ -609,12 +653,12 @@ const marqueeItems = [
 
   @media (min-width: 768px) {
     .reviews-carousel__slide {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-5);
+      grid-template-columns: repeat(3, minmax(0, 280px));
+      gap: var(--space-4);
+      justify-content: center;
     }
   }
 
-  /* Cards con info completa */
   .review-card__meta {
     display: flex;
     justify-content: space-between;
@@ -643,7 +687,6 @@ const marqueeItems = [
     color: var(--color-text-secondary);
   }
 
-  /* Controles del carousel */
   .reviews-carousel__controls {
     display: flex;
     align-items: center;
@@ -694,27 +737,170 @@ const marqueeItems = [
     width: 24px;
     border-radius: 4px;
   }
+
+  /* CTA "Dejá tu reseña" */
+  .reviews__cta {
+    margin-top: var(--space-8);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .reviews__cta-note {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+  }
+
+  /* ── GALLERY PRE-FOOTER ── */
+  .gallery-preview__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .gallery-preview__link {
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+  }
+
+  .gallery-preview__link:hover {
+    opacity: 0.7;
+  }
+
+  .gallery-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 140px 140px 140px;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .gallery-preview-grid {
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 180px 180px;
+      gap: var(--space-3);
+    }
+
+    /* mosaico — primer elemento más grande */
+    .gallery-preview-grid__cell--1 { grid-column: span 2; grid-row: span 2; }
+    .gallery-preview-grid__cell--2 { grid-column: span 2; grid-row: span 1; }
+    .gallery-preview-grid__cell--3 { grid-column: span 2; grid-row: span 1; }
+    .gallery-preview-grid__cell--4 { grid-column: span 1; grid-row: span 1; }
+    .gallery-preview-grid__cell--5 { grid-column: span 2; grid-row: span 1; }
+    .gallery-preview-grid__cell--6 { grid-column: span 1; grid-row: span 1; }
+  }
+
+  .gallery-preview-grid__cell {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+    cursor: pointer;
+    transition: transform var(--transition-normal);
+    min-height: 0;
+  }
+
+  .gallery-preview-grid__cell:hover {
+    transform: scale(1.02);
+    z-index: 2;
+  }
+
+  .gallery-preview-grid__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+    transition: transform var(--transition-slow);
+  }
+
+  .gallery-preview-grid__cell:hover .gallery-preview-grid__img {
+    transform: scale(1.06);
+  }
+
+  .gallery-preview-grid__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    text-decoration: none;
+  }
+
+  .gallery-preview-grid__cell:hover .gallery-preview-grid__overlay {
+    opacity: 1;
+  }
+
+  .gallery-preview-grid__hint {
+    color: #fff;
+    font-family: var(--font-stencil);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    border: 2px solid #fff;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+  }
 </style>
 
 <script>
-  // Reviews carousel
-  const track = document.getElementById('reviews-track');
-  const dots = document.querySelectorAll('.reviews-carousel__dot');
-  let current = 0;
-  const total = 3;
+  // Reviews carousel — animado con GSAP cuando esté disponible, fallback CSS
+  // En mobile, cada review-card es un slide individual (carrusel de 1 en 1)
+  function initCarousel() {
+    const track = document.getElementById('reviews-track') as HTMLElement | null;
+    const dots  = document.querySelectorAll<HTMLElement>('.reviews-carousel__dot');
+    if (!track) return;
 
-  function goTo(index: number) {
-    // Loop infinito
-    current = ((index % total) + total) % total;
-    if (track) {
-      (track as HTMLElement).style.transform = `translateX(-${current * 100}%)`;
+    let current  = 0;
+    const total  = 3;
+    let isAnimating = false;
+
+    function goTo(index: number) {
+      if (isAnimating) return;
+      const next = ((index % total) + total) % total;
+      if (next === current) return;
+      isAnimating = true;
+
+      if (typeof gsap !== 'undefined') {
+        gsap.to(track, {
+          x: `${-next * 100}%`,
+          duration: 0.55,
+          ease: 'power2.inOut',
+          onComplete: () => { isAnimating = false; },
+        });
+      } else {
+        track.style.transform = `translateX(-${next * 100}%)`;
+        isAnimating = false;
+      }
+
+      current = next;
+      dots.forEach((d, i) => {
+        d.classList.toggle('reviews-carousel__dot--active', i === current);
+      });
     }
-    dots.forEach((d, i) => {
-      d.classList.toggle('reviews-carousel__dot--active', i === current);
+
+    document.getElementById('reviews-prev')?.addEventListener('click', () => goTo(current - 1));
+    document.getElementById('reviews-next')?.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    let touchStartX = 0;
+    track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 50) goTo(delta > 0 ? current + 1 : current - 1);
     });
   }
 
-  document.getElementById('reviews-prev')?.addEventListener('click', () => goTo(current - 1));
-  document.getElementById('reviews-next')?.addEventListener('click', () => goTo(current + 1));
-  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+  document.addEventListener('DOMContentLoaded', initCarousel);
 </script>

@@ -1,87 +1,61 @@
 ---
 const currentYear = new Date().getFullYear();
 
-const navLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/menu', label: 'La Carta' },
-  { href: '/restaurante', label: 'Restaurante' },
-  { href: '/eventos', label: 'Eventos' },
-  { href: '/delivery', label: 'Delivery' },
-  { href: '/el-bar', label: 'El Bar' },
-  { href: '/galeria', label: 'Galería' },
-  { href: '/contacto', label: 'Contacto' },
-  { href: '/blog', label: 'Blog' },
-];
+const PHONE_RAW = '5491136651186';
+const PHONE_DISPLAY = '+54 9 11 3665-1186';
+const WHATSAPP_LINK = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20Caudillo%20Bar`;
 ---
 
 <footer class="footer" role="contentinfo">
-  <div class="container grid-footer">
-    <!-- NAP Canónico -->
-    <div class="footer__section">
-      <h3 class="footer__title">Caudillo Bar</h3>
+  <div class="container footer__main">
+    <!-- Brand + NAP -->
+    <div class="footer__brand">
+      <a href="/" class="footer__logo" aria-label="Caudillo Bar — Inicio">
+        <img src="/images/logo/logo-negativo-rojo.svg" alt="Caudillo Bar" width="180" height="44" />
+      </a>
       <address class="footer__address">
-        <p>Crámer 3198, Saavedra</p>
-        <p>CABA, Argentina</p>
+        <p><strong>Crámer 3198</strong>, Saavedra · CABA</p>
+        <p>Mar–Dom · Mediodía 12 a 15:30 · Noche 19 a 23:30</p>
       </address>
-    </div>
 
-    <!-- Navegación -->
-    <div class="footer__section">
-      <h3 class="footer__title">Navegación</h3>
-      <nav aria-label="Navegación del pie de página">
-        <ul class="footer__nav" role="list">
-          {navLinks.map((link) => (
-            <li>
-              <a href={link.href} class="footer__link">{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
-
-    <!-- Horarios -->
-    <div class="footer__section">
-      <h3 class="footer__title">Horarios</h3>
-      <div class="footer__schedule">
-        <p class="footer__schedule-label">Mediodía</p>
-        <p>Lun-Vie 12:00-15:30</p>
-        <p class="footer__schedule-label">Noche</p>
-        <p>Mar-Dom 19:00-23:30</p>
-      </div>
-    </div>
-
-    <!-- Contacto -->
-    <div class="footer__section">
-      <h3 class="footer__title">Contacto</h3>
       <ul class="footer__contact" role="list">
         <li>
-          <a href="https://wa.me/" class="footer__link" target="_blank" rel="noopener">
-            💬 WhatsApp
+          <a href={WHATSAPP_LINK} class="footer__link footer__link--wa" target="_blank" rel="noopener">
+            WhatsApp
           </a>
         </li>
         <li>
           <a href="https://www.instagram.com/caudillobar/" class="footer__link" target="_blank" rel="noopener">
-            📷 @caudillobar
+            Instagram · @caudillobar
           </a>
         </li>
         <li>
           <a href="https://maps.google.com/?q=Cramer+3198+Saavedra+Buenos+Aires" class="footer__link" target="_blank" rel="noopener">
-            📍 Ver en Google Maps
+            Google Maps
           </a>
         </li>
       </ul>
-
-      <div class="footer__delivery">
-        <p class="footer__schedule-label">Delivery</p>
-        <a href="https://www.rappi.com.ar/restaurantes/259123-caudillo-bar" class="footer__link" target="_blank" rel="noopener">🟠 Rappi</a>
-      </div>
     </div>
+
+    <!-- Botón scroll-to-top -->
+    <button
+      class="footer__top-btn"
+      id="footer-scroll-top"
+      aria-label="Volver al inicio de la página"
+      type="button"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+      <span class="footer__top-btn-text">Volver arriba</span>
+    </button>
   </div>
 
-  <!-- Copyright -->
   <div class="footer__bottom">
-    <div class="container">
-      <p>&copy; {currentYear} Caudillo Bar. Todos los derechos reservados.</p>
+    <div class="container footer__bottom-row">
+      <p>&copy; {currentYear} Caudillo Bar · Todos los derechos reservados</p>
+      <p class="footer__legal">Crámer 3198, Saavedra, CABA, Argentina</p>
     </div>
   </div>
 </footer>
@@ -89,29 +63,59 @@ const navLinks = [
 <style>
   .footer {
     background: var(--color-brand-blue);
-    padding: var(--section-padding-y) 0 0;
+    padding: var(--space-10) 0 0;
     color: var(--color-text-primary);
   }
 
-  .footer__title {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: var(--text-body);
-    color: var(--color-text-heading);
+  .footer__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .footer__main {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-8);
+    }
+  }
+
+  .footer__brand {
+    flex: 1;
+  }
+
+  .footer__logo {
+    display: inline-block;
     margin-bottom: var(--space-4);
+  }
+
+  .footer__logo img {
+    height: 44px;
+    width: auto;
+    display: block;
   }
 
   .footer__address {
     font-style: normal;
     color: var(--color-text-primary);
-    line-height: 1.8;
+    line-height: 1.7;
     font-size: var(--text-small);
+    margin-bottom: var(--space-4);
   }
 
-  .footer__nav {
+  .footer__address strong {
+    color: var(--color-text-heading);
+  }
+
+  .footer__contact {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    list-style: none;
+    padding: 0;
   }
 
   .footer__link {
@@ -122,41 +126,79 @@ const navLinks = [
   }
 
   .footer__link:hover {
-    color: var(--color-text-heading);
+    color: var(--color-accent);
   }
 
-  .footer__schedule {
-    font-size: var(--text-small);
-    line-height: 1.8;
-  }
-
-  .footer__schedule-label {
+  .footer__link--wa {
+    color: #25d366;
     font-weight: 600;
-    color: var(--color-text-heading);
-    margin-top: var(--space-2);
   }
 
-  .footer__schedule-label:first-child {
-    margin-top: 0;
+  .footer__link--wa:hover {
+    color: #25d366;
+    opacity: 0.8;
   }
 
-  .footer__contact {
-    display: flex;
-    flex-direction: column;
+  /* Scroll-to-top */
+  .footer__top-btn {
+    display: inline-flex;
+    align-items: center;
     gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    background: transparent;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-pill);
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-small);
+    cursor: pointer;
+    transition: transform var(--transition-fast), background var(--transition-fast);
   }
 
-  .footer__delivery {
-    margin-top: var(--space-4);
-    font-size: var(--text-small);
+  .footer__top-btn:hover {
+    background: rgba(200, 53, 42, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .footer__top-btn-text {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .footer__bottom {
-    margin-top: var(--section-padding-y);
+    margin-top: var(--space-8);
     padding: var(--space-4) 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
     font-size: var(--text-caption);
     color: var(--color-text-secondary);
   }
+
+  .footer__bottom-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer__bottom-row {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer__legal {
+    color: var(--color-text-secondary);
+  }
 </style>
+
+<script>
+  const scrollTopBtn = document.getElementById('footer-scroll-top');
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>

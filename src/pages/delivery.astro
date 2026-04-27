@@ -1,80 +1,352 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const PHONE_E164 = '+5491136651186';
+const RAPPI_URL = 'https://www.rappi.com.ar/restaurantes/259123-caudillo-bar';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://caudillobar.com.ar/delivery#delivery",
+  "name": "Caudillo Bar — Delivery",
+  "url": "https://caudillobar.com.ar/delivery",
+  "telephone": PHONE_E164,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Crámer 3198",
+    "addressLocality": "Saavedra",
+    "addressRegion": "CABA",
+    "postalCode": "C1429",
+    "addressCountry": "AR"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Saavedra" },
+    { "@type": "City", "name": "Núñez" },
+    { "@type": "City", "name": "Coghlan" }
+  ],
+  "potentialAction": {
+    "@type": "OrderAction",
+    "target": RAPPI_URL,
+    "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"
+  }
+};
+
+const platosDestacados = [
+  { nombre: 'Azurduy', desc: 'Bondiola desmechada con verduras', precio: 16900, img: '/images/menu/sandwich-azurduy-caudillo-bar-saavedra.avif' },
+  { nombre: 'Dorrego', desc: 'Milanesa de bife con verduras', precio: 14900, img: '/images/menu/sandwich-dorrego-caudillo-bar-saavedra.avif' },
+  { nombre: 'Pastel de Papas', desc: 'Con osobuco braseado', precio: 18000, img: '/images/menu/pastel-de-papas-caudillo-bar-saavedra.avif' },
+  { nombre: 'Milanesa de bife', desc: 'Con papas al rescoldo', precio: 21000, img: '/images/menu/milanesa-caudillo-bar-saavedra.avif' },
+];
+
+const fmt = (p: number) => '$' + p.toLocaleString('es-AR');
 ---
 
 <BaseLayout
-  title="Delivery Saavedra | Pedí Caudillo por Rappi"
-  description="Los sándwiches y platos de Caudillo Bar a domicilio. Delivery en Saavedra, Núñez y Coghlan por Rappi. Crámer 3198."
+  title="Delivery Saavedra | Pedí Caudillo Bar por Rappi"
+  description="Sándwiches y platos de Caudillo Bar a domicilio. Delivery en Saavedra, Núñez y Coghlan. Pedí por Rappi. Crámer 3198."
+  schema={schema}
   floatingCTAText="Pedir por Rappi"
-  floatingCTAHref="https://www.rappi.com.ar/restaurantes/259123-caudillo-bar"
+  floatingCTAHref={RAPPI_URL}
 >
-  <section class="section" style="padding-top: var(--space-20);">
-    <div class="container">
-      <h1>Pedí Caudillo donde estés.</h1>
-      <h2 style="margin-top: var(--space-4); color: var(--color-text-secondary);">Delivery en Saavedra, Núñez y Coghlan.</h2>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        Cuando no podés venir, los sándwiches pueden ir. Pedí por Rappi y te llega en minutos.
-      </p>
+  <!-- HERO con imagen instagram -->
+  <section class="delivery-hero-section" id="hero">
+    <div class="delivery-hero__bg">
+      <img src="/images/hero/instagram-caudillo-bar-saavedra.avif" alt="Caudillo Bar delivery — pedí donde estés" />
     </div>
-  </section>
-
-  <!-- CÓMO PEDIR -->
-  <section class="section reveal">
-    <div class="container">
-      <h3>Cómo pedirlo</h3>
-      <ol style="margin-top: var(--space-4); line-height: 2.2; counter-reset: steps;">
-        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
-          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">①</span>
-          Buscá <strong>Caudillo Bar</strong> en la app de Rappi.
-        </li>
-        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
-          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">②</span>
-          Elegí tu sándwich o plato de la casa.
-        </li>
-        <li style="display: flex; gap: var(--space-3); align-items: baseline;">
-          <span style="font-family: var(--font-display); font-weight: 700; color: var(--color-accent); font-size: var(--text-h3);">③</span>
-          Lo preparamos y sale para tu dirección.
-        </li>
-      </ol>
-
-      <a href="https://www.rappi.com.ar/restaurantes/259123-caudillo-bar" class="btn btn-primary" style="margin-top: var(--space-8);" target="_blank" rel="noopener">
-        🟠 Pedir por Rappi
+    <div class="delivery-hero__overlay"></div>
+    <div class="delivery-hero__content reveal-comic">
+      <p class="text-stencil text-stencil--red delivery-hero__kicker">Delivery</p>
+      <h1 class="delivery-hero__title">Pedí Caudillo<br/>donde estés.</h1>
+      <p class="delivery-hero__sub">Saavedra, Núñez y Coghlan. Por Rappi.</p>
+      <a href={RAPPI_URL} target="_blank" rel="noopener" class="btn btn-primary ink-hover" style="margin-top: var(--space-6);">
+        Pedir por Rappi
       </a>
     </div>
   </section>
 
-  <!-- QUÉ PEDIR -->
-  <section class="section reveal">
+  <!-- RAPPI CTA -->
+  <section class="section section--tight reveal-comic">
     <div class="container">
-      <h3>¿Qué pedimos que pruebes?</h3>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        El <strong>Azurduy</strong> (bondiola desmechada) y el <strong>Dorrego</strong> (milanesa de bife de chorizo) son los más pedidos. Si es tu primera vez, uno de esos dos.
-      </p>
-      <div class="grid-services" style="margin-top: var(--space-6);">
-        <div class="card">
-          <h3 class="card__title">Azurduy</h3>
-          <p class="card__text">Bondiola desmechada con verduras</p>
-          <p style="font-family: var(--font-display); font-size: var(--text-price); color: var(--color-text-heading); margin-top: var(--space-2);">16900</p>
+      <div class="delivery-rappi-card">
+        <div class="delivery-rappi-card__icon">R</div>
+        <div class="delivery-rappi-card__info">
+          <h2 class="text-stencil delivery-rappi-card__title">Pedir por Rappi</h2>
+          <p class="delivery-rappi-card__sub">Llegada en 30-45 min · Pago con tarjeta</p>
         </div>
-        <div class="card">
-          <h3 class="card__title">Dorrego</h3>
-          <p class="card__text">Milanesa de bife con verduras</p>
-          <p style="font-family: var(--font-display); font-size: var(--text-price); color: var(--color-text-heading); margin-top: var(--space-2);">14900</p>
+        <a href={RAPPI_URL} target="_blank" rel="noopener" class="btn btn-primary ink-hover">
+          Abrir Rappi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO PEDIR -->
+  <section class="section reveal-comic">
+    <div class="container">
+      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-8);">Cómo pedir</h2>
+      <div class="delivery-steps">
+        <div class="delivery-step reveal-comic" style="transition-delay: 0ms;">
+          <div class="delivery-step__num">01</div>
+          <h3 class="text-stencil">Abrí Rappi</h3>
+          <p>Buscá <strong>Caudillo Bar</strong> en la app o web de Rappi.</p>
+        </div>
+        <div class="delivery-step reveal-comic" style="transition-delay: 100ms;">
+          <div class="delivery-step__num">02</div>
+          <h3 class="text-stencil">Elegí</h3>
+          <p>Sándwiches del Caudillo, platos de la casa, postres.</p>
+        </div>
+        <div class="delivery-step reveal-comic" style="transition-delay: 200ms;">
+          <div class="delivery-step__num">03</div>
+          <h3 class="text-stencil">Te llega</h3>
+          <p>Lo preparamos y sale a tu dirección. 30-45 min.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- DESTACADOS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-8);">Lo más pedido</h2>
+      <div class="delivery-platos">
+        {platosDestacados.map((plato, i) => (
+          <div class="delivery-plato reveal-comic" style={`transition-delay: ${i * 80}ms;`}>
+            <div class="delivery-plato__img">
+              <img src={plato.img} alt={`${plato.nombre} de Caudillo Bar`} loading="lazy" />
+            </div>
+            <div class="delivery-plato__body">
+              <h3 class="text-stencil">{plato.nombre}</h3>
+              <p class="delivery-plato__desc">{plato.desc}</p>
+              <span class="delivery-plato__price">{fmt(plato.precio)}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ZONA DE COBERTURA -->
-  <section class="section reveal">
+  <section class="section reveal-comic">
     <div class="container" style="text-align: center;">
-      <h3>Zona de cobertura</h3>
-      <p style="margin-top: var(--space-4); color: var(--color-text-secondary);">
+      <h2 class="text-stencil">Zona de cobertura</h2>
+      <p style="margin-top: var(--space-4); font-size: 1.1rem;">
         Saavedra · Núñez · Coghlan
       </p>
       <p class="text-small text-secondary" style="margin-top: var(--space-2);">
         Si tu dirección está cerca de Crámer 3198, estamos al alcance.
       </p>
+      <div style="margin-top: var(--space-6);">
+        <a href={RAPPI_URL} target="_blank" rel="noopener" class="btn btn-primary ink-hover">Pedir por Rappi</a>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Hero full-screen */
+  .delivery-hero-section {
+    position: relative;
+    height: 80vh;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .delivery-hero__bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .delivery-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .delivery-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.65) 100%);
+  }
+
+  .delivery-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--space-6);
+    color: #fff;
+  }
+
+  .delivery-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .delivery-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .delivery-hero__sub {
+    margin-top: var(--space-3);
+    color: rgba(255,255,255,0.85);
+    font-size: var(--text-body);
+  }
+
+  /* Rappi card destacada */
+  .delivery-rappi-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    border: 2px solid #ff5722;
+    background: var(--color-bg-card);
+  }
+
+  .delivery-rappi-card__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #ff5722;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-stencil);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .delivery-rappi-card__info {
+    flex: 1;
+  }
+
+  .delivery-rappi-card__title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .delivery-rappi-card__sub {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    margin-top: var(--space-1);
+  }
+
+  /* Steps */
+  .delivery-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .delivery-steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  .delivery-step {
+    padding: var(--space-6);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+    text-align: center;
+  }
+
+  .delivery-step__num {
+    font-family: var(--font-stencil);
+    font-size: 2.5rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+    opacity: 0.5;
+  }
+
+  .delivery-step h3 {
+    margin-bottom: var(--space-2);
+    font-size: 1.1rem;
+  }
+
+  .delivery-step p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+  }
+
+  /* Platos destacados */
+  .delivery-platos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .delivery-platos {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .delivery-platos {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .delivery-plato {
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg-card);
+    transition: transform var(--transition-normal);
+  }
+
+  .delivery-plato:hover {
+    transform: translateY(-4px);
+  }
+
+  .delivery-plato__img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: 2px solid var(--color-text-primary);
+  }
+
+  .delivery-plato__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .delivery-plato__body {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .delivery-plato__body h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .delivery-plato__desc {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    margin-bottom: var(--space-2);
+  }
+
+  .delivery-plato__price {
+    font-family: var(--font-stencil);
+    color: var(--color-accent);
+    font-size: 1.1rem;
+  }
+</style>

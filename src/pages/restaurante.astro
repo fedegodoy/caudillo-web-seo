@@ -1,72 +1,230 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const PHONE_RAW = '5491136651186';
+const PHONE_DISPLAY = '+54 9 11 3665-1186';
+const PHONE_E164 = '+5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://caudillobar.com.ar/restaurante#restaurant",
+  "name": "Caudillo Bar — Restaurante en Saavedra",
+  "url": "https://caudillobar.com.ar/restaurante",
+  "telephone": PHONE_E164,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Crámer 3198",
+    "addressLocality": "Saavedra",
+    "addressRegion": "CABA",
+    "postalCode": "C1429",
+    "addressCountry": "AR"
+  },
+  "servesCuisine": ["Cocina criolla", "Cocina argentina"],
+  "priceRange": "$$",
+  "acceptsReservations": "True",
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": WHATSAPP_RESERVA
+  }
+};
 ---
 
 <BaseLayout
   title="Restaurante en Saavedra | Almuerzos y Cenas | Caudillo Bar"
   description="Cocina criolla al mediodía y a la noche en Crámer 3198. Menú ejecutivo de lunes a viernes. Reservas por WhatsApp."
+  schema={schema}
   floatingCTAText="Reservar Mesa"
-  floatingCTAHref="/contacto"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
   <!-- HERO -->
-  <section class="section" style="padding-top: var(--space-20);">
-    <div class="container">
-      <h1>Restaurante en Saavedra — cocina criolla al mediodía y a la noche.</h1>
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container restaurante-hero">
+      <p class="text-stencil text-stencil--red restaurante-hero__kicker">Restaurante</p>
+      <h1 class="restaurante-hero__title">Cocina criolla<br />en Saavedra.</h1>
+      <p class="restaurante-hero__sub">Mediodía y noche, en Crámer 3198. A 5 minutos de Núñez y Coghlan.</p>
     </div>
   </section>
 
   <!-- MEDIODÍA -->
-  <section class="section reveal" id="mediodia">
-    <div class="container">
-      <h2>El descanso que te ganaste está en Crámer 3198.</h2>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        En Caudillo el mediodía también es una cita. Menú ejecutivo casero que te llena bien y te manda de vuelta al trabajo con la pila cargada.
-      </p>
-
-      <div class="card" style="margin-top: var(--space-8); max-width: 500px;">
-        <h3 class="card__title">Menú Ejecutivo</h3>
-        <p class="text-secondary">🕐 Lunes a Viernes 12:00-15:30</p>
-        <p style="margin-top: var(--space-2); font-family: var(--font-display); font-size: var(--text-h3); color: var(--color-text-heading);">
-          Precio único: 17900
+  <section class="section reveal-comic" id="mediodia">
+    <div class="container restaurante-grid">
+      <div class="restaurante-grid__text">
+        <h2 class="text-stencil">El descanso<br/>que te ganaste.</h2>
+        <p style="margin-top: var(--space-4); max-width: 540px;">
+          En Caudillo el mediodía también es una cita. Menú ejecutivo casero que te llena bien y te manda de vuelta al trabajo con la pila cargada.
         </p>
-        <p class="text-secondary text-small" style="margin-top: var(--space-1);">Incluye principal + gaseosa o agua</p>
-        <ul style="margin-top: var(--space-4); line-height: 2;">
-          <li>• Sándwich de Bondiola</li>
-          <li>• Bondiola al Plato</li>
-          <li>• Ensalada de Pollo</li>
-          <li>• Milanesa al Plato</li>
-          <li>• Sándwich de Milanesa</li>
-          <li>• Combo Empanadas — 14900</li>
-        </ul>
+
+        <div class="executive-card">
+          <div class="executive-card__head">
+            <h3 class="text-stencil">Menú Ejecutivo</h3>
+            <span class="executive-card__price">$17.900</span>
+          </div>
+          <p class="text-secondary text-small">Lunes a Viernes · 12:00 a 15:30 · Incluye principal + gaseosa o agua</p>
+          <ul class="executive-card__list">
+            <li>Sándwich de Bondiola</li>
+            <li>Bondiola al Plato</li>
+            <li>Ensalada de Pollo</li>
+            <li>Milanesa al Plato</li>
+            <li>Sándwich de Milanesa</li>
+            <li>Combo Empanadas — $14.900</li>
+          </ul>
+          <a href="/menu#mediodia" class="btn btn-secondary" style="margin-top: var(--space-4);">Ver detalle</a>
+        </div>
       </div>
 
-      <p class="text-secondary text-small" style="margin-top: var(--space-4);">
-        Si estás en Coghlan o Núñez, te queda a la vuelta.
-      </p>
+      <div class="restaurante-grid__media">
+        <div class="restaurante-img-wrap" style="aspect-ratio: 4/5;">
+          <img src="/images/hero/empanada-caudillo-bar-saavedra.avif" alt="Empanada de Caudillo Bar, menú de mediodía" loading="lazy" />
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- NOCHE -->
-  <section class="section reveal" id="noche">
-    <div class="container">
-      <h2>A la noche, otro mundo.</h2>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        Cuando cae el sol, la cocina sigue y la barra se anima. Sándwiches, platos de la casa y vinos de bodegas boutique para acompañar.
-      </p>
-      <p class="text-secondary" style="margin-top: var(--space-4);">🕐 Martes a Domingo 19:00-23:30</p>
-      <a href="/menu" class="btn btn-primary" style="margin-top: var(--space-6);">Ver la Carta Completa</a>
+  <section class="section reveal-comic" id="noche">
+    <div class="container restaurante-grid restaurante-grid--reverse">
+      <div class="restaurante-grid__text">
+        <h2 class="text-stencil">A la noche,<br/>otro mundo.</h2>
+        <p style="margin-top: var(--space-4); max-width: 540px;">
+          Cuando cae el sol, la cocina sigue y la barra se anima. Sándwiches del Caudillo, platos de la casa y vinos de bodegas boutique para acompañar.
+        </p>
+        <p class="text-secondary" style="margin-top: var(--space-4);">Martes a Domingo · 19:00 a 23:30</p>
+        <div style="margin-top: var(--space-5); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+          <a href="/menu" class="btn btn-primary ink-hover">Ver la Carta</a>
+          <a href={WHATSAPP_RESERVA} class="btn btn-secondary" target="_blank" rel="noopener">Reservar</a>
+        </div>
+      </div>
+
+      <div class="restaurante-grid__media">
+        <div class="restaurante-img-wrap" style="aspect-ratio: 4/5;">
+          <img src="/images/hero/milanesa-plato-caudillo-bar-saavedra.avif" alt="Milanesa de Caudillo Bar, noche" loading="lazy" />
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- CTA RESERVA -->
-  <section class="section reveal" id="reserva">
-    <div class="container" style="text-align: center;">
-      <p style="font-size: var(--text-h3); color: var(--color-text-heading);">
-        Para grupos de +4 personas, avisá por WhatsApp.
-      </p>
-      <a href="https://wa.me/" class="btn btn-primary" style="margin-top: var(--space-6);" target="_blank" rel="noopener">
+  <section class="section comic-panel reveal-comic restaurante-cta-reserva" id="reserva">
+    <div class="container restaurante-cta-inner">
+      <h2 class="text-stencil">Para grupos<br/>de más de 4 personas</h2>
+      <p style="margin-top: var(--space-3); color: var(--color-text-secondary);">Reservá por WhatsApp y te aseguramos la mesa.</p>
+      <a href={WHATSAPP_RESERVA} class="btn btn-primary ink-hover" style="margin-top: var(--space-6);" target="_blank" rel="noopener">
         Reservar por WhatsApp
       </a>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .restaurante-hero {
+    text-align: center;
+  }
+
+  .restaurante-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .restaurante-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .restaurante-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  .restaurante-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .restaurante-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-12);
+    }
+    .restaurante-grid--reverse .restaurante-grid__text {
+      order: 2;
+    }
+    .restaurante-grid--reverse .restaurante-grid__media {
+      order: 1;
+    }
+  }
+
+  .executive-card {
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.2);
+    max-width: 500px;
+  }
+
+  .executive-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .executive-card__head h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .executive-card__price {
+    font-family: var(--font-stencil);
+    font-size: 1.5rem;
+    color: var(--color-accent);
+  }
+
+  .executive-card__list {
+    margin-top: var(--space-4);
+    line-height: 2;
+    list-style: none;
+    padding: 0;
+  }
+
+  .executive-card__list li::before {
+    content: "·  ";
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .restaurante-img-wrap {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+  }
+
+  .restaurante-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .restaurante-cta-reserva {
+    margin-bottom: var(--space-12);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .restaurante-cta-inner {
+    text-align: center;
+  }
+</style>

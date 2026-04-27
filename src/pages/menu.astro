@@ -2,16 +2,68 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import menuData from '../data/menu.json';
 
+const PHONE_RAW = '5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+const WHATSAPP_PEDIDO = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20hacer%20un%20pedido%20por%20delivery`;
+
 const comida = menuData.menus.find(m => m.id === 'comida')!;
 const mediodia = menuData.menus.find(m => m.id === 'mediodia')!;
 const vinos = menuData.menus.find(m => m.id === 'vinos')!;
 const tragos = menuData.menus.find(m => m.id === 'tragos')!;
+
+// Mapeo: slug → nombre de archivo de imagen disponible
+// (Solo plates con foto AVIF en /public/images/menu/)
+const imageMap: Record<string, string> = {
+  'azurduy': 'sandwich-azurduy-caudillo-bar-saavedra.avif',
+  'dorrego': 'sandwich-dorrego-caudillo-bar-saavedra.avif',
+  'artigas': 'sandwich-artigas-caudillo-bar-saavedra.avif',
+  'pastel-de-papas': 'pastel-de-papas-caudillo-bar-saavedra.avif',
+  'canelones-de-pollo': 'canelones-caudillo-bar-saavedra.avif',
+  'milanesa-de-bife': 'milanesa-caudillo-bar-saavedra.avif',
+  'noquis-de-semola': 'noquis-caudillo-bar-saavedra.avif',
+  'osobuco-braseado': 'osobuco-caudillo-bar-saavedra.avif',
+  'provoleta-grillada': 'provoleta-caudillo-bar-saavedra.avif',
+  'mollejas-a-la-parrilla': 'mollejas-caudillo-bar-saavedra.avif',
+};
+
+// Por nombre exacto cuando no hay slug en el item
+const imageMapByName: Record<string, string> = {
+  'Empanada de Carne Cortada a Cuchillo': 'empanada-caudillo-bar-saavedra.avif',
+  'Cremoso de Cabutia': 'cremoso-cabutia-caudillo-bar-saavedra.avif',
+  'Papa Rota a las Tres Cocciones': 'papa-rota-caudillo-bar-saavedra.avif',
+  'Budín de Pan': 'budin-de-pan-caudillo-bar-saavedra.avif',
+  'Panqueque Tibio': 'panqueque-dulce-de-leche-caudillo-bar-saavedra.avif',
+};
+
+// Color placeholder por sección/tipo
+function variantFor(menuType: string, sectionName: string): string {
+  if (menuType === 'tragos') return 'barra';
+  if (menuType === 'vinos') return 'barra';
+  if (sectionName?.toLowerCase().includes('postre')) return 'comida';
+  if (sectionName?.toLowerCase().includes('sanguche')) return 'comida';
+  if (sectionName?.toLowerCase().includes('compartir')) return 'eventos';
+  if (sectionName?.toLowerCase().includes('bebida')) return 'barra';
+  return 'comida';
+}
+
+function getImage(item: any): string | null {
+  if (item.slug && imageMap[item.slug]) return `/images/menu/${imageMap[item.slug]}`;
+  if (imageMapByName[item.name]) return `/images/menu/${imageMapByName[item.name]}`;
+  return null;
+}
+
+// Formatea precio: 16900 → "$16.900"
+function fmt(price: number | null | undefined): string {
+  if (price == null) return '—';
+  return '$' + price.toLocaleString('es-AR');
+}
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "Menu",
   "name": "Carta de Caudillo Bar",
   "url": "https://caudillobar.com.ar/menu",
+  "inLanguage": "es-AR",
   "mainEntity": {
     "@type": "Restaurant",
     "@id": "https://caudillobar.com.ar/#organization"
@@ -34,128 +86,164 @@ const schema = {
 
 <BaseLayout
   title="La Carta del Caudillo | Sándwiches y Cocina de la Casa"
-  description="Los sándwiches legendarios (Azurduy, Dorrego) y los platos criollos (Pastel de papas, Osobuco). Vermut y vinos seleccionados."
+  description="Sándwiches del Caudillo (Azurduy, Dorrego, Artigas), platos criollos (pastel de papas con osobuco, canelones), tragos de autor y vinos boutique. Crámer 3198, Saavedra."
   schema={schema}
   floatingCTAText="Reservar Mesa"
-  floatingCTAHref="/contacto"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
-  <section class="section">
-    <div class="container">
-      <h1>Lo que servimos en la barra.</h1>
+  <section class="section section--tight">
+    <div class="container menu-hero">
+      <p class="menu-hero__kicker text-stencil text-stencil--red">La Carta</p>
+      <h1 class="menu-hero__title">Lo que servimos<br />en la barra.</h1>
+      <p class="menu-hero__sub">Cocina criolla, sándwiches del Caudillo, vermut y tragos de autor.</p>
     </div>
   </section>
 
   <!-- TABS -->
-  <div class="tabs" role="tablist" aria-label="Secciones del menú">
-    <button class="tab tab--active" role="tab" aria-selected="true" data-tab="comida">Comida</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="mediodia">Mediodía</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="vinos">Vinos</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="tragos">Tragos</button>
+  <div class="tabs-placeholder" id="tabs-placeholder"></div>
+  <div class="tabs-wrap" id="tabs-wrap">
+    <div class="container">
+      <div class="tabs" role="tablist" aria-label="Secciones del menú">
+        <button class="tab tab--active" role="tab" aria-selected="true" data-tab="comida">Comida</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="mediodia">Mediodía</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="tragos">Tragos</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="vinos">Vinos</button>
+      </div>
+    </div>
   </div>
 
   <!-- TAB: COMIDA -->
   <section class="section" id="comida" data-tab-content="comida">
     <div class="container">
       {comida.sections.map((section, sIdx) => (
-        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
-          <h2>{section.name}</h2>
+        <div class="menu-section" style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
+          <h2 class="menu-section-title">{section.name}</h2>
           {section.description && (
             <p class="text-secondary" style="margin-bottom: var(--space-6);">{section.description}</p>
           )}
-          {section.items.map(item => (
-            <div class={`menu-item ${sIdx < 2 ? 'reveal reveal-stagger' : ''}`}>
-              <div class="menu-item__info">
-                {'slug' in item && item.slug ? (
-                  <a href={`/menu/${item.slug}`} class="menu-item__name menu-item__name--link">{item.name}</a>
-                ) : (
-                  <div class="menu-item__name">{item.name}</div>
-                )}
-                {item.description && <div class="menu-item__desc">{item.description}</div>}
-                {'suitableForDiet' in item && item.suitableForDiet && <div class="menu-item__badge">Vegetariano</div>}
-              </div>
-              <div class="menu-item__price">{item.price}</div>
-            </div>
-          ))}
+          <div class="menu-grid">
+            {section.items.map(item => {
+              const img = getImage(item);
+              const variant = variantFor('comida', section.name);
+              return (
+                <div class="menu-card reveal-comic">
+                  <div class="menu-card__media">
+                    {img ? (
+                      <img src={img} alt={('image' in item && item.image?.alt) ? item.image.alt : item.name} loading="lazy" decoding="async" />
+                    ) : (
+                      <div class={`asset-placeholder asset-placeholder--${variant} menu-card__placeholder`}>
+                        <span class="asset-placeholder__label">{item.name}</span>
+                        <span class="asset-placeholder__type">foto</span>
+                      </div>
+                    )}
+                  </div>
+                  <div class="menu-card__body">
+                    <div class="menu-card__head">
+                      {'slug' in item && item.slug ? (
+                        <a href={`/menu/${item.slug}`} class="menu-card__name menu-card__name--link">{item.name}</a>
+                      ) : (
+                        <h3 class="menu-card__name">{item.name}</h3>
+                      )}
+                      <span class="menu-card__price">{fmt(item.price)}</span>
+                    </div>
+                    {item.description && <p class="menu-card__desc">{item.description}</p>}
+                    {'suitableForDiet' in item && item.suitableForDiet && <span class="menu-card__badge">Vegetariano</span>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- TAB: MEDIODÍA (hidden by default) -->
+  <!-- TAB: MEDIODÍA -->
   <section class="section" id="mediodia" data-tab-content="mediodia" style="display: none;">
     <div class="container">
+      <div class="mediodia-banner">
+        <strong>Menú Ejecutivo</strong>
+        <span>Lunes a Viernes · 12:00 a 15:30 · Incluye gaseosa o agua</span>
+        <span class="mediodia-banner__price">$17.900</span>
+      </div>
       {mediodia.sections.map((section, sIdx) => (
-        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
-          <h2>{section.name}</h2>
+        <div class="menu-section" style={sIdx > 0 ? `margin-top: var(--space-10);` : ''}>
+          <h2 class="menu-section-title">{section.name}</h2>
           {section.description && (
             <p class="text-secondary" style="margin-bottom: var(--space-6);">{section.description}</p>
           )}
-          {section.items.map(item => (
-            <div class="menu-item">
-              <div class="menu-item__info">
-                <div class="menu-item__name">{item.name}</div>
-                {item.description && <div class="menu-item__desc">{item.description}</div>}
+          <div class="menu-list">
+            {section.items.map(item => (
+              <div class="menu-row">
+                <div class="menu-row__info">
+                  <div class="menu-row__name">{item.name}</div>
+                  {item.description && <div class="menu-row__desc">{item.description}</div>}
+                </div>
+                <div class="menu-row__price">{fmt(item.price)}</div>
               </div>
-              <div class="menu-item__price">{item.price}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- TAB: VINOS (hidden by default) -->
-  <section class="section" id="vinos" data-tab-content="vinos" style="display: none;">
-    <div class="container">
-      <h2>Vinos de Bodegas Boutique en Caudillo Bar, Saavedra</h2>
-      <p class="text-secondary" style="margin-bottom: var(--space-6);">Selección de bodegas argentinas. Opciones por copa desde 4500.</p>
-      {vinos.sections.map((section, sIdx) => (
-        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
-          <h3>{section.name}</h3>
-          {section.description && (
-            <p class="text-secondary" style="margin-bottom: var(--space-4);">{section.description}</p>
-          )}
-          {section.items.map(item => (
-            <div class="menu-item">
-              <div class="menu-item__info">
-                <div class="menu-item__name">{item.name}</div>
-                {'region' in item && <div class="menu-item__desc">{item.region}</div>}
-              </div>
-              <div class="menu-item__price-wines">
-                {'precio_copa' in item && item.precio_copa && <span class="wine-copa">Copa {item.precio_copa}</span>}
-                {'precio_botella' in item && item.precio_botella && <span class="wine-botella">Botella {item.precio_botella}</span>}
-              </div>
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- TAB: TRAGOS (hidden by default) -->
+  <!-- TAB: TRAGOS -->
   <section class="section" id="tragos" data-tab-content="tragos" style="display: none;">
     <div class="container">
-      <h2>Tragos de Autor y Clásicos de Barra</h2>
+      <h2 class="menu-section-title">Tragos de Autor y Clásicos de Barra</h2>
       <p class="text-secondary" style="margin-bottom: var(--space-6);">Del Ferroviario al Negroni, pasando por el Pico y Pala.</p>
       {tragos.sections.map((section, sIdx) => (
-        <div style={sIdx > 0 ? `margin-top: var(--space-12);` : ''}>
-          <h3>{section.name}</h3>
+        <div class="menu-section" style={sIdx > 0 ? `margin-top: var(--space-10);` : ''}>
+          <h3 class="menu-section-title menu-section-title--sub">{section.name}</h3>
           {section.description && (
             <p class="text-secondary" style="margin-bottom: var(--space-4);">{section.description}</p>
           )}
-          {section.items.map(item => (
-            <div class="menu-item">
-              <div class="menu-item__info">
-                {'slug' in item && item.slug ? (
-                  <a href={`/menu/${item.slug}`} class="menu-item__name menu-item__name--link">{item.name}</a>
-                ) : (
-                  <div class="menu-item__name">{item.name}</div>
-                )}
-                {item.description && <div class="menu-item__desc">{item.description}</div>}
+          <div class="menu-list">
+            {section.items.map(item => (
+              <div class="menu-row">
+                <div class="menu-row__info">
+                  {'slug' in item && item.slug ? (
+                    <a href={`/menu/${item.slug}`} class="menu-row__name menu-row__name--link">{item.name}</a>
+                  ) : (
+                    <div class="menu-row__name">{item.name}</div>
+                  )}
+                  {item.description && <div class="menu-row__desc">{item.description}</div>}
+                </div>
+                <div class="menu-row__price">{fmt(item.price)}</div>
               </div>
-              <div class="menu-item__price">{item.price}</div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- TAB: VINOS -->
+  <section class="section" id="vinos" data-tab-content="vinos" style="display: none;">
+    <div class="container">
+      <h2 class="menu-section-title">Vinos de Bodegas Boutique</h2>
+      <p class="text-secondary" style="margin-bottom: var(--space-6);">Selección de bodegas argentinas. Opciones por copa desde $4.500.</p>
+      {vinos.sections.map((section, sIdx) => (
+        <div class="menu-section" style={sIdx > 0 ? `margin-top: var(--space-10);` : ''}>
+          <h3 class="menu-section-title menu-section-title--sub">{section.name}</h3>
+          {'description' in section && section.description && (
+            <p class="text-secondary" style="margin-bottom: var(--space-4);">{section.description}</p>
+          )}
+          <div class="menu-list">
+            {section.items.map(item => (
+              <div class="menu-row">
+                <div class="menu-row__info">
+                  <div class="menu-row__name">{item.name}</div>
+                  {'region' in item && <div class="menu-row__desc">{item.region}</div>}
+                </div>
+                <div class="menu-row__price-wines">
+                  {'precio_copa' in item && item.precio_copa && <span class="wine-copa">Copa {fmt(item.precio_copa)}</span>}
+                  {'precio_botella' in item && item.precio_botella && <span class="wine-botella">Botella {fmt(item.precio_botella)}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
@@ -164,9 +252,10 @@ const schema = {
   <!-- CTA FINAL -->
   <section class="section" id="menu-cta">
     <div class="container" style="text-align: center;">
-      <h2>¿Todo listo?</h2>
-      <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
-        <a href="https://wa.me/" class="btn btn-primary" target="_blank" rel="noopener">Reservar Mesa por WhatsApp</a>
+      <h2 class="text-stencil">¿Todo listo?</h2>
+      <p style="color: var(--color-text-secondary); margin-top: var(--space-2); margin-bottom: var(--space-6);">Reservá una mesa o pedí por delivery.</p>
+      <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+        <a href={WHATSAPP_RESERVA} class="btn btn-primary ink-hover" target="_blank" rel="noopener">Reservar por WhatsApp</a>
         <a href="/delivery" class="btn btn-secondary">Pedir por Rappi</a>
       </div>
     </div>
@@ -174,22 +263,265 @@ const schema = {
 </BaseLayout>
 
 <style>
-  .menu-item__name--link {
-    color: var(--color-text-heading);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-    display: inline-block;
+  .menu-hero {
+    text-align: center;
+    padding: var(--space-6) 0 var(--space-4);
   }
 
-  .menu-item__name--link:hover {
+  .menu-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .menu-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .menu-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  /* Títulos de sección de la carta — Lora */
+  .menu-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+
+    line-height: 1.2;
+    color: var(--color-text-heading);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .menu-section-title--sub {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    border-bottom: 1px solid var(--color-border);
+    margin-top: var(--space-8);
+  }
+
+  /* Tabs — fixed cuando scrollea (JS añade .tabs-wrap--fixed) */
+  .tabs-wrap {
+    position: relative;
+    z-index: 100;
+    background: #1a1a1a;
+    border-bottom: 2px solid var(--color-text-primary);
+    padding: var(--space-3) 0;
+  }
+
+  .tabs-wrap--fixed {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  .tabs-placeholder {
+    display: none;
+  }
+
+  .tabs-placeholder--visible {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .tabs-wrap--fixed {
+      top: 72px;
+    }
+  }
+
+  .tabs {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabs::-webkit-scrollbar { display: none; }
+
+  /* Menú card grid */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .menu-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .menu-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .menu-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .menu-card__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: 2px solid var(--color-text-primary);
+    background: var(--color-bg-secondary);
+  }
+
+  .menu-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow);
+  }
+
+  .menu-card:hover .menu-card__media img {
+    transform: scale(1.04);
+  }
+
+  .menu-card__placeholder {
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+    min-height: 0 !important;
+  }
+
+  .menu-card__body {
+    padding: var(--space-4) var(--space-4) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+  }
+
+  .menu-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .menu-card__name {
+    font-family: var(--font-stencil);
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--color-text-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .menu-card__name--link:hover {
     color: var(--color-accent);
   }
 
-  .menu-item__price-wines {
+  .menu-card__price {
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--color-accent);
+    white-space: nowrap;
+    font-size: var(--text-body);
+  }
+
+  .menu-card__desc {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+
+  .menu-card__badge {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 2px 10px;
+    background: rgba(60, 120, 60, 0.18);
+    border: 1px solid rgba(80, 140, 80, 0.4);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    color: rgba(180, 220, 180, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Lista para mediodía / tragos / vinos */
+  .menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: var(--space-4);
+  }
+
+  .menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .menu-row:last-child {
+    border-bottom: none;
+  }
+
+  .menu-row__info {
+    flex: 1;
+  }
+
+  .menu-row__name {
+    font-family: var(--font-stencil);
+    font-size: var(--text-body);
+    color: var(--color-text-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .menu-row__name--link:hover {
+    color: var(--color-accent);
+  }
+
+  .menu-row__desc {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  .menu-row__price {
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--color-accent);
+    white-space: nowrap;
+    font-size: var(--text-body);
+  }
+
+  .menu-row__price-wines {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: var(--space-1);
+    gap: 2px;
     font-size: var(--text-small);
     white-space: nowrap;
   }
@@ -199,44 +531,102 @@ const schema = {
   }
 
   .wine-botella {
-    color: var(--color-text-heading);
+    color: var(--color-accent);
     font-weight: 600;
+  }
+
+  /* Mediodía banner */
+  .mediodia-banner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-5);
+    background: rgba(200, 53, 42, 0.1);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+    position: relative;
+  }
+
+  .mediodia-banner strong {
+    font-family: var(--font-stencil);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1.1rem;
+  }
+
+  .mediodia-banner__price {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
+    font-family: var(--font-stencil);
+    font-size: 1.5rem;
+    color: var(--color-text-heading);
+  }
+
+  @media (max-width: 640px) {
+    .mediodia-banner__price {
+      position: static;
+      margin-top: var(--space-2);
+    }
   }
 </style>
 
 <script>
   // Tab switching logic
-  const tabs = document.querySelectorAll('[role="tab"]');
-  const contents = document.querySelectorAll('[data-tab-content]');
+  const tabs = document.querySelectorAll<HTMLElement>('[role="tab"]');
+  const contents = document.querySelectorAll<HTMLElement>('[data-tab-content]');
+
+  function showTab(target: string) {
+    tabs.forEach(t => {
+      const isActive = t.dataset.tab === target;
+      t.classList.toggle('tab--active', isActive);
+      t.setAttribute('aria-selected', String(isActive));
+    });
+    contents.forEach(c => {
+      c.style.display = c.dataset.tabContent === target ? '' : 'none';
+    });
+  }
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const target = (tab as HTMLElement).dataset.tab;
-
-      // Update tabs
-      tabs.forEach(t => {
-        t.classList.remove('tab--active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tab.classList.add('tab--active');
-      tab.setAttribute('aria-selected', 'true');
-
-      // Update content
-      contents.forEach(content => {
-        const el = content as HTMLElement;
-        if (el.dataset.tabContent === target) {
-          el.style.display = '';
-        } else {
-          el.style.display = 'none';
-        }
-      });
+      const target = tab.dataset.tab;
+      if (target) {
+        showTab(target);
+        history.replaceState(null, '', `#${target}`);
+      }
     });
   });
 
-  // Handle deep links (#comida, #mediodia, #vinos, #tragos)
-  const hash = window.location.hash.replace('#', '');
-  if (hash && document.querySelector(`[data-tab="${hash}"]`)) {
-    const targetTab = document.querySelector(`[data-tab="${hash}"]`) as HTMLElement;
-    targetTab?.click();
+  // Handle deep links
+  function applyHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.querySelector(`[data-tab="${hash}"]`)) {
+      showTab(hash);
+    }
+  }
+  applyHash();
+  window.addEventListener('hashchange', applyHash);
+
+  // Tabs fixed on scroll — overflow-x:hidden en body rompe sticky, usamos fixed+placeholder
+  const tabsWrap = document.getElementById('tabs-wrap') as HTMLElement | null;
+  const tabsPlaceholder = document.getElementById('tabs-placeholder') as HTMLElement | null;
+
+  if (tabsWrap && tabsPlaceholder) {
+    const headerH = window.innerWidth >= 1024 ? 72 : 56;
+    const triggerY = tabsWrap.getBoundingClientRect().top + window.scrollY - headerH;
+
+    function onScroll() {
+      const fixed = window.scrollY >= triggerY;
+      tabsWrap!.classList.toggle('tabs-wrap--fixed', fixed);
+      tabsPlaceholder!.classList.toggle('tabs-placeholder--visible', fixed);
+      if (fixed) {
+        tabsPlaceholder!.style.height = tabsWrap!.offsetHeight + 'px';
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 </script>

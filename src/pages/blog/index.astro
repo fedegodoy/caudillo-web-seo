@@ -1,39 +1,217 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const PHONE_RAW = '5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+
+// Posts placeholder con estructura — cuando haya posts reales, se reemplaza
+const posts = [
+  { title: 'El Ferroviario, nuestra creación', cat: 'bar', kicker: 'Detrás de barra', placeholder: 'barra' },
+  { title: 'Por qué elegimos Saavedra', cat: 'restaurante', kicker: 'La historia', placeholder: 'bar' },
+  { title: 'Cómo armamos la terraza para eventos', cat: 'eventos', kicker: 'Eventos', placeholder: 'eventos' },
+  { title: 'Música en vivo: nuestros viernes', cat: 'musica', kicker: 'Agenda', placeholder: 'musica' },
+  { title: 'Delivery: cómo llega el sándwich', cat: 'delivery', kicker: 'Delivery', placeholder: 'delivery' },
+  { title: 'El mural de Cándido López', cat: 'bar', kicker: 'Detalles', placeholder: 'personaje' },
+];
 ---
 
 <BaseLayout
-  title="Novedades de Caudillo | Blog"
+  title="Novedades de Caudillo | Blog del Bodegón de Saavedra"
   description="Novedades, recetas, eventos y todo lo que pasa en Caudillo Bar, Saavedra. El blog del bodegón de CABA Norte."
+  floatingCTAText="Reservar Mesa"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
-  <section class="section" style="padding-top: var(--space-20);">
-    <div class="container">
-      <h1>Novedades de Caudillo.</h1>
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container blog-hero">
+      <p class="text-stencil text-stencil--red blog-hero__kicker">Blog</p>
+      <h1 class="blog-hero__title">Novedades<br/>de Caudillo.</h1>
+      <p class="blog-hero__sub">Recetas, eventos y lo que pasa en la terraza.</p>
     </div>
   </section>
 
   <!-- CATEGORÍAS -->
-  <section class="section" style="padding-top: 0;">
+  <section class="section section--tight" style="padding-top: 0;">
     <div class="container">
-      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-8);">
-        <button class="tab tab--active" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Todos</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Bar</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Restaurante</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Eventos</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Música</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Delivery</button>
+      <div class="blog-filters" role="tablist" aria-label="Categorías">
+        <button class="filter-btn filter-btn--active" data-cat="all">Todos</button>
+        <button class="filter-btn" data-cat="bar">Bar</button>
+        <button class="filter-btn" data-cat="restaurante">Restaurante</button>
+        <button class="filter-btn" data-cat="eventos">Eventos</button>
+        <button class="filter-btn" data-cat="musica">Música</button>
+        <button class="filter-btn" data-cat="delivery">Delivery</button>
       </div>
 
-      <!-- Placeholder — posts se agregan en Fase 7 -->
-      <div class="grid-highlights">
-        <div class="card" style="text-align: center; padding: var(--space-12);">
-          <p style="font-size: 2rem;">📝</p>
-          <h3 class="card__title" style="margin-top: var(--space-4);">Próximamente</h3>
-          <p class="card__text" style="margin-top: var(--space-2);">
-            El blog de Caudillo arranca con la web. Recetas, novedades del barrio y lo que pasa en la terraza.
-          </p>
-        </div>
+      <div class="blog-grid">
+        {posts.map((post, i) => (
+          <article class="blog-card reveal-comic" data-cat={post.cat} style={`transition-delay: ${i * 60}ms;`}>
+            <div class={`asset-placeholder asset-placeholder--${post.placeholder} blog-card__media`}>
+              <span class="asset-placeholder__label">{post.kicker}</span>
+              <span class="asset-placeholder__type">próximo post</span>
+            </div>
+            <div class="blog-card__body">
+              <span class="blog-card__kicker">{post.kicker}</span>
+              <h3 class="blog-card__title text-stencil">{post.title}</h3>
+              <p class="blog-card__excerpt">Próximamente en el blog de Caudillo.</p>
+              <span class="blog-card__cta">Próximamente →</span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div style="margin-top: var(--space-10); text-align: center;">
+        <p class="text-secondary text-small">El blog arranca con la web — los primeros posts se publican en mayo de 2026.</p>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .blog-hero { text-align: center; }
+
+  .blog-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .blog-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  .blog-filters {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .filter-btn {
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-small);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    color: var(--color-text-heading);
+    border-color: var(--color-text-primary);
+  }
+
+  .filter-btn--active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .blog-card {
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.25);
+  }
+
+  .blog-card.is-hidden { display: none; }
+
+  .blog-card__media {
+    aspect-ratio: 16 / 9;
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 2px solid var(--color-text-primary) !important;
+    min-height: 0 !important;
+  }
+
+  .blog-card__body {
+    padding: var(--space-4) var(--space-5) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+  }
+
+  .blog-card__kicker {
+    font-family: var(--font-stencil);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  .blog-card__title {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .blog-card__excerpt {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .blog-card__cta {
+    font-family: var(--font-body);
+    color: var(--color-accent);
+    font-size: var(--text-small);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.blog-card');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      filters.forEach(b => b.classList.toggle('filter-btn--active', b === btn));
+      cards.forEach(card => {
+        const cardCat = card.dataset.cat;
+        const matches = cat === 'all' || cardCat === cat;
+        card.classList.toggle('is-hidden', !matches);
+      });
+    });
+  });
+</script>

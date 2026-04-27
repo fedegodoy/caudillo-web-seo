@@ -5,9 +5,16 @@ interface Props {
 
 const { currentPath = '/' } = Astro.props;
 
+const cartaSubmenu = [
+  { href: '/menu#comida', label: 'Comida' },
+  { href: '/menu#mediodia', label: 'Mediodía' },
+  { href: '/menu#tragos', label: 'Tragos' },
+  { href: '/menu#vinos', label: 'Vinos' },
+];
+
 const navLinks = [
   { href: '/', label: 'Inicio' },
-  { href: '/menu', label: 'La Carta' },
+  { href: '/menu', label: 'La Carta', submenu: cartaSubmenu },
   { href: '/restaurante', label: 'Restaurante' },
   { href: '/eventos', label: 'Eventos' },
   { href: '/delivery', label: 'Delivery' },
@@ -21,19 +28,38 @@ const navLinks = [
 <header class="header" id="header">
   <nav class="header__nav container" aria-label="Navegación principal">
     <a href="/" class="header__logo" aria-label="Caudillo Bar — Inicio">
-      <span class="header__logo-text">CAUDILLO BAR</span>
+      <img
+        src="/images/logo/logo-negativo-rojo.svg"
+        alt="Caudillo Bar"
+        class="header__logo-img"
+        width="160"
+        height="40"
+      />
     </a>
 
     <!-- Desktop Nav Links -->
     <ul class="header__links" role="list">
       {navLinks.map((link) => (
-        <li>
+        <li class:list={['header__item', { 'header__item--has-submenu': link.submenu }]}>
           <a
             href={link.href}
             class:list={['header__link', { 'header__link--active': currentPath === link.href }]}
+            aria-haspopup={link.submenu ? 'true' : undefined}
           >
             {link.label}
+            {link.submenu && (
+              <span class="header__caret" aria-hidden="true">▾</span>
+            )}
           </a>
+          {link.submenu && (
+            <div class="header__submenu" role="menu">
+              {link.submenu.map((sub) => (
+                <a href={sub.href} class="header__submenu-link" role="menuitem">
+                  {sub.label}
+                </a>
+              ))}
+            </div>
+          )}
         </li>
       ))}
     </ul>
@@ -60,7 +86,18 @@ const navLinks = [
 
 <!-- Mobile Menu — FUERA del header para evitar stacking context de backdrop-filter -->
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <button class="mobile-menu__close" id="menu-close" aria-label="Cerrar menú">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="6" y1="6" x2="22" y2="22" />
+      <line x1="22" y1="6" x2="6" y2="22" />
+    </svg>
+  </button>
+
   <div class="mobile-menu__content">
+    <a href="/" class="mobile-menu__brand" aria-label="Caudillo Bar — Inicio">
+      <img src="/images/logo/logo-negativo-rojo.svg" alt="Caudillo Bar" width="180" height="44" />
+    </a>
+
     <ul class="mobile-menu__links" role="list">
       {navLinks.map((link) => (
         <li>
@@ -70,6 +107,15 @@ const navLinks = [
           >
             {link.label}
           </a>
+          {link.submenu && (
+            <ul class="mobile-menu__sublinks" role="list">
+              {link.submenu.map((sub) => (
+                <li>
+                  <a href={sub.href} class="mobile-menu__sublink">{sub.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>
@@ -78,9 +124,20 @@ const navLinks = [
       Reservar Mesa
     </a>
 
+    <a
+      href="https://wa.me/5491136651186?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20Caudillo%20Bar"
+      target="_blank"
+      rel="noopener"
+      class="mobile-menu__whatsapp"
+      aria-label="Contactar por WhatsApp"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+      WhatsApp
+    </a>
+
     <div class="mobile-menu__info">
-      <p>📍 Crámer 3198, Saavedra</p>
-      <p>🕐 Mar-Dom 19:00-23:30</p>
+      <p>Crámer 3198, Saavedra</p>
+      <p>Mar–Dom · 19:00 a 23:30</p>
     </div>
   </div>
 </div>
@@ -107,26 +164,33 @@ const navLinks = [
 
   @media (min-width: 1024px) {
     .header__nav {
-      height: 64px;
+      height: 72px;
     }
   }
 
   .header__logo {
     z-index: 200;
+    display: flex;
+    align-items: center;
   }
 
-  .header__logo-text {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.125rem;
-    color: var(--color-text-heading);
-    letter-spacing: 0.05em;
+  .header__logo-img {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .header__logo-img {
+      height: 48px;
+    }
   }
 
   /* Desktop links */
   .header__links {
     display: none;
     gap: var(--space-1);
+    align-items: center;
   }
 
   @media (min-width: 1024px) {
@@ -135,7 +199,14 @@ const navLinks = [
     }
   }
 
+  .header__item {
+    position: relative;
+  }
+
   .header__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: var(--font-body);
     font-weight: 500;
     font-size: var(--text-nav);
@@ -152,6 +223,70 @@ const navLinks = [
 
   .header__link--active {
     color: var(--color-accent);
+  }
+
+  .header__caret {
+    font-size: 0.7em;
+    transition: transform var(--transition-fast);
+  }
+
+  .header__item--has-submenu:hover .header__caret,
+  .header__item--has-submenu:focus-within .header__caret {
+    transform: rotate(180deg);
+  }
+
+  /* Submenu sticky on hover/focus */
+  .header__submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    padding: var(--space-2);
+    background: rgba(26, 26, 26, 0.98);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    pointer-events: none;
+  }
+
+  .header__item--has-submenu:hover .header__submenu,
+  .header__item--has-submenu:focus-within .header__submenu,
+  .header__submenu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Bridge: invisible hover area between trigger and submenu so it doesn't disappear */
+  .header__item--has-submenu::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 12px;
+  }
+
+  .header__submenu-link {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-nav);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .header__submenu-link:hover {
+    background: rgba(200, 53, 42, 0.15);
+    color: var(--color-text-heading);
   }
 
   /* Desktop CTA */
@@ -179,6 +314,8 @@ const navLinks = [
     padding: 10px;
     z-index: 200;
     cursor: pointer;
+    background: transparent;
+    border: none;
   }
 
   @media (min-width: 1024px) {
@@ -195,16 +332,6 @@ const navLinks = [
     border-radius: 1px;
     transition: all var(--transition-normal);
     transform-origin: center;
-  }
-
-  .header__hamburger.is-open .header__hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .header__hamburger.is-open .header__hamburger-line:nth-child(2) {
-    opacity: 0;
-  }
-  .header__hamburger.is-open .header__hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
   }
 
   /* Mobile Menu — :global because element is outside <header> scope */
@@ -225,8 +352,41 @@ const navLinks = [
     transform: translateX(0);
   }
 
+  :global(.mobile-menu__close) {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
+    color: var(--color-accent);
+    cursor: pointer;
+    z-index: 200;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+
+  :global(.mobile-menu__close:hover) {
+    background: rgba(200, 53, 42, 0.12);
+    transform: rotate(90deg);
+  }
+
+  :global(.mobile-menu__brand) {
+    display: block;
+    margin-bottom: var(--space-6);
+  }
+
+  :global(.mobile-menu__brand img) {
+    height: 44px;
+    width: auto;
+  }
+
   :global(.mobile-menu__content) {
-    padding: calc(56px + var(--space-8)) var(--section-padding-x) var(--space-16);
+    padding: calc(56px + var(--space-6)) var(--section-padding-x) var(--space-16);
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -238,10 +398,10 @@ const navLinks = [
 
   :global(.mobile-menu__link) {
     display: block;
-    padding: var(--space-4) 0;
+    padding: var(--space-3) 0;
     font-family: var(--font-body);
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text-primary);
     border-bottom: 1px solid var(--color-border);
     transition: color var(--transition-fast);
@@ -252,8 +412,41 @@ const navLinks = [
     color: var(--color-accent);
   }
 
+  :global(.mobile-menu__sublinks) {
+    padding: var(--space-2) 0 var(--space-2) var(--space-4);
+    list-style: none;
+  }
+
+  :global(.mobile-menu__sublink) {
+    display: block;
+    padding: var(--space-2) 0;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.mobile-menu__sublink:hover) {
+    color: var(--color-accent);
+  }
+
   :global(.mobile-menu__cta) {
-    margin-top: var(--space-8);
+    margin-top: var(--space-6);
+  }
+
+  :global(.mobile-menu__whatsapp) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: var(--space-3);
+    text-align: center;
+    background: rgba(37, 211, 102, 0.12);
+    border: 1px solid rgba(37, 211, 102, 0.4);
+    border-radius: var(--radius-md);
+    color: #25d366;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
   }
 
   :global(.mobile-menu__info) {
@@ -266,27 +459,46 @@ const navLinks = [
 
 <script>
   const toggle = document.getElementById('menu-toggle');
+  const closeBtn = document.getElementById('menu-close');
   const menu = document.getElementById('mobile-menu');
+
+  function openMenu() {
+    if (!menu || !toggle) return;
+    menu.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    if (!menu || !toggle) return;
+    menu.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
 
   if (toggle && menu) {
     toggle.addEventListener('click', () => {
-      const isOpen = menu.classList.contains('is-open');
-      menu.classList.toggle('is-open');
-      toggle.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(!isOpen));
-      menu.setAttribute('aria-hidden', String(isOpen));
-      document.body.style.overflow = isOpen ? '' : 'hidden';
+      if (menu.classList.contains('is-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
+
+    closeBtn?.addEventListener('click', closeMenu);
 
     // Close on link click
     menu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        menu.classList.remove('is-open');
-        toggle.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        closeMenu();
+      }
     });
   }
 </script>

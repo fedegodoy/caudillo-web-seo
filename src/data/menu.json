@@ -187,18 +187,13 @@
                 "height": 600,
                 "alt": "Risotto de arroz Carnaroli con portobellos en Caudillo Bar, Saavedra"
               }
-            }
-          ]
-        },
-        {
-          "name": "Para Compartir",
-          "items": [
+            },
             {
               "name": "Empanada de Carne Cortada a Cuchillo",
               "description": "Salsa llajwa.",
               "price": 4400,
               "menuType": "comida",
-              "section": "Para Compartir"
+              "section": "Platos de la Casa"
             },
             {
               "name": "Provoleta Grillada",
@@ -207,7 +202,7 @@
               "longDescription": "Provoleta de 200g fundida a la parrilla hasta formar costra dorada, con chutney de tomate casero y garrapiñada picante por encima. La entrada que termina pidiendo toda la mesa.",
               "price": 16000,
               "menuType": "comida",
-              "section": "Para Compartir",
+              "section": "Platos de la Casa",
               "image": {
                 "placeholder": true,
                 "width": 800,
@@ -220,7 +215,7 @@
               "description": "",
               "price": 11000,
               "menuType": "comida",
-              "section": "Para Compartir"
+              "section": "Platos de la Casa"
             },
             {
               "name": "Mollejas a la Parrilla",
@@ -229,7 +224,7 @@
               "longDescription": "Mollejas de ternera doradas a la parrilla con exterior crujiente e interior cremoso. Sobre base de cremoso de papa ahumado con chimichurri fresco. Un plato de parrilla de verdad en pleno Saavedra.",
               "price": 27990,
               "menuType": "comida",
-              "section": "Para Compartir",
+              "section": "Platos de la Casa",
               "image": {
                 "placeholder": true,
                 "width": 800,
@@ -242,21 +237,21 @@
               "description": "",
               "price": 7500,
               "menuType": "comida",
-              "section": "Para Compartir"
+              "section": "Platos de la Casa"
             },
             {
               "name": "Papas Fritas",
               "description": "",
               "price": 4000,
               "menuType": "comida",
-              "section": "Para Compartir"
+              "section": "Platos de la Casa"
             },
             {
               "name": "Ensalada Mixta",
               "description": "",
               "price": 4500,
               "menuType": "comida",
-              "section": "Para Compartir"
+              "section": "Platos de la Casa"
             }
           ]
         },

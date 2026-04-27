@@ -27,6 +27,7 @@ pnpm-debug.log*
 .vercel/
 
 # Large asset folders (source files, not for web)
+fotos-raw/
 CAUDILLO BAR/
 IMAGENES REDES/
 *.docx
@@ -36,3 +37,18 @@ walkthrough.md.resolved
 
 # Large docs (reference only, not deployed)
 DOCS_ESTRATEGIA/
+.vercel
+
+# Local dev/AI tooling
+.agents/
+.claude/
+skills-lock.json
+skills-reference.md
+cambios.txt
+
+# Capturas locales (referencia visual)
+CAPTURAS/
+
+# Briefs y notas locales
+brief_cambios_caudillo_bar.md
+CHECKLIST_ESTRATEGICO_SEO_GEO.md

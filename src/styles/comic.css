@@ -261,11 +261,6 @@ body::after {
   to { transform: translateX(-50%); }
 }
 
-/* Pause on hover */
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-
 /* Reverse direction variant */
 .marquee--reverse .marquee__track {
   animation-direction: reverse;
@@ -273,59 +268,53 @@ body::after {
 
 
 /* ── COMIC SCROLL REVEAL ── */
-/* Panels that "peel off the wall" like wheatpaste posters */
+/* GSAP controla estas animaciones desde JS.
+   El CSS base NO oculta los elementos — GSAP lo hace con gsap.set() antes de animar.
+   Si JS no carga, los elementos son visibles por defecto (progressive enhancement). */
 
-.reveal-comic {
+.reveal-comic,
+.reveal-slide-left,
+.reveal-slide-right,
+.reveal {
+  /* visible por defecto — GSAP aplica opacity:0 en JS antes de animar */
+}
+
+/* Clase de fallback para cuando GSAP no está disponible */
+.no-gsap .reveal-comic {
   opacity: 0;
   transform: translateY(30px) rotate(-0.5deg);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-.reveal-comic.reveal--visible {
+.no-gsap .reveal-comic.reveal--visible {
   opacity: 1;
   transform: translateY(0) rotate(0deg);
 }
-
-/* Slide from left — like turning comic pages */
-.reveal-slide-left {
+.no-gsap .reveal-slide-left {
   opacity: 0;
   transform: translateX(-40px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
-.reveal-slide-left.reveal--visible {
+.no-gsap .reveal-slide-left.reveal--visible {
   opacity: 1;
   transform: translateX(0);
 }
-
-/* Slide from right */
-.reveal-slide-right {
+.no-gsap .reveal-slide-right {
   opacity: 0;
   transform: translateX(40px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
-.reveal-slide-right.reveal--visible {
+.no-gsap .reveal-slide-right.reveal--visible {
   opacity: 1;
   transform: translateX(0);
 }
 
 
 /* ── ASSET PLACEHOLDER BOXES ── */
-/* Visual boxes where Fede will drop illustrations/videos */
+/* Bloques de color distintos por tipo para visualizar el layout antes de tener las ilustraciones reales */
 
 .asset-placeholder {
   position: relative;
-  border: 2px dashed var(--color-accent);
   border-radius: var(--radius-md);
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(200, 53, 42, 0.03) 10px,
-      rgba(200, 53, 42, 0.03) 20px
-    );
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -334,6 +323,154 @@ body::after {
   padding: var(--space-6);
   min-height: 200px;
   overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.12);
+}
+
+/* Cada variante de placeholder tiene color y textura distinta */
+
+/* HERO — color oscuro con grain fuerte */
+.asset-placeholder--hero {
+  background: #0e0e0e;
+  background-image:
+    radial-gradient(ellipse at 30% 60%, rgba(200,53,42,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(31,58,92,0.3) 0%, transparent 50%);
+  border-color: rgba(200,53,42,0.3);
+}
+
+/* EL CAUDILLO — sepia oscuro, ilustración personaje principal */
+.asset-placeholder--personaje {
+  background: #2a1f14;
+  background-image:
+    repeating-linear-gradient(
+      -30deg,
+      transparent,
+      transparent 18px,
+      rgba(242,230,208,0.04) 18px,
+      rgba(242,230,208,0.04) 19px
+    ),
+    linear-gradient(160deg, #2a1f14 0%, #1a1008 100%);
+  border-color: rgba(242,230,208,0.2);
+}
+
+/* TERRAZA — verde oliva, espacio exterior */
+.asset-placeholder--terraza {
+  background: #1a2318;
+  background-image:
+    radial-gradient(circle at 50% 80%, rgba(60,90,40,0.4) 0%, transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.02) 20px,
+      rgba(255,255,255,0.02) 21px
+    );
+  border-color: rgba(80,120,60,0.4);
+}
+
+/* COMIDA / SANGUCHES — cálido ambar, close-up gastronómico */
+.asset-placeholder--comida {
+  background: #231708;
+  background-image:
+    radial-gradient(ellipse at 40% 40%, rgba(200,120,30,0.3) 0%, transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(200,100,20,0.04) 8px,
+      rgba(200,100,20,0.04) 9px
+    );
+  border-color: rgba(200,120,30,0.35);
+}
+
+/* BARRA / VERMUT — azul profundo, atmósfera nocturna */
+.asset-placeholder--barra {
+  background: #0d1525;
+  background-image:
+    radial-gradient(ellipse at 70% 30%, rgba(31,58,92,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(200,53,42,0.2) 0%, transparent 40%);
+  border-color: rgba(31,58,92,0.5);
+}
+
+/* EVENTOS — magenta oscuro, fiesta nocturna */
+.asset-placeholder--eventos {
+  background: #1e0d1e;
+  background-image:
+    radial-gradient(ellipse at 50% 50%, rgba(140,40,120,0.3) 0%, transparent 60%),
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 12px,
+      rgba(180,50,160,0.04) 12px,
+      rgba(180,50,160,0.04) 13px
+    );
+  border-color: rgba(150,50,140,0.35);
+}
+
+/* DELIVERY — naranja urbano */
+.asset-placeholder--delivery {
+  background: #1e1200;
+  background-image:
+    radial-gradient(ellipse at 60% 40%, rgba(200,100,0,0.35) 0%, transparent 55%),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(200,100,0,0.04) 10px,
+      rgba(200,100,0,0.04) 11px
+    );
+  border-color: rgba(200,100,0,0.35);
+}
+
+/* MUSICA — índigo, concierto */
+.asset-placeholder--musica {
+  background: #0f0f2a;
+  background-image:
+    radial-gradient(ellipse at 50% 60%, rgba(80,60,200,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(200,53,42,0.2) 0%, transparent 40%);
+  border-color: rgba(80,60,200,0.35);
+}
+
+/* EL BAR — grafito neutro, fachada arquitectónica */
+.asset-placeholder--bar {
+  background: #181818;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.015) 30px,
+      rgba(255,255,255,0.015) 31px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.015) 30px,
+      rgba(255,255,255,0.015) 31px
+    );
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* VINETAS — crema suave, papel de comic */
+.asset-placeholder--vineta {
+  background: #1c1710;
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(242,230,208,0.06) 0%, transparent 60%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(242,230,208,0.02) 6px,
+      rgba(242,230,208,0.02) 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(242,230,208,0.02) 6px,
+      rgba(242,230,208,0.02) 7px
+    );
+  border-color: rgba(242,230,208,0.15);
 }
 
 .asset-placeholder__label {
@@ -341,14 +478,14 @@ body::after {
   font-size: var(--text-h3);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-accent);
+  color: rgba(242,230,208,0.7);
   margin-bottom: var(--space-2);
 }
 
 .asset-placeholder__specs {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-text-secondary);
+  color: rgba(242,230,208,0.35);
   line-height: 1.6;
 }
 
@@ -356,11 +493,11 @@ body::after {
   display: inline-block;
   margin-top: var(--space-3);
   padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--color-accent);
+  border: 1px solid rgba(242,230,208,0.2);
   border-radius: var(--radius-pill);
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--color-accent);
+  color: rgba(242,230,208,0.4);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }

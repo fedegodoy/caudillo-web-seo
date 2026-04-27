@@ -1,52 +1,281 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const PHONE_RAW = '5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+
+type GalleryItem = { src: string; alt: string; cat: string; span?: string };
+
+const gallery: GalleryItem[] = [
+  // Interior / salón
+  { src: '/images/galeria/ambiente-salon-caudillo-bar-saavedra.avif',           alt: 'Ambiente del salón de Caudillo Bar',           cat: 'interior', span: 'big' },
+  { src: '/images/galeria/mesas-salon-caudillo-bar-saavedra.avif',               alt: 'Mesas del salón de Caudillo Bar',              cat: 'interior' },
+  { src: '/images/galeria/gente-salon-caudillo-bar-saavedra.avif',               alt: 'Gente en el salón de Caudillo Bar',            cat: 'interior' },
+  { src: '/images/galeria/bidones-soda-caudillo-bar-saavedra.avif',              alt: 'Bidones de soda en Caudillo Bar',              cat: 'interior' },
+
+  // Terraza
+  { src: '/images/galeria/terraza-pet-friendly-caudillo-bar-saavedra.avif',      alt: 'Terraza pet-friendly de Caudillo Bar',         cat: 'terraza', span: 'big' },
+  { src: '/images/galeria/terraza-pet-friendly-caudillo-bar-saavedra-2.avif',    alt: 'Terraza de Caudillo Bar al atardecer',         cat: 'terraza' },
+  { src: '/images/galeria/gente-terraza-caudillo-bar-saavedra.avif',             alt: 'Gente en la terraza de Caudillo Bar',          cat: 'terraza' },
+  { src: '/images/galeria/gente-terraza-caudillo-bar-saavedra-2.avif',           alt: 'Terraza de Caudillo Bar con grupo',            cat: 'terraza' },
+  { src: '/images/galeria/gente-terraza-caudillo-bar-saavedra-3.avif',           alt: 'Noche en la terraza de Caudillo Bar',          cat: 'terraza' },
+  { src: '/images/galeria/gente-terraza-caudillo-bar-saavedra-4.avif',           alt: 'Tarde en la terraza de Caudillo Bar',          cat: 'terraza' },
+  { src: '/images/galeria/fachada-caudillo-bar-saavedra.avif',                   alt: 'Fachada de Caudillo Bar, Saavedra',            cat: 'interior' },
+  { src: '/images/galeria/vereda-caudillo-bar-saavedra.avif',                    alt: 'Vereda de Caudillo Bar',                       cat: 'interior' },
+  { src: '/images/galeria/gente-vereda-caudillo-bar-saavedra.avif',              alt: 'Gente en la vereda de Caudillo Bar',           cat: 'interior' },
+  { src: '/images/galeria/gente-vereda-caudillo-bar-saavedra-2.avif',            alt: 'Tarde de vereda en Caudillo Bar',              cat: 'interior' },
+
+  // Platos
+  { src: '/images/menu/sandwich-azurduy-caudillo-bar-saavedra.avif',             alt: 'Sándwich Azurduy de bondiola',                 cat: 'platos' },
+  { src: '/images/menu/sandwich-dorrego-caudillo-bar-saavedra.avif',             alt: 'Sándwich Dorrego de milanesa',                 cat: 'platos' },
+  { src: '/images/menu/sandwich-artigas-caudillo-bar-saavedra.avif',             alt: 'Sándwich Artigas vegetariano',                 cat: 'platos' },
+  { src: '/images/menu/pastel-de-papas-caudillo-bar-saavedra.avif',              alt: 'Pastel de papas con osobuco',                  cat: 'platos', span: 'big' },
+  { src: '/images/menu/pastel-de-papas-con-osobuco-caudillo-bar-saavedra.avif',  alt: 'Pastel de papas con osobuco al horno',         cat: 'platos' },
+  { src: '/images/menu/milanesa-caudillo-bar-saavedra.avif',                     alt: 'Milanesa de bife de chorizo',                  cat: 'platos' },
+  { src: '/images/menu/osobuco-caudillo-bar-saavedra.avif',                      alt: 'Osobuco braseado',                             cat: 'platos' },
+  { src: '/images/menu/canelones-caudillo-bar-saavedra.avif',                    alt: 'Canelones de pollo gratinados',                cat: 'platos' },
+  { src: '/images/menu/noquis-caudillo-bar-saavedra.avif',                       alt: 'Ñoquis gratinados con bolognesa',              cat: 'platos' },
+  { src: '/images/menu/provoleta-caudillo-bar-saavedra.avif',                    alt: 'Provoleta grillada',                           cat: 'platos' },
+  { src: '/images/menu/mollejas-caudillo-bar-saavedra.avif',                     alt: 'Mollejas a la parrilla',                       cat: 'platos' },
+  { src: '/images/menu/empanada-caudillo-bar-saavedra.avif',                     alt: 'Empanada de carne cortada a cuchillo',         cat: 'platos' },
+  { src: '/images/menu/papa-rota-caudillo-bar-saavedra.avif',                    alt: 'Papas rotas a las tres cocciones',             cat: 'platos' },
+  { src: '/images/menu/cremoso-cabutia-caudillo-bar-saavedra.avif',              alt: 'Cremoso de cabutia',                           cat: 'platos' },
+  { src: '/images/menu/budin-de-pan-caudillo-bar-saavedra.avif',                 alt: 'Budín de pan',                                 cat: 'platos' },
+  { src: '/images/menu/panqueque-dulce-de-leche-caudillo-bar-saavedra.avif',     alt: 'Panqueque tibio con dulce de leche',           cat: 'platos' },
+
+  // Eventos
+  { src: '/images/galeria/evento-tertulia-caudillo-bar-saavedra.avif',           alt: 'Noche de tertulia en Caudillo Bar',            cat: 'eventos', span: 'big' },
+];
 ---
 
 <BaseLayout
   title="Galería | Fotos de Caudillo Bar Saavedra"
-  description="El ambiente del Caudillo: terraza, platos, tragos y eventos en Saavedra. Fotos del bar más auténtico de CABA Norte."
+  description="El ambiente del Caudillo: terraza, platos, tragos y eventos en Saavedra. Fotos del bodegón de Crámer 3198."
+  floatingCTAText="Reservar Mesa"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
-  <section class="section" style="padding-top: var(--space-20);">
-    <div class="container">
-      <h1>El ambiente del Caudillo.</h1>
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container galeria-hero">
+      <p class="text-stencil text-stencil--red galeria-hero__kicker">Galería</p>
+      <h1 class="galeria-hero__title">El ambiente<br/>del Caudillo.</h1>
+      <p class="galeria-hero__sub">Platos, terraza, eventos y rincones del bar. Crámer 3198, Saavedra.</p>
     </div>
   </section>
 
   <!-- FILTROS -->
+  <section class="section section--tight" style="padding-top: 0;">
+    <div class="container">
+      <div class="galeria-filters" role="tablist" aria-label="Filtrar galería">
+        <button class="filter-btn filter-btn--active" data-cat="all">Todos</button>
+        <button class="filter-btn" data-cat="interior">Interior</button>
+        <button class="filter-btn" data-cat="terraza">Terraza</button>
+        <button class="filter-btn" data-cat="platos">Platos</button>
+        <button class="filter-btn" data-cat="eventos">Eventos</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID -->
   <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-8);">
-        <button class="tab tab--active" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Todos</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Interior</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Terraza</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Platos</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Tragos</button>
-        <button class="tab" style="flex: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);">Eventos</button>
+      <div class="galeria-grid">
+        {gallery.map((item, i) => (
+          <div
+            class:list={[
+              'galeria-cell',
+              { 'galeria-cell--big': item.span === 'big' },
+              { 'galeria-cell--tall': item.span === 'tall' },
+            ]}
+            data-cat={item.cat}
+            style={`--delay: ${(i % 8) * 60}ms;`}
+          >
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
+            <div class="galeria-cell__overlay">
+              <span class="galeria-cell__caption">{item.alt}</span>
+            </div>
+          </div>
+        ))}
       </div>
+    </div>
+  </section>
 
-      <!-- Placeholder grid — espera fotos reales de Mateo -->
-      <div class="grid-gallery">
-        <div class="card" style="padding: var(--space-12); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
-          <p class="text-secondary">📷</p>
-          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
-        </div>
-        <div class="card" style="padding: var(--space-16); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
-          <p class="text-secondary">📷</p>
-          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
-        </div>
-        <div class="card" style="padding: var(--space-10); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
-          <p class="text-secondary">📷</p>
-          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
-        </div>
-        <div class="card" style="padding: var(--space-12); text-align: center; break-inside: avoid; margin-bottom: var(--card-gap);">
-          <p class="text-secondary">📷</p>
-          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Fotos próximamente</p>
-        </div>
+  <!-- CTA -->
+  <section class="section reveal-comic">
+    <div class="container" style="text-align: center;">
+      <h2 class="text-stencil">¿Te gustó lo que viste?</h2>
+      <p style="margin-top: var(--space-3); color: var(--color-text-secondary);">Vení a verlo en persona.</p>
+      <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+        <a href={WHATSAPP_RESERVA} target="_blank" rel="noopener" class="btn btn-primary ink-hover">Reservar Mesa</a>
+        <a href="/menu" class="btn btn-secondary">Ver la Carta</a>
       </div>
-
-      <p class="text-secondary text-small" style="margin-top: var(--space-8); text-align: center;">
-        Esta galería se actualiza con fotos reales del bar, la terraza, los platos y los eventos.
-      </p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .galeria-hero {
+    text-align: center;
+  }
+
+  .galeria-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .galeria-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .galeria-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  /* Filters */
+  .galeria-filters {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .filter-btn {
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-small);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    color: var(--color-text-heading);
+    border-color: var(--color-text-primary);
+  }
+
+  .filter-btn--active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Grid */
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 160px;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .galeria-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: var(--space-3);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .galeria-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .galeria-cell {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform var(--transition-normal), opacity 0.3s ease;
+    animation: galeria-fade 0.5s var(--delay, 0ms) backwards ease-out;
+  }
+
+  @keyframes galeria-fade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .galeria-cell--big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .galeria-cell--tall {
+    grid-row: span 2;
+  }
+
+  .galeria-cell.is-hidden {
+    display: none;
+  }
+
+  .galeria-cell:hover {
+    transform: scale(1.02);
+    z-index: 2;
+  }
+
+  .galeria-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow), filter var(--transition-normal);
+  }
+
+  .galeria-cell:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.05);
+  }
+
+  .galeria-cell__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 50%);
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-3);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+  }
+
+  .galeria-cell:hover .galeria-cell__overlay {
+    opacity: 1;
+  }
+
+  .galeria-cell__caption {
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cells = document.querySelectorAll<HTMLElement>('.galeria-cell');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      filters.forEach(b => b.classList.toggle('filter-btn--active', b === btn));
+
+      cells.forEach(cell => {
+        const cellCat = cell.dataset.cat;
+        const matches = cat === 'all' || cellCat === cat;
+        cell.classList.toggle('is-hidden', !matches);
+      });
+    });
+  });
+</script>

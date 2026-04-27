@@ -1,98 +1,344 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const PHONE_RAW = '5491136651186';
+const PHONE_E164 = '+5491136651186';
+const WHATSAPP_EVENTO = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20consultar%20por%20un%20evento%20en%20la%20terraza%20de%20Caudillo`;
+
+// Eventos próximos — agregar acá cuando haya. Si no hay, se oculta automáticamente.
+const proximosEventos: {
+  img: string;
+  alt: string;
+  nombre: string;
+  descripcion: string;
+  link: string;
+  linkLabel: string;
+}[] = [
+  // Ejemplo (descomentar cuando haya eventos):
+  // {
+  //   img: '/images/hero/evento-privado-caudillo-bar-saavedra.avif',
+  //   alt: 'Noche de Tango en Caudillo Bar',
+  //   nombre: 'Noche de Tango',
+  //   descripcion: 'Una noche de tango en vivo con Duo La Guardia. Viernes 9 de mayo, 21hs.',
+  //   link: 'https://www.instagram.com/caudillobar/',
+  //   linkLabel: 'Reservar por Instagram',
+  // },
+];
+
+// Eventos pasados / historial
+const eventosHistorial = [
+  {
+    img: '/images/galeria/evento-tertulia-caudillo-bar-saavedra.avif',
+    alt: 'Tertulia en Caudillo Bar',
+    nombre: 'Noche de Tertulia',
+    descripcion: 'Charlas, música y vino en la terraza. Una noche para quedarse.',
+  },
+  {
+    img: '/images/hero/evento-privado-caudillo-bar-saavedra.avif',
+    alt: 'Evento privado en la terraza de Caudillo Bar',
+    nombre: 'Cumpleaños Privado',
+    descripcion: 'La terraza entera para un festejo de 40 personas. Catering del Caudillo.',
+  },
+];
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "EventVenue",
   "name": "Terraza Caudillo Bar",
   "url": "https://caudillobar.com.ar/eventos",
   "description": "Terraza privada al aire libre para eventos, cumpleaños y reuniones corporativas en Saavedra, Buenos Aires.",
+  "telephone": PHONE_E164,
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Crámer 3198",
     "addressLocality": "Saavedra",
     "addressRegion": "CABA",
+    "postalCode": "C1429",
     "addressCountry": "AR"
   },
-  "amenityFeature": [
-    { "@type": "LocationFeatureSpecification", "name": "Terraza al aire libre", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Catering propio", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Espacio privado", "value": true }
-  ]
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": WHATSAPP_EVENTO
+  }
 };
 ---
 
 <BaseLayout
-  title="Eventos y Cumpleaños en Saavedra | Terraza Caudillo"
+  title="Eventos en Saavedra | Terraza Caudillo Bar"
   description="Festejá tu cumpleaños o evento corporativo en la mejor terraza de Saavedra. Espacio privado, catering criollo y el mejor ambiente de CABA Norte."
   schema={schema}
   floatingCTAText="Consultar Evento"
-  floatingCTAHref="#formulario"
+  floatingCTAHref={WHATSAPP_EVENTO}
 >
-  <section class="section" style="padding-top: var(--space-20);">
-    <div class="container">
-      <h1>Juntá a la banda en Caudillo.</h1>
-      <h2 style="margin-top: var(--space-4); color: var(--color-text-secondary);">Tu evento en la terraza de Saavedra.</h2>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        ¿Cumpleaños de 30, 40, 50? ¿Cierre de año de la oficina? Acá la terraza es tuya. Espacio real al aire libre, sin el protocolo frío de un salón.
-      </p>
+  <!-- HERO -->
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container eventos-hero">
+      <p class="text-stencil text-stencil--red eventos-hero__kicker">Eventos</p>
+      <h1 class="eventos-hero__title">Juntá a la banda<br/>en la terraza.</h1>
+      <p class="eventos-hero__sub">Cumpleaños, after-office, cierres de año. Tu evento al aire libre en Saavedra.</p>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="section reveal" id="features">
+  <!-- 1. PRÓXIMOS EVENTOS (solo si hay) -->
+  {proximosEventos.length > 0 && (
+    <section class="section" id="proximos-eventos">
+      <div class="container">
+        <h2 class="text-stencil" style="margin-bottom: var(--space-8);">Próximos eventos</h2>
+        <div class="eventos-grid-cards">
+          {proximosEventos.map((ev) => (
+            <div class="evento-card reveal-comic">
+              <div class="evento-card__media">
+                <img src={ev.img} alt={ev.alt} loading="lazy" />
+              </div>
+              <div class="evento-card__body">
+                <h3 class="text-stencil evento-card__nombre">{ev.nombre}</h3>
+                <p class="evento-card__desc">{ev.descripcion}</p>
+                <a href={ev.link} target="_blank" rel="noopener" class="btn btn-primary ink-hover" style="margin-top: var(--space-4);">
+                  {ev.linkLabel}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 2. HISTORIAL DE EVENTOS -->
+  {eventosHistorial.length > 0 && (
+    <section class="section" id="historial-eventos">
+      <div class="container">
+        <h2 class="text-stencil" style="margin-bottom: var(--space-8);">Eventos que pasaron</h2>
+        <div class="eventos-grid-cards">
+          {eventosHistorial.map((ev) => (
+            <div class="evento-card evento-card--past reveal-comic">
+              <div class="evento-card__media">
+                <img src={ev.img} alt={ev.alt} loading="lazy" />
+              </div>
+              <div class="evento-card__body">
+                <h3 class="text-stencil evento-card__nombre">{ev.nombre}</h3>
+                <p class="evento-card__desc">{ev.descripcion}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 3. SECCIÓN TERRAZA — alquiler y cómo funciona -->
+  <section class="section reveal-comic" id="terraza">
+    <div class="container eventos-grid">
+      <div class="eventos-grid__media">
+        <img src="/images/hero/terraza-pet-friendly-caudillo-bar-saavedra.avif" alt="Terraza de Caudillo Bar para eventos privados" loading="lazy" class="eventos-terraza-img" />
+      </div>
+      <div class="eventos-grid__text">
+        <h2 class="text-stencil">El espacio<br/>es tuyo.</h2>
+        <p style="margin-top: var(--space-4);">
+          ¿Cumpleaños de 30, 40, 50? ¿Cierre de año de la oficina? Acá la terraza es tuya. Espacio real al aire libre, sin el protocolo frío de un salón.
+        </p>
+        <p style="margin-top: var(--space-3); color: var(--color-text-secondary);">
+          Catering propio, música en vivo si querés, y la cocina del Caudillo a disposición.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES — Cómo funciona -->
+  <section class="section section--tight" id="features">
     <div class="container">
+      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-8);">Cómo funciona</h2>
       <div class="grid-highlights">
-        <div class="card reveal reveal-stagger">
-          <h3 class="card__title">🏠 El Spot</h3>
-          <p class="card__text">Terraza privada al aire libre, techada por si el clima se pone raro.</p>
+        <div class="feature-card reveal-comic" style="transition-delay: 0ms;">
+          <div class="feature-card__icon">01</div>
+          <h3 class="feature-card__title text-stencil">El Spot</h3>
+          <p class="feature-card__text">Terraza privada al aire libre, techada por si el clima se pone raro. Hasta 60 personas cómodas.</p>
         </div>
-        <div class="card reveal reveal-stagger">
-          <h3 class="card__title">🍽️ La Comida</h3>
-          <p class="card__text">Tablas de campo, sanguches Caudillo y barra de clásicos. Lo que vos elijas.</p>
+        <div class="feature-card reveal-comic" style="transition-delay: 100ms;">
+          <div class="feature-card__icon">02</div>
+          <h3 class="feature-card__title text-stencil">La Comida</h3>
+          <p class="feature-card__text">Tablas de campo, sanguches del Caudillo y barra de clásicos. Lo que vos elijas, lo armamos.</p>
         </div>
-        <div class="card reveal reveal-stagger">
-          <h3 class="card__title">✨ Personalizado</h3>
-          <p class="card__text">Nos decís cuántos son y nosotros armamos el resto. Sin fórmulas rígidas.</p>
+        <div class="feature-card reveal-comic" style="transition-delay: 200ms;">
+          <div class="feature-card__icon">03</div>
+          <h3 class="feature-card__title text-stencil">Personalizado</h3>
+          <p class="feature-card__text">Nos decís cuántos son y nosotros armamos el resto. Sin fórmulas rígidas.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CASOS DE USO -->
-  <section class="section reveal">
-    <div class="container" style="text-align: center;">
-      <p class="text-secondary">
-        Cumpleaños · After-office · Cierre de año · Reuniones de empresa · Festejos
-      </p>
-    </div>
-  </section>
-
-  <!-- FORMULARIO -->
-  <section class="section reveal" id="formulario">
-    <div class="container" style="max-width: 500px;">
-      <h2>Reservá tu fecha</h2>
-      <form style="margin-top: var(--space-6);" action="#" method="POST">
-        <div class="form-field">
-          <label class="form-label" for="ev-nombre">Nombre</label>
-          <input class="form-input" type="text" id="ev-nombre" name="nombre" required placeholder="Tu nombre" />
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="ev-fecha">Fecha del evento</label>
-          <input class="form-input" type="date" id="ev-fecha" name="fecha" required />
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="ev-personas">Cantidad de personas</label>
-          <input class="form-input" type="number" id="ev-personas" name="personas" required min="1" placeholder="Ej: 25" />
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="ev-telefono">Teléfono</label>
-          <input class="form-input" type="tel" id="ev-telefono" name="telefono" required placeholder="11 xxxx xxxx" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-full" style="margin-top: var(--space-4);">
-          Consultar Evento
-        </button>
-      </form>
+  <!-- 4. CTA WhatsApp (reemplaza formulario) -->
+  <section class="section section--tight reveal-comic" id="consulta">
+    <div class="container">
+      <div class="consulta-box">
+        <h2 class="text-stencil">Reservá tu fecha</h2>
+        <p style="margin-top: var(--space-3); color: var(--color-text-secondary);">
+          Cumpleaños · After-office · Cierre de año · Despedidas · Brindis
+        </p>
+        <p style="margin-top: var(--space-3); color: var(--color-text-secondary);">
+          Escribinos directo por WhatsApp y arreglamos todo en el momento. Sin formularios, sin vueltas.
+        </p>
+        <a href={WHATSAPP_EVENTO} class="btn btn-primary ink-hover" style="margin-top: var(--space-6); display: inline-block;" target="_blank" rel="noopener">
+          Consultar por WhatsApp
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .eventos-hero {
+    text-align: center;
+  }
+
+  .eventos-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .eventos-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .eventos-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+  }
+
+  /* Cards de eventos (próximos e historial) */
+  .eventos-grid-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .eventos-grid-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .eventos-grid-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .evento-card {
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg-card);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .evento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.25);
+  }
+
+  .evento-card--past {
+    opacity: 0.8;
+  }
+
+  .evento-card__media {
+    aspect-ratio: 9 / 12;
+    overflow: hidden;
+    border-bottom: 2px solid var(--color-text-primary);
+  }
+
+  .evento-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow);
+  }
+
+  .evento-card:hover .evento-card__media img {
+    transform: scale(1.04);
+  }
+
+  .evento-card__body {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .evento-card__nombre {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .evento-card__desc {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+
+  /* Grid terraza */
+  .eventos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .eventos-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-10);
+    }
+  }
+
+  .eventos-terraza-img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
+    display: block;
+  }
+
+  .feature-card {
+    padding: var(--space-6);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    text-align: center;
+    position: relative;
+  }
+
+  .feature-card__icon {
+    font-family: var(--font-stencil);
+    font-size: 3rem;
+    color: var(--color-accent);
+    line-height: 1;
+    margin-bottom: var(--space-3);
+    opacity: 0.6;
+  }
+
+  .feature-card__title {
+    margin-bottom: var(--space-2);
+  }
+
+  .feature-card__text {
+    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    line-height: 1.6;
+  }
+
+  .consulta-box {
+    text-align: center;
+    padding: var(--space-12) var(--space-6);
+    border: 3px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+  }
+</style>

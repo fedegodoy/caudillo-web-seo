@@ -1,13 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const PHONE_RAW = '5491136651186';
+const PHONE_DISPLAY = '+54 9 11 3665-1186';
+const PHONE_E164 = '+5491136651186';
+const WHATSAPP_RESERVA = `https://wa.me/${PHONE_RAW}?text=Hola!%20Quiero%20reservar%20una%20mesa%20en%20Caudillo%20Bar`;
+const WHATSAPP_GENERICO = `https://wa.me/${PHONE_RAW}`;
+
 const faqs = [
   { q: "¿Tienen terraza al aire libre?", a: "Sí, tenemos la mejor terraza de Saavedra, abierta todo el año y techada ante lluvia." },
-  { q: "¿Se puede reservar para festejos?", a: "Claro. Reservamos mesas para grupos o la terraza entera para eventos privados." },
+  { q: "¿Se puede reservar para festejos?", a: "Claro. Reservamos mesas para grupos o la terraza entera para eventos privados. Escribinos por WhatsApp." },
   { q: "¿Son pet-friendly?", a: "Totalmente. Tu perro es bienvenido, especialmente en la terraza y vereda." },
-  { q: "¿Tienen opciones vegetarianas?", a: "Sí, el sándwich Artigas y varios platos de nuestra cocina son aptos para vegetarianos." },
-  { q: "¿Hacen envíos a domicilio?", a: "Sí, operamos en Saavedra, Núñez y Coghlan a través de apps y pedidos directos." },
-  { q: "¿Tienen menú ejecutivo?", a: "De lunes a viernes al mediodía tenemos las mejores opciones de cocina criolla para el almuerzo." },
+  { q: "¿Tienen opciones vegetarianas?", a: "Sí, el sándwich Artigas (hongos grillados con coleslaw) y varios platos de nuestra cocina son aptos para vegetarianos." },
+  { q: "¿Hacen envíos a domicilio?", a: "Sí, operamos en Saavedra, Núñez y Coghlan a través de Rappi y pedidos directos por WhatsApp." },
+  { q: "¿Tienen menú ejecutivo?", a: "De lunes a viernes al mediodía tenemos menú ejecutivo a $17.900, incluye principal + gaseosa o agua." },
   { q: "¿Hay estacionamiento cerca?", a: "Al ser zona residencial de Saavedra, suele haber lugar en las calles aledañas a Crámer." },
   { q: "¿Qué tragos recomiendan?", a: "El Ferroviario y el Pico y Pala son nuestros clásicos insignia. No fallan." },
   { q: "¿Aceptan grupos grandes para cenar?", a: "Sí, recomendamos reservar con 48hs de anticipación para mesas de más de 8 personas." },
@@ -26,29 +32,128 @@ const faqSchema = {
     }
   }))
 };
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contacto Caudillo Bar",
+  "url": "https://caudillobar.com.ar/contacto",
+  "mainEntity": {
+    "@type": ["Bar", "Restaurant"],
+    "name": "Caudillo Bar",
+    "telephone": PHONE_E164,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Crámer 3198",
+      "addressLocality": "Saavedra",
+      "addressRegion": "CABA",
+      "postalCode": "C1429",
+      "addressCountry": "AR"
+    },
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "telephone": PHONE_E164,
+      "contactType": "reservations",
+      "availableLanguage": ["es"]
+    }]
+  }
+};
+
+// Combinar schemas
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [faqSchema, contactSchema]
+};
 ---
 
 <BaseLayout
   title="Contacto y Reservas | Caudillo Bar Saavedra"
-  description="Crámer 3198, Saavedra. Reservas por WhatsApp. Horarios de mediodía y noche."
-  schema={faqSchema}
+  description="Reservá mesa por WhatsApp. Crámer 3198, Saavedra, CABA. Horarios de mediodía y noche, menú ejecutivo, terraza pet-friendly."
+  schema={schema}
   floatingCTAText="Reservar Mesa"
-  floatingCTAHref="https://wa.me/"
+  floatingCTAHref={WHATSAPP_RESERVA}
 >
-  <section class="section" style="padding-top: var(--space-20);">
+  <!-- HERO -->
+  <section class="section section--tight reveal-comic" style="padding-top: var(--space-12);">
+    <div class="container contacto-hero">
+      <p class="text-stencil text-stencil--red contacto-hero__kicker">Contacto</p>
+      <h1 class="contacto-hero__title">Vení a Caudillo.</h1>
+      <p class="contacto-hero__sub">Crámer 3198 · Saavedra · A pasos de la estación. Reservá por WhatsApp si son más de 4.</p>
+    </div>
+  </section>
+
+  <!-- CONTACTO DIRECTO -->
+  <section class="section reveal-comic">
     <div class="container">
-      <h1>Vení a Caudillo.</h1>
-      <h2 style="margin-top: var(--space-4);">Estamos en Crámer 3198.</h2>
-      <p style="margin-top: var(--space-4); max-width: 700px;">
-        A pasos de la estación y rodeado de verde. Venite cuando quieras, pero si son muchos, avisá por WhatsApp y te armamos bien la mesa.
-      </p>
+      <div class="contacto-grid">
+        <a href={WHATSAPP_RESERVA} target="_blank" rel="noopener" class="contacto-card contacto-card--wa">
+          <div class="contacto-card__icon" style="background:#25d366;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+          </div>
+          <div>
+            <h3 class="text-stencil contacto-card__title">WhatsApp</h3>
+            <p class="contacto-card__sub">{PHONE_DISPLAY}</p>
+            <p class="contacto-card__hint">Reservas y consultas</p>
+          </div>
+        </a>
+
+        <a href="https://instagram.com/caudillobar" target="_blank" rel="noopener" class="contacto-card contacto-card--ig">
+          <div class="contacto-card__icon" style="background: linear-gradient(135deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-stencil contacto-card__title">Instagram</h3>
+            <p class="contacto-card__sub">@caudillobar</p>
+            <p class="contacto-card__hint">Fotos del día a día</p>
+          </div>
+        </a>
+
+        <a href="https://maps.google.com/?q=Cramer+3198+Saavedra+Buenos+Aires" target="_blank" rel="noopener" class="contacto-card">
+          <div class="contacto-card__icon" style="background: var(--color-accent);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-stencil contacto-card__title">Cómo llegar</h3>
+            <p class="contacto-card__sub">Crámer 3198</p>
+            <p class="contacto-card__hint">Saavedra, CABA</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIOS -->
+  <section class="section reveal-comic">
+    <div class="container">
+      <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-6);">Horarios</h2>
+      <div class="horarios-grid">
+        <div class="horario-card">
+          <h3 class="text-stencil" style="color: var(--color-accent);">Mediodía</h3>
+          <p style="font-size: 1.1rem; margin-top: var(--space-2);">Lunes a Viernes</p>
+          <p class="text-secondary" style="font-size: 0.95rem;">12:00 a 15:30</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Menú ejecutivo $17.900</p>
+        </div>
+        <div class="horario-card">
+          <h3 class="text-stencil" style="color: var(--color-accent);">Noche</h3>
+          <p style="font-size: 1.1rem; margin-top: var(--space-2);">Martes a Domingo</p>
+          <p class="text-secondary" style="font-size: 0.95rem;">19:00 a 23:30</p>
+          <p class="text-small text-secondary" style="margin-top: var(--space-2);">Carta completa + tragos</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- MAPA -->
-  <section class="section reveal">
+  <section class="section reveal-comic">
     <div class="container">
-      <div style="border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/9; background: var(--color-bg-card);">
+      <div style="border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/9; background: var(--color-bg-card); border: 2px solid var(--color-text-primary);">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3287.2!2d-58.472322!3d-34.5552855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb70064a4b019%3A0x4258d795fdd55b8c!2sCaudillo%20Bar!5e0!3m2!1ses!2sar!4v1"
           width="100%"
@@ -60,64 +165,164 @@ const faqSchema = {
           title="Ubicación de Caudillo Bar en Google Maps"
         ></iframe>
       </div>
-      <a href="https://www.google.com/maps/place/Caudillo+Bar/@-34.5552855,-58.472322,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcb70064a4b019:0x4258d795fdd55b8c" class="btn btn-secondary" style="margin-top: var(--space-4);" target="_blank" rel="noopener">
-        Cómo llegar
-      </a>
-    </div>
-  </section>
-
-  <!-- HORARIOS -->
-  <section class="section reveal">
-    <div class="container">
-      <div class="grid-services" style="max-width: 500px;">
-        <div class="card">
-          <h3 class="card__title">Mediodía</h3>
-          <p class="card__text">Lunes a Viernes 12:00-15:30</p>
-        </div>
-        <div class="card">
-          <h3 class="card__title">Noche</h3>
-          <p class="card__text">Martes a Domingo 19:00-23:30</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO DIRECTO -->
-  <section class="section reveal">
-    <div class="container">
-      <div class="grid-services" style="max-width: 500px;">
-        <a href="https://wa.me/" class="card" target="_blank" rel="noopener">
-          <h3 class="card__title">💬 WhatsApp</h3>
-          <p class="card__text">Reservas y consultas</p>
-        </a>
-        <a href="https://instagram.com/caudillobar" class="card" target="_blank" rel="noopener">
-          <h3 class="card__title">📸 Instagram</h3>
-          <p class="card__text">@caudillobar</p>
+      <div style="margin-top: var(--space-4); display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;">
+        <a href="https://www.google.com/maps/place/Caudillo+Bar/@-34.5552855,-58.472322,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcb70064a4b019:0x4258d795fdd55b8c" class="btn btn-secondary" target="_blank" rel="noopener">
+          Cómo llegar
         </a>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="section reveal" id="faq">
-    <div class="container" style="max-width: 700px;">
-      <h2>Preguntas Frecuentes</h2>
-      <div style="margin-top: var(--space-6);">
-        {faqs.map((faq, i) => (
-          <div class="faq-item" id={`faq-${i}`}>
-            <button class="faq-item__question" aria-expanded="false" aria-controls={`faq-answer-${i}`}>
-              <span>{faq.q}</span>
-              <span class="faq-item__icon">+</span>
-            </button>
-            <div class="faq-item__answer" id={`faq-answer-${i}`} role="region">
-              <p>{faq.a}</p>
+  <section class="section reveal-comic faq-section" id="faq">
+    <div class="container">
+      <div class="faq-box">
+        <h2 class="text-stencil" style="text-align: center; margin-bottom: var(--space-2);">Preguntas frecuentes</h2>
+        <p class="text-secondary" style="text-align: center; margin-bottom: var(--space-8);">Lo que más nos preguntan.</p>
+        <div>
+          {faqs.map((faq, i) => (
+            <div class="faq-item" id={`faq-${i}`}>
+              <button class="faq-item__question" aria-expanded="false" aria-controls={`faq-answer-${i}`}>
+                <span>{faq.q}</span>
+                <span class="faq-item__icon">+</span>
+              </button>
+              <div class="faq-item__answer" id={`faq-answer-${i}`} role="region">
+                <p>{faq.a}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .contacto-hero {
+    text-align: center;
+  }
+
+  .contacto-hero__kicker {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .contacto-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 0.95;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+    color: var(--color-text-heading);
+  }
+
+  .contacto-hero__sub {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .contacto-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .contacto-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .contacto-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0 rgba(200, 53, 42, 0.25);
+  }
+
+  .contacto-card__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contacto-card__title {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .contacto-card__sub {
+    color: var(--color-text-heading);
+    font-size: var(--text-small);
+    margin-top: var(--space-1);
+  }
+
+  .contacto-card__hint {
+    color: var(--color-text-secondary);
+    font-size: var(--text-caption);
+    margin-top: var(--space-1);
+  }
+
+  /* Horarios */
+  .horarios-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 640px) {
+    .horarios-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .horario-card {
+    padding: var(--space-6);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .faq-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .faq-box {
+    border: 2px solid var(--color-text-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+    padding: var(--space-10) var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .faq-box {
+      padding: var(--space-6) var(--space-4);
+    }
+  }
+</style>
 
 <script>
   // FAQ Accordion logic — solo una abierta a la vez
@@ -126,13 +331,11 @@ const faqSchema = {
       const item = button.closest('.faq-item');
       const isOpen = item?.classList.contains('faq-item--open');
 
-      // Close all
       document.querySelectorAll('.faq-item').forEach(el => {
         el.classList.remove('faq-item--open');
         el.querySelector('.faq-item__question')?.setAttribute('aria-expanded', 'false');
       });
 
-      // Toggle clicked
       if (!isOpen && item) {
         item.classList.add('faq-item--open');
         button.setAttribute('aria-expanded', 'true');

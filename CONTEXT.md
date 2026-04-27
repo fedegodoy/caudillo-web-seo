@@ -175,11 +175,23 @@ El plan maestro completo está documentado en `plan_maestro_caudillo_bar.docx` (
 | 0 | Investigación (NotebookLM) | ✅ Completada |
 | 1 | Estrategia y Definición | ✅ Completada |
 | 2 | Contenido y Copywriting SEO/GEO | ✅ Completada |
-| 3 | Diseño UX/UI | ⏳ Pendiente |
-| 4 | Desarrollo Técnico | ⏳ Pendiente |
-| 5 | Google Business Profile y Local SEO | ⏳ Pendiente |
-| 6 | Lanzamiento | ⏳ Pendiente |
+| 3 | Diseño UX/UI | ✅ Completada |
+| 4 | Desarrollo Técnico | ✅ Completada (V1 — 2026-04-27) |
+| 5 | Google Business Profile y Local SEO | ⏳ Pendiente (Mateo) |
+| 6 | Lanzamiento | ✅ Deployada a producción vía Vercel |
 | 7 | Monitoreo y Contenido Continuo | ⏳ Pendiente |
+
+### Estado V1 Final (2026-04-27)
+Web 100% funcional, deployada. Cambios principales aplicados en revisión con Fede:
+- Tipografía Lora bold en todos los títulos hero (reemplaza Bebas Neue)
+- Tabs sticky con JS (workaround por overflow-x: hidden en body)
+- Íconos x4 PNGs reales con mix-blend-mode (sustituyen emojis)
+- Galería pre-footer arreglada (grid-template-rows explícito)
+- Mapa home compactado (aspect-ratio 16/5)
+- Reseñas con line-clamp y caja contenedora dentro del container
+- FAQ contacto con caja contenedora propia, accordion arreglado
+- Eventos: sección "Para qué sirve" eliminada (causaba espacio vacío por GSAP reveal)
+- WhatsApp mobile: ícono SVG verde sin número visible
 
 
 ---
