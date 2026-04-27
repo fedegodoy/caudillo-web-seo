@@ -5,11 +5,9 @@ IMAGENES REDES/
 CAPTURAS/
 DOCS_ESTRATEGIA/
 
-# Docs y archivos grandes
+# Docs grandes (los videos de /public/videos SÍ van al deploy)
 *.docx
 *.pdf
-*.mp4
-*.mov
 
 # Dev
 node_modules/
