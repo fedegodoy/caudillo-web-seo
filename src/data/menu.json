@@ -4,7 +4,7 @@
   "tagline": "Cocina criolla de barrio. Bar en la terraza. Un espacio argentino.",
   "hours": {
     "lunch": "Lunes a Viernes 12:00–15:30 (Menú Ejecutivo)",
-    "dinner": "Martes a Domingo 19:00–23:30"
+    "dinner": "Miércoles a Domingo 19:00–23:30"
   },
   "menus": [
     {
@@ -25,7 +25,7 @@
               "menuType": "comida",
               "section": "Sanguches del Caudillo",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/sandwich-azurduy-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Sándwich Azurduy de bondiola desmechada en Caudillo Bar, Saavedra"
@@ -40,7 +40,7 @@
               "menuType": "comida",
               "section": "Sanguches del Caudillo",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/sandwich-dorrego-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Sándwich Dorrego de milanesa de bife en Caudillo Bar, Saavedra"
@@ -56,7 +56,7 @@
               "section": "Sanguches del Caudillo",
               "suitableForDiet": "VegetarianDiet",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/sandwich-artigas-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Sándwich vegetariano Artigas de hongos grillados en Caudillo Bar, Saavedra"
@@ -92,7 +92,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/pastel-de-papas-con-osobuco-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Pastel de papas con osobuco braseado en Caudillo Bar, Saavedra"
@@ -107,7 +107,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/canelones-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Canelones de pollo gratinados en Caudillo Bar, Saavedra"
@@ -122,7 +122,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/milanesa-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Milanesa de bife de chorizo con papas al rescoldo en Caudillo Bar, Saavedra"
@@ -137,7 +137,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/noquis-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Ñoquis de sémola gratinados con bolognesa en Caudillo Bar, Saavedra"
@@ -167,7 +167,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/osobuco-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Osobuco braseado con puré de papas en Caudillo Bar, Saavedra"
@@ -204,7 +204,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/provoleta-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Provoleta grillada con chutney de tomate en Caudillo Bar, Saavedra"
@@ -226,7 +226,7 @@
               "menuType": "comida",
               "section": "Platos de la Casa",
               "image": {
-                "placeholder": true,
+                "src": "/images/menu/mollejas-caudillo-bar-saavedra.avif",
                 "width": 800,
                 "height": 600,
                 "alt": "Mollejas a la parrilla con cremoso de papa en Caudillo Bar, Saavedra"

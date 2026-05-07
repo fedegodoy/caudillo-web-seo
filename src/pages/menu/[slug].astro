@@ -89,9 +89,20 @@ const schema = {
   <section class="section item-detail">
     <div class="container">
       <div class="item-detail__grid">
-        <!-- Image placeholder -->
+        <!-- Image -->
         <div class="item-detail__image-wrap">
-          {item.image ? (
+          {item.image && item.image.src ? (
+            <img
+              class="item-detail__image"
+              src={item.image.src}
+              alt={item.image.alt}
+              width={item.image.width}
+              height={item.image.height}
+              loading="eager"
+              fetchpriority="high"
+              style={`aspect-ratio: ${item.image.width}/${item.image.height};`}
+            />
+          ) : item.image ? (
             <div
               class="item-detail__placeholder"
               style={`aspect-ratio: ${item.image.width}/${item.image.height};`}
@@ -199,6 +210,16 @@ const schema = {
       gap: var(--space-12);
       align-items: start;
     }
+  }
+
+  /* Image */
+  .item-detail__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-text-primary);
   }
 
   /* Image Placeholder */
